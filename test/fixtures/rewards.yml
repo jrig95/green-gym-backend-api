@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  reward_visible: false
+  reward_name: MyString
+  reward_image: MyString
+  reward_points: 1
+  program: one
+
+two:
+  reward_visible: false
+  reward_name: MyString
+  reward_image: MyString
+  reward_points: 1
+  program: two

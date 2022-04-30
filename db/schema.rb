@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_29_131222) do
+ActiveRecord::Schema.define(version: 2022_04_29_154005) do
 
   create_table "program_trackers", force: :cascade do |t|
     t.integer "program_id", null: false
@@ -30,6 +30,17 @@ ActiveRecord::Schema.define(version: 2022_04_29_131222) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "rewards", force: :cascade do |t|
+    t.boolean "reward_visible"
+    t.string "reward_name"
+    t.string "reward_image"
+    t.integer "reward_points"
+    t.integer "program_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["program_id"], name: "index_rewards_on_program_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -44,10 +55,13 @@ ActiveRecord::Schema.define(version: 2022_04_29_131222) do
     t.string "current_sign_in_ip"
     t.string "last_sign_in_ip"
     t.boolean "admin"
+    t.string "authentication_token", limit: 30
+    t.index ["authentication_token"], name: "index_users_on_authentication_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
   add_foreign_key "program_trackers", "programs"
   add_foreign_key "program_trackers", "users"
+  add_foreign_key "rewards", "programs"
 end
