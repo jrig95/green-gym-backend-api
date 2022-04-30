@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  program_title: MyString
+  program_description: MyText
+  number_of_days: 1
+  program_cover_image: MyString
+
+two:
+  program_title: MyString
+  program_description: MyText
+  number_of_days: 1
+  program_cover_image: MyString
