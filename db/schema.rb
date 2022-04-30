@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_29_154005) do
+ActiveRecord::Schema.define(version: 2022_04_30_090726) do
 
   create_table "program_trackers", force: :cascade do |t|
     t.integer "program_id", null: false
@@ -28,6 +28,7 @@ ActiveRecord::Schema.define(version: 2022_04_29_154005) do
     t.string "program_cover_image"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "price"
   end
 
   create_table "rewards", force: :cascade do |t|
