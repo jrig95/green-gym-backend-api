@@ -16,7 +16,13 @@ end
 
 # 5. Make a program only for admin:true
 
-# Look up devise JWT
+# 6. Rewards--visiible set true to all users, if not only visible to program users
+
+# Look up devise JWT -- Sean
+
+# James -- do daily workouts, and exercises
+
+
 # CORS how to not let others interact with out API
 
 # Normal user index, show---> nest route for daily_workout_trackers update
