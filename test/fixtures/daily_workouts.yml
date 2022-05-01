@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  programs: one
+  day_number: 1
+  daily_challenge_title: MyString
+  daily_challenge_description: MyText
+  number_of_exercises: 1
+
+two:
+  programs: two
+  day_number: 1
+  daily_challenge_title: MyString
+  daily_challenge_description: MyText
+  number_of_exercises: 1

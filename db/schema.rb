@@ -10,7 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_30_154437) do
+
+ActiveRecord::Schema.define(version: 2022_04_30_105225) do
+
+  create_table "daily_workouts", force: :cascade do |t|
+    t.integer "program_id", null: false
+    t.integer "day_number"
+    t.string "daily_challenge_title"
+    t.text "daily_challenge_description"
+    t.integer "number_of_exercises"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["program_id"], name: "index_daily_workouts_on_program_id"
+  end
 
   create_table "program_trackers", force: :cascade do |t|
     t.integer "program_id", null: false
@@ -59,6 +71,7 @@ ActiveRecord::Schema.define(version: 2022_04_30_154437) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "daily_workouts", "programs"
   add_foreign_key "program_trackers", "programs"
   add_foreign_key "program_trackers", "users"
 end
