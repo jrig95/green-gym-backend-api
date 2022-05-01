@@ -10,6 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+
 ActiveRecord::Schema.define(version: 2022_04_30_105225) do
 
   create_table "daily_workouts", force: :cascade do |t|
@@ -39,17 +40,15 @@ ActiveRecord::Schema.define(version: 2022_04_30_105225) do
     t.string "program_cover_image"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "price"
   end
 
   create_table "rewards", force: :cascade do |t|
-    t.boolean "reward_visible"
     t.string "reward_name"
     t.string "reward_image"
     t.integer "reward_points"
-    t.integer "program_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["program_id"], name: "index_rewards_on_program_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -75,5 +74,4 @@ ActiveRecord::Schema.define(version: 2022_04_30_105225) do
   add_foreign_key "daily_workouts", "programs"
   add_foreign_key "program_trackers", "programs"
   add_foreign_key "program_trackers", "users"
-  add_foreign_key "rewards", "programs"
 end
