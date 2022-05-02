@@ -20,12 +20,25 @@ class Api::V1::RewardsController < Api::V1::BaseController
   def create
     @reward = Reward.new(reward_params)
     authorize @reward
+    @reward.programs << Program.where(id: @reward.program_id)
     if @reward.save
       render :show, status: :created
     else
       render_error
     end
   end
+
+  # Below create method can create a stand alone reward
+  # def create
+  #   @reward = Reward.new(reward_params)
+  #   authorize @reward
+  #   byebug
+  #   if @reward.save
+  #     render :show, status: :created
+  #   else
+  #     render_error
+  #   end
+  # end
 
   def destroy
     @reward.destroy
@@ -40,13 +53,15 @@ class Api::V1::RewardsController < Api::V1::BaseController
   end
 
   def reward_params
-    params.require(:reward).permit(:reward_name, :reward_image, :reward_points)
+    params.require(:reward).permit(:reward_name, :reward_image, :reward_points, :program_id)
   end
+
+  # def set_program
+  #   @program = Program.where(id: @reward.program_id)
+  # end
 
   def render_error
     render json: { errors: @reward.errors.full_messages },
-      status: :unprocessable_entity
+    status: :unprocessable_entity
   end
-
-
 end
