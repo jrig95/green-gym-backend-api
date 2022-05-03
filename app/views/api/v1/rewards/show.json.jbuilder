@@ -1,4 +1,4 @@
-json.extract! @reward, :id, :reward_name, :reward_image, :reward_points
-json.programs @reward.programs do |program|
-  json.extract! program, :program_title, :program_description
-end
+json.extract! @reward, :id, :reward_name, :reward_image, :reward_points, :program_id, :visible
+# json.programs @reward.programs do |program|
+  # json.extract! program, :program_title, :program_description
+# end

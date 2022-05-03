@@ -20,7 +20,7 @@ class Api::V1::RewardsController < Api::V1::BaseController
   def create
     @reward = Reward.new(reward_params)
     authorize @reward
-    @reward.programs << Program.where(id: @reward.program_id)
+    # @reward.programs << Program.where(id: @reward.program_id)
     if @reward.save
       render :show, status: :created
     else
@@ -53,7 +53,7 @@ class Api::V1::RewardsController < Api::V1::BaseController
   end
 
   def reward_params
-    params.require(:reward).permit(:reward_name, :reward_image, :reward_points, :program_id)
+    params.require(:reward).permit(:reward_name, :reward_image, :reward_points, :program_id, :visible)
   end
 
   # def set_program

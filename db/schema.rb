@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_02_032847) do
+ActiveRecord::Schema.define(version: 2022_05_03_080059) do
 
   create_table "daily_workouts", force: :cascade do |t|
     t.integer "program_id", null: false
@@ -21,15 +21,6 @@ ActiveRecord::Schema.define(version: 2022_05_02_032847) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["program_id"], name: "index_daily_workouts_on_program_id"
-  end
-
-  create_table "program_rewards", force: :cascade do |t|
-    t.integer "program_id", null: false
-    t.integer "reward_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["program_id"], name: "index_program_rewards_on_program_id"
-    t.index ["reward_id"], name: "index_program_rewards_on_reward_id"
   end
 
   create_table "program_trackers", force: :cascade do |t|
@@ -58,6 +49,7 @@ ActiveRecord::Schema.define(version: 2022_05_02_032847) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "program_id"
+    t.boolean "visible"
     t.index ["program_id"], name: "index_rewards_on_program_id"
   end
 
@@ -82,8 +74,6 @@ ActiveRecord::Schema.define(version: 2022_05_02_032847) do
   end
 
   add_foreign_key "daily_workouts", "programs"
-  add_foreign_key "program_rewards", "programs"
-  add_foreign_key "program_rewards", "rewards"
   add_foreign_key "program_trackers", "programs"
   add_foreign_key "program_trackers", "users"
 end

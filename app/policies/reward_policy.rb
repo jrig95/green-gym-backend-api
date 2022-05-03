@@ -25,7 +25,6 @@ class RewardPolicy < ApplicationPolicy
   private
 
   def user_is_admin?
-     user.admin
+    user.admin
   end
-
 end
