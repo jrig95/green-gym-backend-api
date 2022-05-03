@@ -5,9 +5,8 @@ Rails.application.routes.draw do
       resources :programs, only: [ :index, :show, :update, :create, :destroy ] do
         resources :daily_workouts, only: [ :index, :show, :update, :create, :destroy]
       end
-      resources :rewards, only: [ :index, :show, :update, :create, :destroy ] do
-        resources :program_rewards, only: [ :index, :show, :update, :create, :destroy ]
-      end
+      resources :rewards, only: [ :index, :show, :update, :create, :destroy ]
+      resources :program_trackers, only: [ :index, :show, :update, :create, :destroy ]
     end
   end
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
