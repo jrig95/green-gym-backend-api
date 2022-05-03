@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_03_070432) do
+ActiveRecord::Schema.define(version: 2022_05_03_080059) do
 
   create_table "daily_workouts", force: :cascade do |t|
     t.integer "program_id", null: false
@@ -68,6 +68,9 @@ ActiveRecord::Schema.define(version: 2022_05_03_070432) do
     t.integer "reward_points"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "program_id"
+    t.boolean "visible"
+    t.index ["program_id"], name: "index_rewards_on_program_id"
   end
 
   create_table "users", force: :cascade do |t|

@@ -1,4 +1,4 @@
-class RewardPolicy < ApplicationPolicy
+class ProgramTrackerPolicy < ApplicationPolicy
   class Scope < Scope
     # NOTE: Be explicit about which records you allow access to!
     def resolve
@@ -11,7 +11,7 @@ class RewardPolicy < ApplicationPolicy
   end
 
   def update?
-    user_is_admin?
+    user.admin
   end
 
   def create?
@@ -21,8 +21,6 @@ class RewardPolicy < ApplicationPolicy
   def destroy?
     user_is_admin?
   end
-
-  private
 
   def user_is_admin?
     user.admin
