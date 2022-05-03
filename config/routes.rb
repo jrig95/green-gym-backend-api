@@ -4,15 +4,18 @@ Rails.application.routes.draw do
     namespace :v1 do
 
       resources :programs, only: [ :index, :show, :update, :create, :destroy ] do
-        resources :daily_workouts, only: [ :index, :show, :update, :create, :destroy]
+        resources :daily_workouts, only: [ :index, :show, :update, :create, :destroy] do
+          resources :exercises, only: [ :index, :show, :update, :create, :destroy ]
+          end
+        end
       end
       resources :rewards, only: [ :index, :show, :update, :create, :destroy ]
-       
+
 
     end
   end
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
-end
+
 
 # Steps
 # 1. Devise
