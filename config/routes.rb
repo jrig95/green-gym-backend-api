@@ -7,9 +7,9 @@ Rails.application.routes.draw do
           resources :exercises, only: [ :index, :show, :update, :create, :destroy ]
           end
         end
-      end
       resources :rewards, only: [ :index, :show, :update, :create, :destroy ]
       resources :program_trackers, only: [ :index, :show, :update, :create, :destroy ]
+      end
     end
   end
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
