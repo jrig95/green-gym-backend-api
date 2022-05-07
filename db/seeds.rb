@@ -12,7 +12,8 @@ User.destroy_all
 puts "Creating users"
 admin_user = {email: "admin@admin.com", password: "123456", admin: true}
 normal_user = {email: "user@user.com", password: "123456", admin: false}
-[admin_user, normal_user].each do |attributes|
+no_program_user = {email: "nooprogram@noprogram.com", password: "123456", admin: false}
+[admin_user, normal_user, no_program_user].each do |attributes|
   user = User.create!(attributes)
   puts "Created user #{user.email}, admin: #{user.admin}"
 end

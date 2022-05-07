@@ -1,6 +1,6 @@
 class Api::V1::ExercisesController < Api::V1::BaseController
 
-acts_as_token_authentication_handler_for User, except: [ :index, :show ]
+acts_as_token_authentication_handler_for User #, except: [ :index, :show ]
 before_action :set_exercise, only: [ :show,:update, :destroy ]
 
 def index
@@ -10,7 +10,7 @@ end
 def show
 end
 
-def update
+  def update
     if @exercise.update(exercise_params)
       render :show
     else
