@@ -19,9 +19,8 @@ class Api::V1::DailyWorkoutsController < Api::V1::BaseController
   end
 
   def create
-    #  @program = Program.find(params[:id])
     @daily_workout = DailyWorkout.new(daily_workout_params)
-    @program = @daily_workout.program
+    # @program = @daily_workout.program
       # Creates a ProgramTracker between the admin and the newly created program
       # @program.users << User.where(admin: true)
     authorize @daily_workout
@@ -42,6 +41,7 @@ class Api::V1::DailyWorkoutsController < Api::V1::BaseController
   def set_daily_workout
     @daily_workout = DailyWorkout.find(params[:id])
     @program = @daily_workout.program
+    # @program = Program.where(id: params[:daily_workout][:program_id])
     authorize @daily_workout
   end
 

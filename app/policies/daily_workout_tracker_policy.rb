@@ -5,7 +5,7 @@ class DailyWorkoutTrackerPolicy < ApplicationPolicy
       if user.admin?
         scope.all
       else
-        scope.where(user_id: user.id)
+        scope.where(program_tracker_id: user.program_tracker_ids)
       end
     end
   end

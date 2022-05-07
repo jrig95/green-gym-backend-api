@@ -5,13 +5,19 @@ class DailyWorkoutPolicy < ApplicationPolicy
       if user.admin?
         scope.all
       else
-        scope.where(user_id: user.id)
+        scope.match_user(user_ids)
       end
+    end
+
+    private
+
+    def user_ids
+      user.program_ids
     end
   end
 
   def show?
-    record.user == user || user.admin?
+    matches_user || user.admin?
   end
 
   def update?
@@ -24,5 +30,11 @@ class DailyWorkoutPolicy < ApplicationPolicy
 
   def destroy?
     user.admin?
+  end
+
+  private
+
+  def matches_user
+    record.program_id.in?(user.program_ids)
   end
 end

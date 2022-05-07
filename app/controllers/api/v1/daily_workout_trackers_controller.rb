@@ -40,7 +40,7 @@ class Api::V1::DailyWorkoutTrackersController < Api::V1::BaseController
   end
 
   def daily_workout_tracker_params
-    params.require(:daily_workout_tracker).permit(:program_id, :user_id)
+    params.require(:daily_workout_tracker).permit(:dwt_check_in, :dwt_daily_challenge, :program_tracker_id, :daily_workout_id)
   end
 
   def render_error

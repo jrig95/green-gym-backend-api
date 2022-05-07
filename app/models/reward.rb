@@ -1,5 +1,5 @@
 class Reward < ApplicationRecord
-  # belongs_to :program, depend: :destroy
+  # belongs_to :program, dependent: :destroy
   # belongs_to :program
 
   # scope :visible_or_no_program, -> { where(visible: true).or(where(program_id: nil)) }
