@@ -11,15 +11,15 @@ class DailyWorkoutTrackerPolicy < ApplicationPolicy
   end
 
   def show?
-    record.user == user || user.admin?
+    record.program_tracker.user == user || user.admin?
   end
 
   def update?
-    user.admin?
+    record.program_tracker.user == user || user.admin?
   end
 
   def create?
-    user.admin?
+    record.program_tracker.user == user || user.admin?
   end
 
   def destroy?

@@ -10,14 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_06_083842) do
+ActiveRecord::Schema.define(version: 2022_05_08_085430) do
 
   create_table "daily_workout_trackers", force: :cascade do |t|
     t.boolean "dwt_check_in"
     t.boolean "dwt_daily_challenge"
     t.integer "program_tracker_id", null: false
+    t.integer "daily_workout_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["daily_workout_id"], name: "index_daily_workout_trackers_on_daily_workout_id"
+    t.index ["program_tracker_id", "daily_workout_id"], name: "dwt_id_pt_id_index", unique: true
     t.index ["program_tracker_id"], name: "index_daily_workout_trackers_on_program_tracker_id"
   end
 
@@ -30,6 +33,16 @@ ActiveRecord::Schema.define(version: 2022_05_06_083842) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["program_id"], name: "index_daily_workouts_on_program_id"
+  end
+
+  create_table "exercise_trackers", force: :cascade do |t|
+    t.integer "number_of_reps"
+    t.integer "daily_workout_tracker_id", null: false
+    t.integer "exercise_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["daily_workout_tracker_id"], name: "index_exercise_trackers_on_daily_workout_tracker_id"
+    t.index ["exercise_id"], name: "index_exercise_trackers_on_exercise_id"
   end
 
   create_table "exercises", force: :cascade do |t|
@@ -102,8 +115,11 @@ ActiveRecord::Schema.define(version: 2022_05_06_083842) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "daily_workout_trackers", "daily_workouts"
   add_foreign_key "daily_workout_trackers", "program_trackers"
   add_foreign_key "daily_workouts", "programs"
+  add_foreign_key "exercise_trackers", "daily_workout_trackers"
+  add_foreign_key "exercise_trackers", "exercises"
   add_foreign_key "exercises", "daily_workouts"
   add_foreign_key "exercises", "library_items"
   add_foreign_key "program_trackers", "programs"

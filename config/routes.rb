@@ -11,9 +11,10 @@ Rails.application.routes.draw do
       resources :library_items, only: [ :index, :show, :update, :create, :destroy]
       resources :rewards, only: [ :index, :show, :update, :create, :destroy ]
       resources :program_trackers, only: [ :index, :show, :update, :create, :destroy ] do
-        resources :daily_workout_trackers, only: [ :index, :show, :update, :create, :destroy ]
+        resources :daily_workout_trackers, only: [ :index, :show, :update, :create, :destroy ] do
+          resources :exercise_trackers, only: [ :index, :show, :update, :create, :destroy ]
+        end
       end
-
       end
     end
   end
