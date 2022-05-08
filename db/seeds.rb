@@ -5,6 +5,8 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+require 'faker'
+
 puts "Clean database..."
 puts "\n"
 
@@ -16,6 +18,14 @@ no_program_user = {email: "nooprogram@noprogram.com", password: "123456", admin:
 [admin_user, normal_user, no_program_user].each do |attributes|
   user = User.create!(attributes)
   puts "Created user #{user.email}, admin: #{user.admin}"
+end
+
+20.times do
+  User.create(
+    email: Faker::Internet.email,
+    password: '123456',
+    admin: false
+  )
 end
 puts "\n"
 
@@ -30,6 +40,17 @@ hilton_program = { program_title: "Hilton Employee Exercise Program", program_de
   program = Program.create!(attributes)
   puts "Created #{program.program_title}"
 end
+
+20.times do
+  Program.create(
+    program_title: Faker::Company.name,
+    program_description: Faker::Company.buzzword,
+    number_of_days: Faker::Number.between(from: 1, to: 40),
+    program_cover_image: Faker::String.random,
+    price: Faker::Commerce.price
+  )
+end
+
 puts "\n"
 
 
@@ -43,6 +64,16 @@ hilton_program_first_day_workout = { program_id: programs[1].id, day_number: 1, 
   daily_workout = DailyWorkout.create!(attributes)
   puts "Created daily workout #{daily_workout.day_number} for #{daily_workout.program.program_title}"
 end
+
+80.times do
+  DailyWorkout.create(
+    program_id: Faker::Number.between(from: 1, to: 23),
+    daily_challenge_title: Faker::Company.buzzword,
+    daily_challenge_description: Faker::Movie.quote,
+    day_number: Faker::Number.between(from: 1, to: 40),
+    number_of_exercises: Faker::Number.between(from: 4, to: 12)
+  )
+end
 puts "\n"
 
 LibraryItem.destroy_all
@@ -54,6 +85,12 @@ library_item_four = { title: "planks"}
 [library_item_one, library_item_two, library_item_three, library_item_four].each do |attributes|
   library_item = LibraryItem.create!(attributes)
   puts "Created library item #{library_item.title}"
+end
+
+30.times do
+  LibraryItem.create(
+    title: Faker::Music.band
+  )
 end
 puts "\n"
 
@@ -74,6 +111,19 @@ hilton_program_first_day_workout_exercise_two = {exercise_title: "planks", exerc
 exercise = Exercise.create!(attributes)
   puts "Created exercise #{exercise.exercise_title} for #{exercise.daily_workout.program.program_title} day #{exercise.daily_workout.day_number} workout"
 end
+
+30.times do
+  Exercise.create(
+    exercise_title: Faker::Verb.ing_form,
+    exercise_question: true,
+    exercise_work_time: Faker::Number.between(from: 1, to: 60),
+    exercise_rest_time: Faker::Number.between(from: 1, to: 30),
+    calories_per_exercise: Faker::Number.between(from: 30, to: 90),
+    daily_workout_id: Faker::Number.between(from: 1, to: 70),
+    library_item_id: Faker::Number.between(from: 1, to: 29)
+  )
+end
+
 puts "\n"
 
 Reward.destroy_all
@@ -91,5 +141,15 @@ hilton_program_shoes_reward =  {reward_name: "shoes", reward_image: "https://sta
   else
     puts "Created  visble: #{reward.visible} reward #{reward.reward_name} for #{Program.where(id:[reward.program_id])[0].program_title}"
   end
+end
+
+30.times do
+  Reward.create(
+    reward_name: Faker::Commerce.product_name,
+    reward_image: Faker::String.random,
+    reward_points: Faker::Number.between(from: 3000, to: 7000),
+    program_id: Faker::Number.between(from: 1, to: 22),
+    visible: Faker::Boolean.boolean(true_ratio: 0.5)
+  )
 end
 puts "\n"
