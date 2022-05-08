@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  daily_workout: one
+  overview_exercise_title: MyString
+  number_of_sets: 1
+
+two:
+  daily_workout: two
+  overview_exercise_title: MyString
+  number_of_sets: 1

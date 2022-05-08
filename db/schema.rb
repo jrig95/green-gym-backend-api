@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_06_083842) do
+ActiveRecord::Schema.define(version: 2022_05_08_094125) do
 
   create_table "daily_workout_trackers", force: :cascade do |t|
     t.boolean "dwt_check_in"
@@ -30,6 +30,15 @@ ActiveRecord::Schema.define(version: 2022_05_06_083842) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["program_id"], name: "index_daily_workouts_on_program_id"
+  end
+
+  create_table "exercise_overviews", force: :cascade do |t|
+    t.integer "daily_workout_id", null: false
+    t.string "overview_exercise_title"
+    t.integer "number_of_sets"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["daily_workout_id"], name: "index_exercise_overviews_on_daily_workout_id"
   end
 
   create_table "exercises", force: :cascade do |t|
@@ -104,6 +113,7 @@ ActiveRecord::Schema.define(version: 2022_05_06_083842) do
 
   add_foreign_key "daily_workout_trackers", "program_trackers"
   add_foreign_key "daily_workouts", "programs"
+  add_foreign_key "exercise_overviews", "daily_workouts"
   add_foreign_key "exercises", "daily_workouts"
   add_foreign_key "exercises", "library_items"
   add_foreign_key "program_trackers", "programs"
