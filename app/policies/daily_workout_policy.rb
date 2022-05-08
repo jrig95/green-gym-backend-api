@@ -2,33 +2,39 @@ class DailyWorkoutPolicy < ApplicationPolicy
   class Scope < Scope
     # NOTE: Be explicit about which records you allow access to!
     def resolve
-      scope.all
+      if user.admin?
+        scope.all
+      else
+        scope.match_user(user_ids)
+      end
+    end
+
+    private
+
+    def user_ids
+      user.program_ids
     end
   end
 
   def show?
-    true
+    matches_user || user.admin?
   end
 
   def update?
-      # Only admin can update program
-      #record
-      #user
-    user_is_admin?
-    # !user.nil?
+    user.admin?
   end
 
   def create?
-    user_is_admin?
+    user.admin?
   end
 
   def destroy?
-    user_is_admin?
+    user.admin?
   end
 
   private
 
-  def user_is_admin?
-    user.admin
+  def matches_user
+    record.program_id.in?(user.program_ids)
   end
 end

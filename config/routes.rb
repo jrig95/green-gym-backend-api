@@ -2,18 +2,19 @@ Rails.application.routes.draw do
   devise_for :users
   namespace :api, defaults: { format: :json } do
     namespace :v1 do
-
       resources :programs, only: [ :index, :show, :update, :create, :destroy ] do
         resources :daily_workouts, only: [ :index, :show, :update, :create, :destroy] do
           resources :exercises, only: [ :index, :show, :update, :create, :destroy ]
           end
         end
-        resources :rewards, only: [ :index, :show, :update, :create, :destroy ]
-        resources :library_items, only: [ :index, :show, :update, :create, :destroy]
 
+      resources :library_items, only: [ :index, :show, :update, :create, :destroy]
+      resources :rewards, only: [ :index, :show, :update, :create, :destroy ]
+      resources :program_trackers, only: [ :index, :show, :update, :create, :destroy ] do
+        resources :daily_workout_trackers, only: [ :index, :show, :update, :create, :destroy ]
       end
 
-
+      end
     end
   end
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
@@ -34,7 +35,7 @@ Rails.application.routes.draw do
 # James -- do daily workouts, and exercises
 
 
-# CORS how to not let others interact with out API
+# CORS how to not let others interact with our API
 
 # Normal user index, show---> nest route for daily_workout_trackers update
 # Admin can do everything... will also need a route for library

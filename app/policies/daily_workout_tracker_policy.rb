@@ -1,13 +1,17 @@
-class ProgramPolicy < ApplicationPolicy
+class DailyWorkoutTrackerPolicy < ApplicationPolicy
   class Scope < Scope
     # NOTE: Be explicit about which records you allow access to!
     def resolve
-      scope.all
+      if user.admin?
+        scope.all
+      else
+        scope.where(program_tracker_id: user.program_tracker_ids)
+      end
     end
   end
 
   def show?
-    true
+    record.user == user || user.admin?
   end
 
   def update?
