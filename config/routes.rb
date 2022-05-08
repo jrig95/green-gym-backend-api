@@ -5,6 +5,7 @@ Rails.application.routes.draw do
       resources :programs, only: [ :index, :show, :update, :create, :destroy ] do
         resources :daily_workouts, only: [ :index, :show, :update, :create, :destroy] do
           resources :exercises, only: [ :index, :show, :update, :create, :destroy ]
+          resources :exercise_overviews, only: [ :index, :show, :update, :create, :destroy ]
           end
         end
 
