@@ -8,8 +8,10 @@ Rails.application.routes.draw do
           resources :exercises, only: [ :index, :show, :update, :create, :destroy ]
           end
         end
+        resources :rewards, only: [ :index, :show, :update, :create, :destroy ]
+        resources :library_items, only: [ :index, :show, :update, :create, :destroy]
+
       end
-      resources :rewards, only: [ :index, :show, :update, :create, :destroy ]
 
 
     end
