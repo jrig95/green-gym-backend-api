@@ -7,5 +7,5 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable, :trackable
   has_many :program_trackers, dependent: :destroy
-  has_many :programs, through: :program_trackers
+  has_many :programs, through: :program_trackers, dependent: :destroy
 end

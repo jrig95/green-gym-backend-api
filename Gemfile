@@ -47,3 +47,6 @@ gem 'pundit'
 
 # For token used in API calls on behalf of a given user
 gem 'simple_token_authentication'
+
+# faker gem for generating seed
+gem 'faker'

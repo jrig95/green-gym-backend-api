@@ -1,5 +1,5 @@
 class ProgramTracker < ApplicationRecord
   belongs_to :program
   belongs_to :user
-  has_many :daily_workout_trackers
+  has_many :daily_workout_trackers, dependent: :destroy
 end
