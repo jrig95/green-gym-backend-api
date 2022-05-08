@@ -1,4 +1,4 @@
-json.extract! @daily_workout_tracker, :dwt_day_number, :dwt_check_in, :dwt_daily_challenge
+json.extract! @daily_workout_tracker, :id, :dwt_check_in, :dwt_daily_challenge, :program_tracker_id, :daily_workout_id
 
 json.extract! @daily_workout_tracker.program_tracker, :program_id, :user_id
-# json.extract! @program_tracker.user, :email, :admin
+json.extract! @daily_workout_tracker.daily_workout, :daily_challenge_title, :day_number, :daily_challenge_description, :number_of_exercises

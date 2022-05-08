@@ -3,11 +3,11 @@
 one:
   dwt_check_in: false
   dwt_daily_challenge: false
-  dwt_day_number: 1
   program_tracker: one
+  daily_workout: one
 
 two:
   dwt_check_in: false
   dwt_daily_challenge: false
-  dwt_day_number: 1
   program_tracker: two
+  daily_workout: two
