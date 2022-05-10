@@ -4,4 +4,10 @@ class Program < ApplicationRecord
   has_many :users, through: :program_trackers
   has_many :daily_workouts, dependent: :destroy
   has_many :rewards
+
+  validates :program_title, presence: true
+  validates :program_description, presence: true
+  validates :number_of_days, presence: true
+  validates :program_cover_image, presence: true
+  validates :price, presence: true
 end

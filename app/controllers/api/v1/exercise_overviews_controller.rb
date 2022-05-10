@@ -21,7 +21,6 @@ end
   def create
     @exercise_overview = ExerciseOverview.new(exercise_overview_params)
     @daily_workout = @exercise_overview.daily_workout
-
     authorize @exercise_overview
     if @exercise_overview.save
       render :show, status: :created
@@ -31,7 +30,7 @@ end
   end
 
   def destroy
-    @daily_workout.destroy
+    @exercise_overview.destroy
     head :no_content
   end
 
@@ -51,6 +50,4 @@ end
     render json: { errors: @exercise_overview.errors.full_messages },
       status: :unprocessable_entity
   end
-
-
 end

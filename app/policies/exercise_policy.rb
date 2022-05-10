@@ -15,9 +15,13 @@ class ExercisePolicy < ApplicationPolicy
       user_dw_ids = []
       user_programs = user.programs
       user_programs.each do |program|
-        user_dw_ids << program.daily_workout_ids
+        program_dw_ids = program.daily_workout_ids
+        program_dw_ids.each do |id|
+          user_dw_ids << id
+        end
       end
       user_dw_ids
+      # only works right now if a user has only one program_tracker
     end
   end
 

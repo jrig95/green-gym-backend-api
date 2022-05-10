@@ -20,9 +20,6 @@ class Api::V1::DailyWorkoutsController < Api::V1::BaseController
 
   def create
     @daily_workout = DailyWorkout.new(daily_workout_params)
-    # @program = @daily_workout.program
-      # Creates a ProgramTracker between the admin and the newly created program
-      # @program.users << User.where(admin: true)
     authorize @daily_workout
     if @daily_workout.save
       render :show, status: :created
