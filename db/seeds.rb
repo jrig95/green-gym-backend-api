@@ -76,6 +76,18 @@ end
 end
 puts "\n"
 
+ExerciseOverview.destroy_all
+puts "Creating Exercise Overviews"
+# exercise_overview = ExerciseOverview.all
+20.times do
+  ExerciseOverview.create(
+    daily_workout_id: Faker::Number.between(from: 1, to: 80),
+    overview_exercise_title: Faker::Book.title,
+    number_of_sets: Faker::Number.between(from: 1, to: 5)
+  )
+end
+puts "\n"
+
 LibraryItem.destroy_all
 puts "Creating Libray Item"
 library_item_one = { title: "push ups"}
@@ -153,3 +165,39 @@ end
   )
 end
 puts "\n"
+
+ProgramTracker.destroy_all
+puts "Creating Program Trackers"
+
+user_two_with_beach_body_program = { program_id: 1, user_id: 2}
+user_two_with_hilton_program = { program_id: 2, user_id: 2}
+
+[user_two_with_beach_body_program, user_two_with_hilton_program].each do |attributes|
+  program_tracker = ProgramTracker.create!(attributes)
+  puts "Created #{program_tracker.user.email}'s #{program_tracker.program.program_title} program tracker."
+end
+puts "\n"
+
+DailyWorkoutTracker.destroy_all
+puts "Creating Daily Workout Trackers"
+
+user_two_with_beach_body_program_day_one_dwt = { program_tracker_id: 1, daily_workout_id: 1, dwt_check_in: true, dwt_daily_challenge: true}
+user_two_with_hilton_program_day_one_dwt = { program_tracker_id: 2, daily_workout_id: 2, dwt_check_in: true, dwt_daily_challenge: true}
+
+[user_two_with_beach_body_program_day_one_dwt, user_two_with_hilton_program_day_one_dwt].each do |attributes|
+  dwt = DailyWorkoutTracker.create!(attributes)
+  puts "Created #{dwt.program_tracker.user.email}'s daily_workout_tracker for day #{dwt.daily_workout.day_number} of program: #{dwt.program_tracker.program.program_title}."
+end
+puts "\n"
+
+ExerciseTracker.destroy_all
+puts 'Creating Exercise Trackers'
+30.times do
+  ExerciseTracker.create(
+    number_of_reps: Faker::Number.between(from: 10, to: 50),
+    exercise_id: Faker::Number.between(from: 1, to: 30),
+    daily_workout_tracker_id: Faker::Number.between(from: 1, to: 2)
+  )
+end
+
+puts 'Seeds successfully created'

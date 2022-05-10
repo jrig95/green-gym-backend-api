@@ -1,16 +1,15 @@
 class Api::V1::LibraryItemsController < Api::V1::BaseController
+  acts_as_token_authentication_handler_for User
+  before_action :set_library_item, only: [ :show,:update, :destroy ]
 
-acts_as_token_authentication_handler_for User, except: [ :index, :show ]
-before_action :set_library_item, only: [ :show,:update, :destroy ]
+  def index
+    @library_items = policy_scope(LibraryItem)
+  end
 
-def index
-  @library_items = policy_scope(LibraryItem)
-end
+  def show
+  end
 
-def show
-end
-
-def update
+  def update
     if @library_item.update(library_item_params)
       render :show
     else
@@ -20,8 +19,6 @@ def update
 
   def create
     @library_item = LibraryItem.new(library_item_params)
-    # Creates a ProgramTracker between the admin and the newly created program
-    # @program.users << User.where(admin: true)
     authorize @library_item
     if @library_item.save
       render :show, status: :created
@@ -35,7 +32,7 @@ def update
     head :no_content
   end
 
-   private
+  private
 
   def set_library_item
     @library_item = LibraryItem.find(params[:id])
@@ -48,8 +45,6 @@ def update
 
   def render_error
     render json: { errors: @library_item.errors.full_messages },
-      status: :unprocessable_entity
+    status: :unprocessable_entity
   end
-
-
 end

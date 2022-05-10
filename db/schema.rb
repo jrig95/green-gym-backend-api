@@ -10,8 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-
-ActiveRecord::Schema.define(version: 2022_05_08_094125) do
+ActiveRecord::Schema.define(version: 2022_05_10_122625) do
 
   create_table "daily_workout_trackers", force: :cascade do |t|
     t.boolean "dwt_check_in"
@@ -33,9 +32,9 @@ ActiveRecord::Schema.define(version: 2022_05_08_094125) do
     t.integer "number_of_exercises"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["program_id", "day_number"], name: "dw_day_num_and_program_id_index", unique: true
     t.index ["program_id"], name: "index_daily_workouts_on_program_id"
   end
-
 
   create_table "exercise_overviews", force: :cascade do |t|
     t.integer "daily_workout_id", null: false
@@ -45,7 +44,7 @@ ActiveRecord::Schema.define(version: 2022_05_08_094125) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["daily_workout_id"], name: "index_exercise_overviews_on_daily_workout_id"
   end
-  
+
   create_table "exercise_trackers", force: :cascade do |t|
     t.integer "number_of_reps"
     t.integer "daily_workout_tracker_id", null: false
@@ -81,6 +80,7 @@ ActiveRecord::Schema.define(version: 2022_05_08_094125) do
     t.integer "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["program_id", "user_id"], name: "unique_user_and_program_combination", unique: true
     t.index ["program_id"], name: "index_program_trackers_on_program_id"
     t.index ["user_id"], name: "index_program_trackers_on_user_id"
   end
