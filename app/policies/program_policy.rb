@@ -11,14 +11,30 @@ class ProgramPolicy < ApplicationPolicy
   end
 
   def update?
-    user.admin?
+    true
   end
 
   def create?
-    user.admin?
+    true
   end
 
   def destroy?
-    user.admin?
+    true
   end
+
+  # def show?
+  #   true
+  # end
+
+  # def update?
+  #   user.admin?
+  # end
+
+  # def create?
+  #   user.admin?
+  # end
+
+  # def destroy?
+  #   user.admin?
+  # end
 end

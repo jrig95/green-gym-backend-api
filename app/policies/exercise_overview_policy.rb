@@ -11,21 +11,38 @@ class ExerciseOverviewPolicy < ApplicationPolicy
   end
 
   def update?
-      # Only admin can update program
-    user.admin?
+    true
   end
 
   def create?
-    user.admin?
+    true
   end
 
   def destroy?
-    user.admin?
-  end
-
-  private
-
-  def user_is_admin?
-    user.admin
+    true
   end
 end
+
+#   def show?
+#     true
+#   end
+
+#   def update?
+#       # Only admin can update program
+#     user.admin?
+#   end
+
+#   def create?
+#     user.admin?
+#   end
+
+#   def destroy?
+#     user.admin?
+#   end
+
+#   private
+
+#   def user_is_admin?
+#     user.admin
+#   end
+# end
