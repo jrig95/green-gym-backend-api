@@ -5,6 +5,6 @@ class ProgramTracker < ApplicationRecord
 
   validates :program_id, presence: true
   validates :user_id, presence: true
-
+  validates :program_id, uniqueness: { scope: :user_id }
 
 end
