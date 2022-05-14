@@ -46,7 +46,7 @@ end
     program_title: Faker::Company.name,
     program_description: Faker::Company.buzzword,
     number_of_days: Faker::Number.between(from: 1, to: 40),
-    program_cover_image: Faker::String.random,
+    program_cover_image: "https://picsum.photos/200",
     price: Faker::Commerce.price
   )
 end
