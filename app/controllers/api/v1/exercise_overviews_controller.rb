@@ -4,7 +4,9 @@ class Api::V1::ExerciseOverviewsController < Api::V1::BaseController
 before_action :set_exercise_overview, only: [ :show,:update, :destroy ]
 
 def index
-  @exercise_overviews = policy_scope(ExerciseOverview)
+  @exercise_overviews = policy_scope(ExerciseOverview.where(daily_workout_id: params[:daily_workout_id]))
+  # @daily_workouts = policy_scope(DailyWorkout.where(program_id: params[:program_id]))
+
 end
 
 def show
