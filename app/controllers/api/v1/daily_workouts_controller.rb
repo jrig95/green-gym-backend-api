@@ -5,7 +5,7 @@ class Api::V1::DailyWorkoutsController < Api::V1::BaseController
   before_action :set_daily_workout, only: [ :show,:update, :destroy ]
 
   def index
-    @daily_workouts = policy_scope(DailyWorkout)
+    @daily_workouts = policy_scope(DailyWorkout.where(program_id:params[:program_id]))
   end
 
   def show
