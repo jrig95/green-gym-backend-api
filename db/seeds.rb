@@ -131,7 +131,7 @@ hilton_program_first_day_workout_exercise_two = { exercise_title: 'planks', exer
   puts "Created exercise #{exercise.exercise_title} for #{exercise.daily_workout.program.program_title} day #{exercise.daily_workout.day_number} workout"
 end
 
-30.times do
+100.times do
   Exercise.create(
     exercise_title: Faker::Verb.ing_form,
     exercise_question: true,
@@ -231,11 +231,11 @@ puts "\n"
 
 ExerciseTracker.destroy_all
 puts 'Creating Exercise Trackers'
-90.times do
+100.times do
   ExerciseTracker.create(
     number_of_reps: Faker::Number.between(from: 10, to: 50),
     exercise_id: Faker::Number.between(from: 1, to: 30),
-    daily_workout_tracker_id: Faker::Number.between(from: 1, to: 2)
+    daily_workout_tracker_id: Faker::Number.between(from: 1, to: 80)
   )
 end
 

@@ -1,14 +1,14 @@
 class Api::V1::DailyWorkoutsController < Api::V1::BaseController
 
-  # acts_as_token_authentication_handler_for User , except: [ :index, :show ]
   # acts_as_token_authentication_handler_for User  #, except: [ :index, :show ]
   before_action :set_daily_workout, only: [ :show,:update, :destroy ]
 
   def index
-    @daily_workouts = policy_scope(DailyWorkout.where(program_id:params[:program_id]))
+    @daily_workouts = policy_scope(DailyWorkout.where(program_id: params[:program_id]))
   end
 
   def show
+    # @daily_workout.program_id == params[:program_id].to_i
   end
 
   def update
@@ -39,7 +39,6 @@ class Api::V1::DailyWorkoutsController < Api::V1::BaseController
   def set_daily_workout
     @daily_workout = DailyWorkout.find(params[:id])
     @program = @daily_workout.program
-    # @program = Program.where(id: params[:daily_workout][:program_id])
     authorize @daily_workout
   end
 

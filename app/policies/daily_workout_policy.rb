@@ -19,7 +19,6 @@ class DailyWorkoutPolicy < ApplicationPolicy
   #   def user_ids
   #     user.program_ids
   #   end
-
   end
 
   def show?
