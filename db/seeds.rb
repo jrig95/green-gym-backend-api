@@ -27,6 +27,7 @@ end
     admin: false
   )
 end
+
 puts "\n"
 
 Program.destroy_all
@@ -196,6 +197,13 @@ user_two_with_hilton_program = { program_id: 2, user_id: 2 }
   program_tracker = ProgramTracker.create!(attributes)
   puts "Created #{program_tracker.user.email}'s #{program_tracker.program.program_title} program tracker."
 end
+
+41.times do
+  ProgramTracker.create(
+    program_id: Faker::Number.between(from: 3, to: 22),
+    user_id: Faker::Number.between(from: 4, to: 22)
+  )
+end
 puts "\n"
 
 DailyWorkoutTracker.destroy_all
@@ -210,11 +218,20 @@ user_two_with_hilton_program_day_one_dwt = { program_tracker_id: 2, daily_workou
   dwt = DailyWorkoutTracker.create!(attributes)
   puts "Created #{dwt.program_tracker.user.email}'s daily_workout_tracker for day #{dwt.daily_workout.day_number} of program: #{dwt.program_tracker.program.program_title}."
 end
+
+81.times do
+  DailyWorkoutTracker.create(
+    program_tracker_id: Faker::Number.between(from: 3, to: 40),
+    daily_workout_id: Faker::Number.between(from: 3, to: 75),
+    dwt_check_in: Faker::Boolean.boolean(true_ratio: 0.8),
+    dwt_daily_challenge: Faker::Boolean.boolean(true_ratio: 0.8)
+  )
+end
 puts "\n"
 
 ExerciseTracker.destroy_all
 puts 'Creating Exercise Trackers'
-30.times do
+90.times do
   ExerciseTracker.create(
     number_of_reps: Faker::Number.between(from: 10, to: 50),
     exercise_id: Faker::Number.between(from: 1, to: 30),
