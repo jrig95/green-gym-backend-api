@@ -50,3 +50,9 @@ gem 'simple_token_authentication'
 
 # faker gem for generating seed
 gem 'faker'
+
+# jwt gem
+gem 'devise-jwt'
+
+# serializer
+gem 'fast_jsonapi'
