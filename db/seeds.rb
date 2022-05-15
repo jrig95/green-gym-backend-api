@@ -27,6 +27,7 @@ end
     admin: false
   )
 end
+
 puts "\n"
 
 Program.destroy_all
@@ -200,7 +201,7 @@ end
 41.times do
   ProgramTracker.create(
     program_id: Faker::Number.between(from: 3, to: 22),
-    user_id: Faker::Number.between(from: 3, to: 22)
+    user_id: Faker::Number.between(from: 4, to: 22)
   )
 end
 puts "\n"
