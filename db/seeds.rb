@@ -82,7 +82,7 @@ puts "\n"
 ExerciseOverview.destroy_all
 puts 'Creating Exercise Overviews'
 # exercise_overview = ExerciseOverview.all
-20.times do
+300.times do
   ExerciseOverview.create(
     daily_workout_id: Faker::Number.between(from: 1, to: 80),
     overview_exercise_title: Faker::Book.title,
