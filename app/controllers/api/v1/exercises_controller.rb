@@ -3,11 +3,11 @@ class Api::V1::ExercisesController < Api::V1::BaseController
   before_action :set_exercise, only: [ :show,:update, :destroy ]
 
   def index
-    @exercises = policy_scope(Exercise)
+    @exercises = policy_scope(Exercise.where(daily_workout_id: params[:daily_workout_id]))
   end
 
-def show
-end
+  def show
+  end
 
   def update
     if @exercise.update(exercise_params)

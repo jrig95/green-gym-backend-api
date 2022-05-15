@@ -3,7 +3,7 @@ class Api::V1::DailyWorkoutTrackersController < Api::V1::BaseController
   before_action :set_daily_workout_tracker, only: [ :show, :update, :destroy ]
 
   def index
-    @daily_workout_trackers = policy_scope(DailyWorkoutTracker)
+    @daily_workout_trackers = policy_scope(DailyWorkoutTracker.where(program_tracker_id: params[:program_tracker_id]))
   end
 
   def show
