@@ -169,7 +169,7 @@ end
     reward_name: Faker::Commerce.product_name,
     reward_image: "https://picsum.photos/200",
     reward_points: Faker::Number.between(from: 3000, to: 7000),
-    program_id: null,
+    program_id: nil,
     visible: Faker::Boolean.boolean(true_ratio: 0.5)
   )
 end
