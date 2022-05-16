@@ -70,6 +70,18 @@ end
 puts "\n"
 
 
+ExerciseOverview.destroy_all
+puts 'Creating Exercise Overviews'
+# exercise_overview = ExerciseOverview.all
+80.times do
+  ExerciseOverview.create(
+    daily_workout_id: rand(1..80),
+    overview_exercise_title: Faker::Book.title,
+    number_of_sets: Faker::Number.between(from: 1, to: 5)
+  )
+end
+puts "\n"
+
 DailyWorkoutTracker.destroy_all
 puts 'Creating Daily Workout Trackers'
 81.times do |id|
@@ -93,55 +105,55 @@ puts 'creating Program Trackers'
   )
 end
 puts "\n"
-# create exercises
-# create users create trackers and reference a program id sample
-# Exercise.destroy_all
-# puts 'creating Exercises'
-# (1..100).each do |id|
-#   Exercise.create(
-#     id: id,
-#     exercise_title: Faker::Verb.ing_form,
-#     exercise_question: true,
-#     exercise_work_time: Faker::Number.between(from: 1, to: 60),
-#     exercise_rest_time: Faker::Number.between(from: 1, to: 30),
-#     calories_per_exercise: Faker::Number.between(from: 30, to: 90),
-#     daily_workout_id: rand(1..80),
-#     library_item_id: rand(1..30)
-#   )
-# end
+create exercises
+create users create trackers and reference a program id sample
+Exercise.destroy_all
+puts 'creating Exercises'
+(1..100).each do |id|
+  Exercise.create(
+    id: id,
+    exercise_title: Faker::Verb.ing_form,
+    exercise_question: true,
+    exercise_work_time: Faker::Number.between(from: 1, to: 60),
+    exercise_rest_time: Faker::Number.between(from: 1, to: 30),
+    calories_per_exercise: Faker::Number.between(from: 30, to: 90),
+    daily_workout_id: rand(1..80),
+    library_item_id: rand(1..30)
+  )
+end
 
-# ExerciseTracker.destroy_all
-# puts 'Creating Exercise Trackers'
-# (1..100).each do |id|
-#   ExerciseTracker.create(
-#     id: id,
-#     number_of_reps: Faker::Number.between(from: 10, to: 50),
-#     exercise_id: rand(1..100),
-#     daily_workout_tracker_id: rand(1..81)
-#   )
-# end
+ExerciseTracker.destroy_all
+puts 'Creating Exercise Trackers'
+(1..100).each do |id|
+  ExerciseTracker.create(
+    id: id,
+    number_of_reps: Faker::Number.between(from: 10, to: 50),
+    exercise_id: rand(1..100),
+    daily_workout_tracker_id: rand(1..81)
+  )
+end
 
-# 20.times do
-#   Reward.create(
-#     reward_name: Faker::Commerce.product_name,
-#     reward_image: "https://picsum.photos/200",
-#     reward_points: Faker::Number.between(from: 3000, to: 7000),
-#     program_id: nil,
-#     visible: Faker::Boolean.boolean(true_ratio: 0.5)
-#   )
-# end
-# puts "\n"
+20.times do
+  Reward.create(
+    reward_name: Faker::Commerce.product_name,
+    reward_image: "https://picsum.photos/200",
+    reward_points: Faker::Number.between(from: 3000, to: 7000),
+    program_id: nil,
+    visible: Faker::Boolean.boolean(true_ratio: 0.5)
+  )
+end
+puts "\n"
 
-# 10.times do
-#   Reward.create(
-#     reward_name: Faker::Commerce.product_name,
-#     reward_image: "https://picsum.photos/200",
-#     reward_points: Faker::Number.between(from: 3000, to: 7000),
-#     program_id: rand(1..20),
-#     visible: Faker::Boolean.boolean(true_ratio: 0.5)
-#   )
-# end
-# puts "\n"
+10.times do
+  Reward.create(
+    reward_name: Faker::Commerce.product_name,
+    reward_image: "https://picsum.photos/200",
+    reward_points: Faker::Number.between(from: 3000, to: 7000),
+    program_id: rand(1..20),
+    visible: Faker::Boolean.boolean(true_ratio: 0.5)
+  )
+end
+puts "\n"
 
 
 
