@@ -10,15 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_15_081812) do
+
+ActiveRecord::Schema.define(version: 2022_05_16_071052) do
+
 
   create_table "daily_workout_trackers", force: :cascade do |t|
     t.boolean "dwt_check_in"
     t.boolean "dwt_daily_challenge"
     t.integer "program_tracker_id", null: false
-    t.integer "daily_workout_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "daily_workout_id", null: false
     t.index ["daily_workout_id"], name: "index_daily_workout_trackers_on_daily_workout_id"
     t.index ["program_tracker_id", "daily_workout_id"], name: "dwt_id_pt_id_index", unique: true
     t.index ["program_tracker_id"], name: "index_daily_workout_trackers_on_program_tracker_id"
