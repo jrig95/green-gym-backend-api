@@ -7,36 +7,109 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 require 'faker'
 
-puts 'Clean database...'
-puts "\n"
+puts 'Cleaning database...'
+puts 'Destroying LibraryItems'
+LibraryItem.destroy_all
+puts 'Destroying Users'
+User.destroy_all
+puts 'Destroying Programs'
+Program.destroy_all
+puts 'Destroying Exercise overviews'
+ExerciseOverview.destroy_all
+puts 'Destroying ProgramTrackers'
+ProgramTracker.destroy_all
+puts 'Destroying DailyWorkoutTracker'
+DailyWorkoutTracker.destroy_all
+puts 'Destroying ExerciseTrakcers'
+ExerciseTracker.destroy_all
+
+# you need to destory everything before you seed. do it all here. before making anything.
+
+# create empty array
+libray_item_ids = []
 
 # library_items first
 puts 'Creating Library Items'
 30.times do
-  LibraryItem.create(
-
+  item = LibraryItem.create!(
     title: Faker::Music.band
   )
+  puts "Created Library Item #{item.title} with ID: #{item.id}"
+  libray_item_ids << item.id
+  puts "added Library Item #{item.title} with ID: #{item.id} to array"
 end
 puts "\n"
 
 # create programs (num of day) 20times.do each loop create a workout assign to a day
-Program.destroy_all
+
+# Create programs array
+program_ids = []
+
+# Don't create an id for a program - Rails is already doing that.
 puts 'creating Programs'
-(1..20).each do |id|
-  Program.create(
-    id: id,
+20.times do
+  number_of_days = rand(7..30)
+
+  program = Program.create!(
     program_title: Faker::Company.name,
     program_description: Faker::Company.buzzword,
-    number_of_days: Faker::Number.between(from: 1, to: 30),
+    number_of_days: number_of_days,
     program_cover_image: 'https://picsum.photos/200',
     price: Faker::Commerce.price
   )
+  puts "Created Program #{program.program_title} with ID: #{program.id}"
+
+  program_ids << program.id
+  puts "Added Programd #{program.id} to Program_ids array"
+
+  # Create some daily_workouts
+  puts "Creating Daily Workouts for #{program.program_title} with ID: #{program.id}"
+  day_number = 1
+  number_of_exercises = rand(5..10)
+  number_of_days.times do
+    daily_workout = DailyWorkout.create!(
+      day_number: day_number,
+      daily_challenge_title: Faker::Company.buzzword,
+      daily_challenge_description: Faker::Movie.quote,
+      number_of_exercises: number_of_exercises,
+      program_id: program.id
+    )
+
+    number_of_exercises.times do
+      Exercise.create!(
+        exercise_title: Faker::Verb.ing_form,
+        exercise_question: true,
+        exercise_work_time: Faker::Number.between(from: 1, to: 60),
+        exercise_rest_time: Faker::Number.between(from: 1, to: 30),
+        calories_per_exercise: Faker::Number.between(from: 30, to: 90),
+        daily_workout_id: daily_workout.id,
+        library_item_id: libray_item_ids.sample
+      )
+    end
+
+    number_of_exercises.times do
+      ExerciseOverview.create!(
+        overview_exercise_title: Faker::Book.title,
+        number_of_sets: Faker::Number.between(from: 1, to: 5),
+        daily_workout_id: daily_workout.id
+      )
+    end
+    day_number += 1
+  end
+
+  rand(4).times do
+    Reward.create!(
+      reward_name: Faker::Commerce.product_name,
+      reward_image: 'https://picsum.photos/200',
+      reward_points: Faker::Number.between(from: 3000, to: 7000),
+      program_id: program.id
+    )
+  end
+  puts "\n"
 end
 
 puts "\n"
 
-User.destroy_all
 puts 'Creating users'
 admin_user = { email: 'admin@admin.com', password: '123456', admin: true }
 normal_user = { email: 'user@user.com', password: '123456', admin: false }
@@ -46,117 +119,131 @@ no_program_user = { email: 'nooprogram@noprogram.com', password: '123456', admin
   puts "Created user #{user.email}, admin: #{user.admin}"
 end
 
+# create users
+puts "Creating users"
+
 20.times do
-  User.create(
+  user = User.create!(
     email: Faker::Internet.email,
     password: '123456',
     admin: false
   )
+
+  puts "Created user #{user.email} with ID: #{user.id}"
+
+  # save a random program id so it can be reused.
+  program_id = program_ids.sample
+
+  
+  # for each user I create one program tracker
+  program = Program.find(program_id)
+  
+  puts "User #{user.email} has selected the program #{program.program_title}"
+
+  program_tracker = ProgramTracker.create!(program_id: program.id, user_id: user.id)
+
+  puts "Created ProgramTracker for user #{user.email}"
+
+  program.daily_workouts.each do |daily_workout|
+    daily_workout_tracker = DailyWorkoutTracker.create!(
+      program_tracker_id: program_tracker.id,
+      daily_workout_id: daily_workout.id,
+    )
+    daily_workout.exercises.each do |exercise|
+      exercise_tracker = ExerciseTracker.create!(number_of_reps: 0, daily_workout_tracker_id: daily_workout_tracker.id,
+                                                 exercise_id: exercise.id)
+    end
+  end
 end
 
 # create programs (num of day) 20times.do each loop create a workout assign to a day
-DailyWorkout.destroy_all
-puts 'creating Daily Workouts'
-(1..80).each do |id|
-  DailyWorkout.create(
-    id: id,
-    program_id: rand(1..20),
-    daily_challenge_title: Faker::Company.buzzword,
-    daily_challenge_description: Faker::Movie.quote,
-    day_number: Faker::Number.between(from: 1, to: 40),
-    number_of_exercises: Faker::Number.between(from: 4, to: 12)
-  )
-end
-puts "\n"
+# DailyWorkout.destroy_all
+# puts 'creating Daily Workouts'
+# (1..80).each do |id|
+#   DailyWorkout.create(
+#     id: id,
+#     program_id: rand(1..20),
+#     daily_challenge_title: Faker::Company.buzzword,
+#     daily_challenge_description: Faker::Movie.quote,
+#     day_number: Faker::Number.between(from: 1, to: 40),
+#     number_of_exercises: Faker::Number.between(from: 4, to: 12)
+#   )
+# end
+# puts "\n"
 
+# ExerciseOverview.destroy_all
+# puts 'Creating Exercise Overviews'
+# # exercise_overview = ExerciseOverview.all
+# 80.times do
+#   ExerciseOverview.create(
+#     daily_workout_id: rand(1..80),
+#     overview_exercise_title: Faker::Book.title,
+#     number_of_sets: Faker::Number.between(from: 1, to: 5)
+#   )
+# end
+# puts "\n"
 
-ExerciseOverview.destroy_all
-puts 'Creating Exercise Overviews'
-# exercise_overview = ExerciseOverview.all
-80.times do
-  ExerciseOverview.create(
-    daily_workout_id: rand(1..80),
-    overview_exercise_title: Faker::Book.title,
-    number_of_sets: Faker::Number.between(from: 1, to: 5)
-  )
-end
-puts "\n"
+# DailyWorkoutTracker.destroy_all
+# puts 'Creating Daily Workout Trackers'
+# 81.times do |id|
+#   DailyWorkoutTracker.create(
+#     id: id,
+#     program_tracker_id: rand(1..20),
+#     daily_workout_id: rand(1..80),
+#     dwt_check_in: Faker::Boolean.boolean(true_ratio: 0.8),
+#     dwt_daily_challenge: Faker::Boolean.boolean(true_ratio: 0.8)
+#   )
+# end
+# puts "\n"
 
-DailyWorkoutTracker.destroy_all
-puts 'Creating Daily Workout Trackers'
-81.times do |id|
-  DailyWorkoutTracker.create(
-    id: id,
-    program_tracker_id: rand(1..20),
-    daily_workout_id: rand(1..80),
-    dwt_check_in: Faker::Boolean.boolean(true_ratio: 0.8),
-    dwt_daily_challenge: Faker::Boolean.boolean(true_ratio: 0.8)
-  )
-end
-puts "\n"
+# ProgramTracker.destroy_all
+# puts 'creating Program Trackers'
+# (1..20).each do |id|
+#   ProgramTracker.create(
+#     id: id,
+#     program_id: rand(1..20),
+#     user_id: rand(1..20)
+#   )
+# end
+# puts "\n"
+# create exercises
+# create users create trackers and reference a program id sample
+# Exercise.destroy_all
+# puts 'creating Exercises'
+# (1..100).each do |id|
+#   Exercise.create(
+#     id: id,
+#     exercise_title: Faker::Verb.ing_form,
+#     exercise_question: true,
+#     exercise_work_time: Faker::Number.between(from: 1, to: 60),
+#     exercise_rest_time: Faker::Number.between(from: 1, to: 30),
+#     calories_per_exercise: Faker::Number.between(from: 30, to: 90),
+#     daily_workout_id: rand(1..80),
+#     library_item_id: rand(1..30)
+#   )
+# end
 
-ProgramTracker.destroy_all
-puts 'creating Program Trackers'
-(1..20).each do |id|
-  ProgramTracker.create(
-    id: id,
-    program_id: rand(1..20),
-    user_id: rand(1..20)
-  )
-end
-puts "\n"
-create exercises
-create users create trackers and reference a program id sample
-Exercise.destroy_all
-puts 'creating Exercises'
-(1..100).each do |id|
-  Exercise.create(
-    id: id,
-    exercise_title: Faker::Verb.ing_form,
-    exercise_question: true,
-    exercise_work_time: Faker::Number.between(from: 1, to: 60),
-    exercise_rest_time: Faker::Number.between(from: 1, to: 30),
-    calories_per_exercise: Faker::Number.between(from: 30, to: 90),
-    daily_workout_id: rand(1..80),
-    library_item_id: rand(1..30)
-  )
-end
-
-ExerciseTracker.destroy_all
-puts 'Creating Exercise Trackers'
-(1..100).each do |id|
-  ExerciseTracker.create(
-    id: id,
-    number_of_reps: Faker::Number.between(from: 10, to: 50),
-    exercise_id: rand(1..100),
-    daily_workout_tracker_id: rand(1..81)
-  )
-end
+# ExerciseTracker.destroy_all
+# puts 'Creating Exercise Trackers'
+# (1..100).each do |id|
+#   ExerciseTracker.create(
+#     id: id,
+#     number_of_reps: Faker::Number.between(from: 10, to: 50),
+#     exercise_id: rand(1..100),
+#     daily_workout_tracker_id: rand(1..81)
+#   )
+# end
 
 20.times do
-  Reward.create(
+  Reward.create!(
     reward_name: Faker::Commerce.product_name,
-    reward_image: "https://picsum.photos/200",
+    reward_image: 'https://picsum.photos/200',
     reward_points: Faker::Number.between(from: 3000, to: 7000),
     program_id: nil,
     visible: Faker::Boolean.boolean(true_ratio: 0.5)
   )
 end
 puts "\n"
-
-10.times do
-  Reward.create(
-    reward_name: Faker::Commerce.product_name,
-    reward_image: "https://picsum.photos/200",
-    reward_points: Faker::Number.between(from: 3000, to: 7000),
-    program_id: rand(1..20),
-    visible: Faker::Boolean.boolean(true_ratio: 0.5)
-  )
-end
-puts "\n"
-
-
-
 
 # puts "\n"
 
@@ -236,8 +323,6 @@ puts "\n"
 #   puts "Created library item #{library_item.title}"
 # end
 
-
-
 # Exercise.destroy_all
 # puts 'Creating Exercises'
 # daily_workouts = DailyWorkout.all
@@ -294,8 +379,6 @@ puts "\n"
 #   end
 # end
 
-
-
 # ProgramTracker.destroy_all
 # puts 'Creating Program Trackers'
 
@@ -327,9 +410,5 @@ puts "\n"
 #   dwt = DailyWorkoutTracker.create!(attributes)
 #   puts "Created #{dwt.program_tracker.user.email}'s daily_workout_tracker for day #{dwt.daily_workout.day_number} of program: #{dwt.program_tracker.program.program_title}."
 # end
-
-
-
-
 
 puts 'Seeds successfully created'
