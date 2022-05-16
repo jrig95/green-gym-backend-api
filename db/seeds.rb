@@ -120,34 +120,44 @@ no_program_user = { email: 'nooprogram@noprogram.com', password: '123456', admin
 end
 
 # create users
-puts "Creating users"
+puts 'Creating users'
+
+gender = %w[Male Female]
+fitness_level = %w[beginner intermediate advanced]
 
 20.times do
   user = User.create!(
     email: Faker::Internet.email,
     password: '123456',
+    first_name: Faker::Name.first_name,
+    last_name: Faker::Name.last_name,
+    user_company: Faker::Company.name,
+    user_total_calories: Faker::Number.between(from: 3000, to: 7000),
+    user_points: Faker::Number.between(from: 3000, to: 7000),
+    user_passions: Faker::Movies::Lebowski.quote,
+    user_gender: gender.sample,
+    user_fitness_level: fitness_level.sample,
     admin: false
   )
 
-  puts "Created user #{user.email} with ID: #{user.id}"
+  puts "Say hello to #{user.first_name} #{user.last_name} who works for #{user.user_company}"
 
   # save a random program id so it can be reused.
   program_id = program_ids.sample
 
-  
   # for each user I create one program tracker
   program = Program.find(program_id)
-  
-  puts "User #{user.email} has selected the program #{program.program_title}"
+
+  puts "#{user.first_name} has selected the program #{program.program_title}"
 
   program_tracker = ProgramTracker.create!(program_id: program.id, user_id: user.id)
 
-  puts "Created ProgramTracker for user #{user.email}"
+  puts "Created ProgramTracker for #{user.first_name}"
 
   program.daily_workouts.each do |daily_workout|
     daily_workout_tracker = DailyWorkoutTracker.create!(
       program_tracker_id: program_tracker.id,
-      daily_workout_id: daily_workout.id,
+      daily_workout_id: daily_workout.id
     )
     daily_workout.exercises.each do |exercise|
       exercise_tracker = ExerciseTracker.create!(number_of_reps: 0, daily_workout_tracker_id: daily_workout_tracker.id,
