@@ -148,11 +148,11 @@ fitness_level = %w[beginner intermediate advanced]
   # for each user I create one program tracker
   program = Program.find(program_id)
 
-  puts "User #{user.email} has selected the program #{program.program_title}"
+  puts "#{user.first_name} has selected the program #{program.program_title}"
 
   program_tracker = ProgramTracker.create!(program_id: program.id, user_id: user.id)
 
-  puts "Created ProgramTracker for user #{user.email}"
+  puts "Created ProgramTracker for #{user.first_name}"
 
   program.daily_workouts.each do |daily_workout|
     daily_workout_tracker = DailyWorkoutTracker.create!(
