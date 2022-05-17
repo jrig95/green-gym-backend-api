@@ -7,6 +7,10 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 require 'faker'
 
+require "open-uri"
+
+
+
 puts 'Cleaning database...'
 puts 'Destroying LibraryItems'
 LibraryItem.destroy_all
@@ -420,5 +424,58 @@ puts "\n"
 #   dwt = DailyWorkoutTracker.create!(attributes)
 #   puts "Created #{dwt.program_tracker.user.email}'s daily_workout_tracker for day #{dwt.daily_workout.day_number} of program: #{dwt.program_tracker.program.program_title}."
 # end
+
+puts "creating a program with an image"
+
+file = URI.open('https://th.bing.com/th/id/OIP.XZSw6cYr8Y5MWR4CastG5gHaF7?pid=ImgDet&rs=1')
+program = Program.new(program_title: 'NES', program_description: "A great console", number_of_days: 7, program_cover_image: "doesnt matter", price: 6)
+program.photo.attach(io: file, filename: 'nes.png', content_type: 'image/png')
+program.save!
+
+puts "created a program with an image"
+
+puts "creating library_item with a video"
+# video
+file = URI.open('https://vd2.bdstatic.com/mda-ji09d1rc02h0njw2/sc/mda-ji09d1rc02h0njw2.mp4?v_from_s=hkapp-haokan-nanjing&auth_key=1652777270-0-0-d1d3013a011ca5c9f03e2a005d03d730&bcevod_channel=searchbox_feed&cd=0&pd=1&pt=3&logid=1070074697&vid=5816411584377358713&abtest=101830_1-102148_2-17451_1-3000225_3&klogid=1070074697')
+
+library_item = LibraryItem.new(title: "workout")
+library_item.video.attach(io: file, filename: 'workout.mp4', content_type: "video/mp4" )
+library_item.save!
+
+puts "created library_item with a video"
+
+puts "creating reward with a photo"
+file = URI.open('https://th.bing.com/th/id/OIP.XZSw6cYr8Y5MWR4CastG5gHaF7?pid=ImgDet&rs=1')
+reward = Reward.new(
+    reward_name: "pic reward",
+    reward_image: 'dfndslknfsdl',
+    reward_points: 90,
+    program_id: nil,
+    visible: false
+  )
+reward.photo.attach(io: file, filename: 'nes.png', content_type: 'image/png')
+reward.save!
+puts "created photo reward"
+
+puts "creating user with a photo"
+file = URI.open('https://th.bing.com/th/id/OIP.XZSw6cYr8Y5MWR4CastG5gHaF7?pid=ImgDet&rs=1')
+  user = User.create!(
+    email: Faker::Internet.email,
+    password: '123456',
+    first_name: Faker::Name.first_name,
+    last_name: Faker::Name.last_name,
+    user_company: Faker::Company.name,
+    user_total_calories: Faker::Number.between(from: 3000, to: 7000),
+    user_points: Faker::Number.between(from: 3000, to: 7000),
+    user_passions: Faker::Movies::Lebowski.quote,
+    user_gender: gender.sample,
+    user_fitness_level: fitness_level.sample,
+    admin: false
+  )
+user.photo.attach(io: file, filename: 'nes.png', content_type: 'image/png')
+user.save!
+
+puts "user with photo created"
+
 
 puts 'Seeds successfully created'

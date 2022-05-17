@@ -53,7 +53,7 @@ class Api::V1::RewardsController < Api::V1::BaseController
   end
 
   def reward_params
-    params.require(:reward).permit(:reward_name, :reward_image, :reward_points, :program_id, :visible)
+    params.require(:reward).permit(:reward_name, :reward_image, :reward_points, :program_id, :visible, :photo)
   end
 
   # def set_program

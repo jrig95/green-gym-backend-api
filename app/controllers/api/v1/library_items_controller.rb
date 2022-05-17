@@ -40,7 +40,7 @@ class Api::V1::LibraryItemsController < Api::V1::BaseController
   end
 
   def library_item_params
-    params.require(:library_item).permit(:title)
+    params.require(:library_item).permit(:title, :video)
   end
 
   def render_error
