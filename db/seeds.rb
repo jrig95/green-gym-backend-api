@@ -53,12 +53,10 @@ program_ids = []
 puts 'creating Programs'
 20.times do
   number_of_days = rand(7..30)
-
   program = Program.create!(
     program_title: Faker::Company.name,
     program_description: Faker::Company.buzzword,
     number_of_days: number_of_days,
-    program_cover_image: 'https://picsum.photos/200',
     price: Faker::Commerce.price
   )
   puts "Created Program #{program.program_title} with ID: #{program.id}"
@@ -104,7 +102,6 @@ puts 'creating Programs'
   rand(4).times do
     Reward.create!(
       reward_name: Faker::Commerce.product_name,
-      reward_image: 'https://picsum.photos/200',
       reward_points: Faker::Number.between(from: 3000, to: 7000),
       program_id: program.id
     )
@@ -251,7 +248,6 @@ end
 20.times do
   Reward.create!(
     reward_name: Faker::Commerce.product_name,
-    reward_image: 'https://picsum.photos/200',
     reward_points: Faker::Number.between(from: 3000, to: 7000),
     program_id: nil,
     visible: Faker::Boolean.boolean(true_ratio: 0.5)
@@ -428,7 +424,7 @@ puts "\n"
 puts "creating a program with an image"
 
 file = URI.open('https://th.bing.com/th/id/OIP.XZSw6cYr8Y5MWR4CastG5gHaF7?pid=ImgDet&rs=1')
-program = Program.new(program_title: 'NES', program_description: "A great console", number_of_days: 7, program_cover_image: "doesnt matter", price: 6)
+program = Program.new(program_title: 'NES', program_description: "A great console", number_of_days: 7, price: 6)
 program.photo.attach(io: file, filename: 'nes.png', content_type: 'image/png')
 program.save!
 
@@ -448,7 +444,6 @@ puts "creating reward with a photo"
 file = URI.open('https://th.bing.com/th/id/OIP.XZSw6cYr8Y5MWR4CastG5gHaF7?pid=ImgDet&rs=1')
 reward = Reward.new(
     reward_name: "pic reward",
-    reward_image: 'dfndslknfsdl',
     reward_points: 90,
     program_id: nil,
     visible: false

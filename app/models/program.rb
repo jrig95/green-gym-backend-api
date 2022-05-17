@@ -10,6 +10,5 @@ class Program < ApplicationRecord
   validates :program_title, presence: true
   validates :program_description, presence: true
   validates :number_of_days, presence: true
-  validates :program_cover_image, presence: true
   validates :price, presence: true
 end
