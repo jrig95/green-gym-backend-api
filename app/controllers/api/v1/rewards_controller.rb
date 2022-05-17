@@ -24,7 +24,6 @@ class Api::V1::RewardsController < Api::V1::BaseController
     authorize @reward
     # @reward.programs << Program.where(id: @reward.program_id)
     if @reward.save!
-      puts "HERE #{@reward.reward_name}!!!!!!!!!!!!!!!"
       render :show, status: :created
     else
       puts "Didn't save"
