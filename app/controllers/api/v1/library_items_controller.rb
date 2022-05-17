@@ -4,6 +4,8 @@ class Api::V1::LibraryItemsController < Api::V1::BaseController
 
   def index
     @library_items = policy_scope(LibraryItem)
+    
+    @library_items = @library_items.reverse
   end
 
   def show
