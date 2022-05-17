@@ -1,4 +1,6 @@
 class Program < ApplicationRecord
+
+  has_one_attached :photo
   has_many :program_trackers, dependent: :destroy
   # dependent: :destroy (see above) --> uncomment to permit admin to delete program that has program_trackers and users
   has_many :users, through: :program_trackers

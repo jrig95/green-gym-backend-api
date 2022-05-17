@@ -56,3 +56,12 @@ gem 'devise-jwt'
 
 # serializer
 gem 'fast_jsonapi'
+
+# for aliyun file upload
+gem 'activestorage-aliyun'
+
+# recommended for active_storage
+gem 'image_processing'
+
+# for saving images/videos
+gem 'open-uri'

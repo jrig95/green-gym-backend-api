@@ -10,15 +10,43 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_16_112207) do
+ActiveRecord::Schema.define(version: 2022_05_17_084002) do
+
+  create_table "active_storage_attachments", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "record_type", null: false
+    t.integer "record_id", null: false
+    t.integer "blob_id", null: false
+    t.datetime "created_at", null: false
+    t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
+    t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
+  end
+
+  create_table "active_storage_blobs", force: :cascade do |t|
+    t.string "key", null: false
+    t.string "filename", null: false
+    t.string "content_type"
+    t.text "metadata"
+    t.string "service_name", null: false
+    t.bigint "byte_size", null: false
+    t.string "checksum", null: false
+    t.datetime "created_at", null: false
+    t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  end
+
+  create_table "active_storage_variant_records", force: :cascade do |t|
+    t.integer "blob_id", null: false
+    t.string "variation_digest", null: false
+    t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
 
   create_table "daily_workout_trackers", force: :cascade do |t|
     t.boolean "dwt_check_in"
     t.boolean "dwt_daily_challenge"
     t.integer "program_tracker_id", null: false
+    t.integer "daily_workout_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "daily_workout_id", null: false
     t.index ["daily_workout_id"], name: "index_daily_workout_trackers_on_daily_workout_id"
     t.index ["program_tracker_id", "daily_workout_id"], name: "dwt_id_pt_id_index", unique: true
     t.index ["program_tracker_id"], name: "index_daily_workout_trackers_on_program_tracker_id"
@@ -89,7 +117,6 @@ ActiveRecord::Schema.define(version: 2022_05_16_112207) do
     t.string "program_title"
     t.text "program_description"
     t.integer "number_of_days"
-    t.string "program_cover_image"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "price"
@@ -97,7 +124,6 @@ ActiveRecord::Schema.define(version: 2022_05_16_112207) do
 
   create_table "rewards", force: :cascade do |t|
     t.string "reward_name"
-    t.string "reward_image"
     t.integer "reward_points"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -136,6 +162,8 @@ ActiveRecord::Schema.define(version: 2022_05_16_112207) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "daily_workout_trackers", "daily_workouts"
   add_foreign_key "daily_workout_trackers", "program_trackers"
   add_foreign_key "daily_workouts", "programs"
