@@ -20,11 +20,7 @@ class Api::V1::RewardsController < Api::V1::BaseController
 
   def create
     @reward = Reward.new(reward_params)
-    puts "HERE #{@reward.reward_name}!!!!!!!!!!!!!!!"
-
-    puts "HERE #{@reward}!!!!!!!!!!!!!!!"
-    puts "HERE #{@reward}!!!!!!!!!!!!!!!"
-    puts "HERE #{@reward}!!!!!!!!!!!!!!!"
+    
     authorize @reward
     # @reward.programs << Program.where(id: @reward.program_id)
     if @reward.save!
