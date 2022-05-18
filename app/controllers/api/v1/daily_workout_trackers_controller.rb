@@ -7,11 +7,9 @@ class Api::V1::DailyWorkoutTrackersController < Api::V1::BaseController
   end
 
   def show
-    # current_program = @daily_workout_tracker.daily_workout.program
-    # number_of_days = []
-    # days = current_program.number_of_days
-    # byebug
-    # dwt_day_number = @daily_workout_tracker.daily_workout.day_number
+  end
+
+  def five_day_array
     daily_workout_trackers = @daily_workout_tracker.program_tracker.daily_workout_trackers
     daily_workout_trackers.each do |dwt|
       dwt.daily_workout.day_number
@@ -23,19 +21,14 @@ class Api::V1::DailyWorkoutTrackersController < Api::V1::BaseController
     last_day = current_day.daily_workout.program.number_of_days
 
 
-    @five_dwts = []
-    # if current_day.daily_workout.day_number == 1 || 2 ||3
-    #   five_dwts = daily_workout_trackers[0..4]
+    five_dwts = []
     if current_day.daily_workout.day_number == last_day
-      @five_dwts = daily_workout_trackers[(last_day -5)..(last_day -1)]
+      five_dwts = daily_workout_trackers[(last_day -5)..(last_day -1)]
     elsif current_day.daily_workout.day_number > 3
-      @five_dwts = daily_workout_trackers[(current_day_number - 4)..(current_day_number)]
+      five_dwts = daily_workout_trackers[(current_day_number - 4)..(current_day_number)]
     else current_day.daily_workout.day_number == 1 || 2 ||3
-     @five_dwts = daily_workout_trackers[0..4]
+     five_dwts = daily_workout_trackers[0..4]
     end
-
-
-
 
   end
 
