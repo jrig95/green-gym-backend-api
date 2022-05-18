@@ -208,7 +208,7 @@ GEM
       actionpack (>= 5.2)
       activesupport (>= 5.2)
       sprockets (>= 3.0.0)
-    stringio (3.0.2)
+    stringio (3.0.1)
     thor (1.2.1)
     time (0.2.0)
       date
@@ -247,7 +247,7 @@ DEPENDENCIES
   jbuilder (~> 2.7)
   listen (~> 3.3)
   open-uri
-  pg
+  pg (~> 1.1)
   puma (~> 5.0)
   pundit
   rack-cors
