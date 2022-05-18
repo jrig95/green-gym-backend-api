@@ -2,12 +2,12 @@
 
 one:
   dwt_check_in: false
-  dwt_daily_challenge: false
+  dwt_aily_challenge: false
   program_tracker: one
   daily_workout: one
 
 two:
   dwt_check_in: false
-  dwt_daily_challenge: false
+  dwt_aily_challenge: false
   program_tracker: two
   daily_workout: two

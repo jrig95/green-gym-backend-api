@@ -10,13 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_17_084002) do
+ActiveRecord::Schema.define(version: 2022_05_18_062829) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
-    t.integer "record_id", null: false
-    t.integer "blob_id", null: false
+    t.bigint "record_id", null: false
+    t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
     t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
     t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
@@ -35,13 +38,25 @@ ActiveRecord::Schema.define(version: 2022_05_17_084002) do
   end
 
   create_table "active_storage_variant_records", force: :cascade do |t|
-    t.integer "blob_id", null: false
+    t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "daily_workout_trackers", force: :cascade do |t|
+    t.boolean "dwt_check_in"
+    t.boolean "dwt_aily_challenge"
+    t.bigint "program_tracker_id", null: false
+    t.bigint "daily_workout_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["daily_workout_id"], name: "index_daily_workout_trackers_on_daily_workout_id"
+    t.index ["program_tracker_id", "daily_workout_id"], name: "dwt_id_pt_id_index", unique: true
+    t.index ["program_tracker_id"], name: "index_daily_workout_trackers_on_program_tracker_id"
+  end
+
   create_table "daily_workouts", force: :cascade do |t|
-    t.integer "program_id", null: false
+    t.bigint "program_id", null: false
     t.integer "day_number"
     t.string "daily_challenge_title"
     t.text "daily_challenge_description"
@@ -53,7 +68,7 @@ ActiveRecord::Schema.define(version: 2022_05_17_084002) do
   end
 
   create_table "exercise_overviews", force: :cascade do |t|
-    t.integer "daily_workout_id", null: false
+    t.bigint "daily_workout_id", null: false
     t.string "overview_exercise_title"
     t.integer "number_of_sets"
     t.datetime "created_at", precision: 6, null: false
@@ -63,8 +78,8 @@ ActiveRecord::Schema.define(version: 2022_05_17_084002) do
 
   create_table "exercise_trackers", force: :cascade do |t|
     t.integer "number_of_reps"
-    t.integer "daily_workout_tracker_id", null: false
-    t.integer "exercise_id", null: false
+    t.bigint "daily_workout_tracker_id", null: false
+    t.bigint "exercise_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["daily_workout_tracker_id"], name: "index_exercise_trackers_on_daily_workout_tracker_id"
@@ -73,14 +88,14 @@ ActiveRecord::Schema.define(version: 2022_05_17_084002) do
 
   create_table "exercises", force: :cascade do |t|
     t.string "exercise_title"
-    t.boolean "exercise_question"
     t.string "exercise_work_time"
     t.string "exercise_rest_time"
     t.integer "calories_per_exercise"
-    t.integer "daily_workout_id", null: false
-    t.integer "library_item_id", null: false
+    t.bigint "daily_workout_id", null: false
+    t.bigint "library_item_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "exercise_question"
     t.index ["daily_workout_id"], name: "index_exercises_on_daily_workout_id"
     t.index ["library_item_id"], name: "index_exercises_on_library_item_id"
   end
@@ -92,8 +107,8 @@ ActiveRecord::Schema.define(version: 2022_05_17_084002) do
   end
 
   create_table "program_trackers", force: :cascade do |t|
-    t.integer "program_id", null: false
-    t.integer "user_id", null: false
+    t.bigint "program_id", null: false
+    t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["program_id", "user_id"], name: "unique_user_and_program_combination", unique: true
@@ -115,7 +130,7 @@ ActiveRecord::Schema.define(version: 2022_05_17_084002) do
     t.integer "reward_points"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "program_id"
+    t.bigint "program_id"
     t.boolean "visible"
     t.index ["program_id"], name: "index_rewards_on_program_id"
   end
