@@ -15,6 +15,9 @@ class DailyWorkoutTrackerPolicy < ApplicationPolicy
   #     end
   #   end
   # end
+  def five_day_array?
+    true
+  end
 
   def show?
     true

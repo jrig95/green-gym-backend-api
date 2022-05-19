@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   get 'private/test'
   get '/current_user', to: 'current_user#index'
+
   devise_for :users, path: '', path_names: {
     sign_in: 'login',
     sign_out: 'logout',
@@ -22,8 +23,14 @@ Rails.application.routes.draw do
       resources :library_items, only: [ :index, :show, :update, :create, :destroy]
       resources :rewards, only: [ :index, :show, :update, :create, :destroy ]
       resources :program_trackers, only: [ :index, :show, :update, :create, :destroy ] do
+
         resources :daily_workout_trackers, only: [ :index, :show, :update, :create, :destroy ] do
           resources :exercise_trackers, only: [ :index, :show, :update, :create, :destroy ]
+          # collection do
+          get '/five_day_array', to: 'daily_workout_trackers#five_day_array'
+          # end
+
+
         end
       end
       end
