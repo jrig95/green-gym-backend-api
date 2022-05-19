@@ -7,9 +7,7 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 require 'faker'
 
-require "open-uri"
-
-
+require 'open-uri'
 
 puts 'Cleaning database...'
 puts 'Destroying LibraryItems'
@@ -32,6 +30,15 @@ ExerciseTracker.destroy_all
 # create empty array
 libray_item_ids = []
 
+# create a list of images to be used in rewards and programs
+program_images = [
+  'https://tse2-mm.cn.bing.net/th/id/OIP-C.QZxypTqcfm_3djPGXESRgwHaE7?w=260&h=180&c=7&r=0&o=5&dpr=1.25&pid=1.7', 'https://tse3-mm.cn.bing.net/th/id/OIP-C.mbrWkT3bGhylpd_aVZydfAHaE8?w=259&h=180&c=7&r=0&o=5&dpr=1.25&pid=1.7', 'https://tse1-mm.cn.bing.net/th/id/OIP-C.K3_sVSyKJHYcbK5t1ILH7gHaFj?w=231&h=180&c=7&r=0&o=5&dpr=1.25&pid=1.7', 'https://tse3-mm.cn.bing.net/th/id/OIP-C.PAAiCFTeq4-Vv8yBzbReAwHaE7?w=281&h=188&c=7&r=0&o=5&dpr=1.25&pid=1.7', 'https://tse1-mm.cn.bing.net/th/id/OIP-C.55slZc5z4gPnl1CDTnTRcQHaE8?w=223&h=180&c=7&r=0&o=5&dpr=1.25&pid=1.7'
+]
+
+reward_images = [
+  'https://tse4-mm.cn.bing.net/th/id/OIP-C.xXXHVUAJyZgz3zLPSXxv2wHaHa?w=158&h=180&c=7&r=0&o=5&dpr=1.25&pid=1.7', 'https://tse2-mm.cn.bing.net/th/id/OIP-C.Ne1XPbs6M2RHP_bdA9Pa8wHaHa?w=157&h=180&c=7&r=0&o=5&dpr=1.25&pid=1.7', 'https://tse4-mm.cn.bing.net/th/id/OIP-C.TZKCYtZOzvhQqQTXqmXr3AHaEd?w=301&h=180&c=7&r=0&o=5&dpr=1.25&pid=1.7', 'https://tse3-mm.cn.bing.net/th/id/OIP-C.Zj6-DTx0uiLhQhKy9uBy5AHaJ4?w=132&h=180&c=7&r=0&o=5&dpr=1.25&pid=1.7', 'https://tse4-mm.cn.bing.net/th/id/OIP-C.wE9oQ4ccsUFUBlVpWVGhggHaFj?w=238&h=180&c=7&r=0&o=5&dpr=1.25&pid=1.7'
+]
+
 # library_items first
 puts 'Creating Library Items'
 30.times do
@@ -51,14 +58,22 @@ program_ids = []
 
 # Don't create an id for a program - Rails is already doing that.
 puts 'creating Programs'
+
 20.times do
+  file = URI.open(program_images.sample)
+
   number_of_days = rand(7..30)
+  
   program = Program.create!(
     program_title: Faker::Company.name,
     program_description: Faker::Lorem.paragraph(sentence_count: 2, supplemental: false, random_sentences_to_add: 4),
     number_of_days: number_of_days,
     price: Faker::Commerce.price
   )
+
+  program.photo.attach(io: file, filename: 'image.png', content_type: 'image/png')
+  program.save!
+
   puts "Created Program #{program.program_title} with ID: #{program.id}"
 
   program_ids << program.id
@@ -99,12 +114,25 @@ puts 'creating Programs'
     day_number += 1
   end
 
+
+
+
+  
+
   rand(4).times do
-    Reward.create!(
+    file = URI.open(reward_images.sample)
+
+    reward = Reward.new(
       reward_name: Faker::Commerce.product_name,
       reward_points: Faker::Number.between(from: 3000, to: 7000),
-      program_id: program.id
+      program_id: program.id,
+      visible: Faker::Boolean.boolean(true_ratio: 0.5)
     )
+  
+    reward.photo.attach(io: file, filename: 'nes.png', content_type: 'image/png')
+    reward.save!
+
+    puts "Created Reward: #{reward.reward_name}"
   end
   puts "\n"
 end
@@ -167,8 +195,12 @@ fitness_level = %w[beginner intermediate advanced]
   end
 end
 
-puts "Creating rewards...."
 puts "\n"
+
+puts 'Creating rewards....'
+puts "\n"
+
+file = URI.open(reward_images.sample)
 
 20.times do
   reward = Reward.new(
@@ -186,28 +218,28 @@ puts "\n"
 end
 puts "\n"
 
-puts "******************************"
+puts '******************************'
 
 puts "\n"
 
-puts "creating a program with an image"
+puts 'creating a program with an image'
 
 file = URI.open('https://th.bing.com/th/id/OIP.XZSw6cYr8Y5MWR4CastG5gHaF7?pid=ImgDet&rs=1')
-program = Program.new(program_title: 'NES', program_description: "A great console", number_of_days: 7, price: 6)
+program = Program.new(program_title: 'NES', program_description: 'A great console', number_of_days: 7, price: 6)
 program.photo.attach(io: file, filename: 'nes.png', content_type: 'image/png')
 program.save!
 
-puts "created a program with an image"
+puts 'created a program with an image'
 
-puts "creating library_item with a video"
+puts 'creating library_item with a video'
 # video
 file = URI.open('https://vd2.bdstatic.com/mda-ji09d1rc02h0njw2/sc/mda-ji09d1rc02h0njw2.mp4?v_from_s=hkapp-haokan-nanjing&auth_key=1652777270-0-0-d1d3013a011ca5c9f03e2a005d03d730&bcevod_channel=searchbox_feed&cd=0&pd=1&pt=3&logid=1070074697&vid=5816411584377358713&abtest=101830_1-102148_2-17451_1-3000225_3&klogid=1070074697')
 
-library_item = LibraryItem.new(title: "workout")
-library_item.video.attach(io: file, filename: 'workout.mp4', content_type: "video/mp4" )
+library_item = LibraryItem.new(title: 'workout')
+library_item.video.attach(io: file, filename: 'workout.mp4', content_type: 'video/mp4')
 library_item.save!
 
-puts "created library_item with a video"
+puts 'created library_item with a video'
 
 # puts "creating reward with a photo"
 # file = URI.open('https://th.bing.com/th/id/OIP.XZSw6cYr8Y5MWR4CastG5gHaF7?pid=ImgDet&rs=1')
@@ -221,25 +253,24 @@ puts "created library_item with a video"
 # reward.save!
 # puts "created photo reward"
 
-puts "creating user with a photo"
+puts 'creating user with a photo'
 file = URI.open('https://th.bing.com/th/id/OIP.XZSw6cYr8Y5MWR4CastG5gHaF7?pid=ImgDet&rs=1')
-  user = User.create!(
-    email: Faker::Internet.email,
-    password: '123456',
-    first_name: Faker::Name.first_name,
-    last_name: Faker::Name.last_name,
-    user_company: Faker::Company.name,
-    user_total_calories: Faker::Number.between(from: 3000, to: 7000),
-    user_points: Faker::Number.between(from: 3000, to: 7000),
-    user_passions: Faker::Movies::Lebowski.quote,
-    user_gender: gender.sample,
-    user_fitness_level: fitness_level.sample,
-    admin: false
-  )
+user = User.create!(
+  email: Faker::Internet.email,
+  password: '123456',
+  first_name: Faker::Name.first_name,
+  last_name: Faker::Name.last_name,
+  user_company: Faker::Company.name,
+  user_total_calories: Faker::Number.between(from: 3000, to: 7000),
+  user_points: Faker::Number.between(from: 3000, to: 7000),
+  user_passions: Faker::Movies::Lebowski.quote,
+  user_gender: gender.sample,
+  user_fitness_level: fitness_level.sample,
+  admin: false
+)
 user.photo.attach(io: file, filename: 'nes.png', content_type: 'image/png')
 user.save!
 
-puts "user with photo created"
-
+puts 'user with photo created'
 
 puts 'Seeds successfully created'
