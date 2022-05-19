@@ -12,6 +12,7 @@
 
 ActiveRecord::Schema.define(version: 2022_05_19_054225) do
 
+
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -132,6 +133,7 @@ ActiveRecord::Schema.define(version: 2022_05_19_054225) do
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "program_id"
     t.boolean "visible"
+    t.string "image_url"
     t.index ["program_id"], name: "index_rewards_on_program_id"
   end
 
