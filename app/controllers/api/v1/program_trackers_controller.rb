@@ -20,15 +20,14 @@ class Api::V1::ProgramTrackersController < Api::V1::BaseController
   def create
     @program_tracker = ProgramTracker.new(program_tracker_params)
     @daily_workouts = @program_tracker.program.daily_workouts
-    # @exercises = []
+
     authorize @program_tracker
     authorize @daily_workouts
     if @program_tracker.save
-    # saves @program_tracker,
+
       @daily_workouts.each do |dw|
         @daily_workout_tracker = DailyWorkoutTracker.new(program_tracker_id: @program_tracker.id, daily_workout_id: dw.id)
         @daily_workout_tracker.save
-        # saves @daily_workout_tracker
 
         dw.exercises.each do |exercise|
           @exercise_tracker = ExerciseTracker.new(exercise_id: exercise.id, daily_workout_tracker_id: @daily_workout_tracker.id)
