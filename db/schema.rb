@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_18_062829) do
+ActiveRecord::Schema.define(version: 2022_05_19_054225) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -44,12 +44,12 @@ ActiveRecord::Schema.define(version: 2022_05_18_062829) do
   end
 
   create_table "daily_workout_trackers", force: :cascade do |t|
-    t.boolean "dwt_check_in"
-    t.boolean "dwt_aily_challenge"
+    t.boolean "dwt_check_in", default: false
     t.bigint "program_tracker_id", null: false
     t.bigint "daily_workout_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "dwt_daily_challenge", default: false
     t.index ["daily_workout_id"], name: "index_daily_workout_trackers_on_daily_workout_id"
     t.index ["program_tracker_id", "daily_workout_id"], name: "dwt_id_pt_id_index", unique: true
     t.index ["program_tracker_id"], name: "index_daily_workout_trackers_on_program_tracker_id"
