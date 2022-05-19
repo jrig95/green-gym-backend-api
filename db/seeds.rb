@@ -167,13 +167,22 @@ fitness_level = %w[beginner intermediate advanced]
   end
 end
 
+puts "Creating rewards...."
+puts "\n"
+
 20.times do
-  Reward.create!(
+  reward = Reward.new(
     reward_name: Faker::Commerce.product_name,
     reward_points: Faker::Number.between(from: 3000, to: 7000),
     program_id: nil,
     visible: Faker::Boolean.boolean(true_ratio: 0.5)
   )
+
+  reward.photo.attach(io: file, filename: 'nes.png', content_type: 'image/png')
+  reward.save!
+
+  puts "Created Reward: #{reward.reward_name}"
+  puts "\n"
 end
 puts "\n"
 
@@ -200,17 +209,17 @@ library_item.save!
 
 puts "created library_item with a video"
 
-puts "creating reward with a photo"
-file = URI.open('https://th.bing.com/th/id/OIP.XZSw6cYr8Y5MWR4CastG5gHaF7?pid=ImgDet&rs=1')
-reward = Reward.new(
-    reward_name: "pic reward",
-    reward_points: 90,
-    program_id: nil,
-    visible: false
-  )
-reward.photo.attach(io: file, filename: 'nes.png', content_type: 'image/png')
-reward.save!
-puts "created photo reward"
+# puts "creating reward with a photo"
+# file = URI.open('https://th.bing.com/th/id/OIP.XZSw6cYr8Y5MWR4CastG5gHaF7?pid=ImgDet&rs=1')
+# reward = Reward.new(
+#     reward_name: "pic reward",
+#     reward_points: 90,
+#     program_id: nil,
+#     visible: false
+#   )
+# reward.photo.attach(io: file, filename: 'nes.png', content_type: 'image/png')
+# reward.save!
+# puts "created photo reward"
 
 puts "creating user with a photo"
 file = URI.open('https://th.bing.com/th/id/OIP.XZSw6cYr8Y5MWR4CastG5gHaF7?pid=ImgDet&rs=1')
