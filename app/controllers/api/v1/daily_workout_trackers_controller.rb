@@ -6,7 +6,35 @@ class Api::V1::DailyWorkoutTrackersController < Api::V1::BaseController
     @daily_workout_trackers = policy_scope(DailyWorkoutTracker.where(program_tracker_id: params[:program_tracker_id]))
   end
 
+  # def show
+  # end
+
   def show
+
+    daily_workout_trackers = @daily_workout_tracker.program_tracker.daily_workout_trackers
+    daily_workout_trackers.each do |dwt|
+      dwt.daily_workout.day_number
+    end
+
+
+    current_day = @daily_workout_tracker
+    current_day_number = @daily_workout_tracker.daily_workout.day_number
+    last_day = current_day.daily_workout.program.number_of_days
+
+
+    @five_dwts = []
+    if current_day.daily_workout.day_number == last_day
+      @five_dwts = daily_workout_trackers[(last_day -5)..(last_day -1)]
+    elsif current_day.daily_workout.day_number > 3
+      @five_dwts = daily_workout_trackers[(current_day_number - 4)..(current_day_number)]
+    else current_day.daily_workout.day_number == 1 || 2 ||3
+     @five_dwts = daily_workout_trackers[0..4]
+    end
+    # byebug
+
+
+
+
   end
 
   def update
@@ -39,9 +67,18 @@ class Api::V1::DailyWorkoutTrackersController < Api::V1::BaseController
     authorize @daily_workout_tracker
   end
 
+  # def set_daily_workout_tracker_array
+  #   @daily_workout_tracker = DailyWorkoutTracker.find(params[:id])
+  #   authorize @daily_workout_tracker
+  # end
+
   def daily_workout_tracker_params
     params.require(:daily_workout_tracker).permit(:dwt_check_in, :dwt_daily_challenge, :program_tracker_id, :daily_workout_id)
   end
+
+  # def daily_workout_tracker_array_params
+  #   params.require(:daily_workout_tracker).permit(:dwt_check_in, :dwt_daily_challenge, :program_tracker_id, :daily_workout_id)
+  # end
 
   def render_error
     render json: { errors: @daily_workout_tracker.errors.full_messages },
