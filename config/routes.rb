@@ -3,14 +3,16 @@ Rails.application.routes.draw do
   get '/current_user', to: 'current_user#index'
 
   devise_for :users, path: '', path_names: {
-    sign_in: 'login',
-    sign_out: 'logout',
-    registration: 'signup'
-  },
-  controllers: {
-    sessions: 'users/sessions',
-    registrations: 'users/registrations'
-  }
+        sign_in: 'login',
+        sign_out: 'logout',
+        registration: 'signup'
+      },
+      controllers: {
+        sessions: 'users/sessions',
+        registrations: 'users/registrations'
+      }
+
+
   namespace :api, defaults: { format: :json } do
     namespace :v1 do
       resources :programs, only: [ :index, :show, :update, :create, :destroy ] do
@@ -26,13 +28,12 @@ Rails.application.routes.draw do
 
         resources :daily_workout_trackers, only: [ :index, :show, :update, :create, :destroy ] do
           resources :exercise_trackers, only: [ :index, :show, :update, :create, :destroy ]
-          # collection do
-          get '/five_day_array', to: 'daily_workout_trackers#five_day_array'
-          # end
-
 
         end
       end
+      post '/users', to: 'registrations#signup'
+
+
       end
     end
   end
