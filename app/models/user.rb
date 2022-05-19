@@ -1,8 +1,8 @@
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-
   has_one_attached :photo
+  # attr_accessor :first_name, :last_name, :user_company, :user_gender, :user_fitness_level, :user_passions, :user_total_calories, :user_points, :admin
 
   include Devise::JWT::RevocationStrategies::JTIMatcher
 
@@ -13,4 +13,5 @@ class User < ApplicationRecord
 
   has_many :program_trackers, dependent: :destroy
   has_many :programs, through: :program_trackers, dependent: :destroy
+  # validates :first_name, presence: true
 end

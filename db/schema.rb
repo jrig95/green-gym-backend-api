@@ -10,8 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_19_054225) do
-
+ActiveRecord::Schema.define(version: 2022_05_19_084531) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -133,7 +132,6 @@ ActiveRecord::Schema.define(version: 2022_05_19_054225) do
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "program_id"
     t.boolean "visible"
-    t.string "image_url"
     t.index ["program_id"], name: "index_rewards_on_program_id"
   end
 
@@ -150,7 +148,7 @@ ActiveRecord::Schema.define(version: 2022_05_19_054225) do
     t.datetime "last_sign_in_at"
     t.string "current_sign_in_ip"
     t.string "last_sign_in_ip"
-    t.boolean "admin"
+    t.boolean "admin", default: false
     t.string "authentication_token", limit: 30
     t.string "jti", null: false
     t.string "first_name"
