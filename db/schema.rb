@@ -132,6 +132,7 @@ ActiveRecord::Schema.define(version: 2022_05_19_084531) do
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "program_id"
     t.boolean "visible"
+    t.string "image_url"
     t.index ["program_id"], name: "index_rewards_on_program_id"
   end
 
