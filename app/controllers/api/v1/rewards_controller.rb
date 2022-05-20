@@ -22,7 +22,6 @@ class Api::V1::RewardsController < Api::V1::BaseController
     @reward = Reward.new(reward_params)
 
     authorize @reward
-    # @reward.programs << Program.where(id: @reward.program_id)
   
     if @reward.save!
       render :index, status: :created
@@ -32,30 +31,10 @@ class Api::V1::RewardsController < Api::V1::BaseController
     end
   end
 
-  # Below create method can create a stand alone reward
-  # def create
-  #   @reward = Reward.new(reward_params)
-  #   authorize @reward
-  #   byebug
-  #   if @reward.save
-  #     render :show, status: :created
-  #   else
-  #     render_error
-  #   end
-  # end
-
   def destroy
     @reward.destroy
     head :no_content
   end
-
-  # def upload
-  #   if @reward.photo.attach(params.require(:photo))
-  #     render json:  {msg: "Photo uploaded" }
-  #   else
-  #     render json: { msg: "Failed to upload"}
-  #   end
-  # end
 
   private
 
