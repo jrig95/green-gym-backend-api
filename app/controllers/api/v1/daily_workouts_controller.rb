@@ -8,7 +8,6 @@ class Api::V1::DailyWorkoutsController < Api::V1::BaseController
   end
 
   def show
-    byebug
     # curent day = @daily_workout.day_number
     #
     # @daily_workout.program_id == params[:program_id].to_i

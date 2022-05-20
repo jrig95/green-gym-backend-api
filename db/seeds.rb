@@ -180,7 +180,7 @@ profile_image = URI.open('https://tse2-mm.cn.bing.net/th/id/OIP-C.XSZAFm-5JI7nri
     admin: false
   )
 
-  user.photo.attach(io: profile_image, filename: "#{first_name}.png", content_type: 'image/png')
+  user.photo.attach(io: profile_image, filename: "#{user.first_name}.png", content_type: 'image/png')
   user.save!
   
   puts "Say hello to #{user.first_name} #{user.last_name} who works for #{user.user_company}"
