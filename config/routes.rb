@@ -23,11 +23,7 @@ Rails.application.routes.draw do
         end
 
       resources :library_items, only: [ :index, :show, :update, :create, :destroy]
-      resources :rewards, only: [ :index, :show, :update, :create, :destroy ] do
-        member do
-          post "upload", to: "rewards/upload"
-        end
-      end
+      resources :rewards, only: [ :index, :show, :update, :create, :destroy ]
       resources :program_trackers, only: [ :index, :show, :update, :create, :destroy ] do
 
         resources :daily_workout_trackers, only: [ :index, :show, :update, :create, :destroy ] do
