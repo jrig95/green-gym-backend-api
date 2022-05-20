@@ -20,11 +20,12 @@ class Api::V1::RewardsController < Api::V1::BaseController
 
   def create
     @reward = Reward.new(reward_params)
-    
+
     authorize @reward
     # @reward.programs << Program.where(id: @reward.program_id)
+  
     if @reward.save!
-      render :show, status: :created
+      render :index, status: :created
     else
       puts "Didn't save"
       render_error
@@ -48,13 +49,13 @@ class Api::V1::RewardsController < Api::V1::BaseController
     head :no_content
   end
 
-  def upload
-    if @reward.photo.attach(params.require(:photo))
-      render json:  {msg: "Photo uploaded" }
-    else
-      render json: { msg: "Failed to upload"}
-    end
-  end
+  # def upload
+  #   if @reward.photo.attach(params.require(:photo))
+  #     render json:  {msg: "Photo uploaded" }
+  #   else
+  #     render json: { msg: "Failed to upload"}
+  #   end
+  # end
 
   private
 
