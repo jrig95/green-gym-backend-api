@@ -12,7 +12,7 @@ class Api::V1::RewardsController < Api::V1::BaseController
 
   def update
     if @reward.update(reward_params)
-      render :show
+      render :index
     else
       render_error
     end
