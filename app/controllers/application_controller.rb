@@ -8,7 +8,10 @@ class ApplicationController < ActionController::API
   devise_parameter_sanitizer.permit(:sign_up) do |user|
     user.permit(:first_name, :last_name, :email, :password, :user_company, :user_gender, :user_fitness_level, :user_passions, :user_total_calories, :user_points, :admin)
   end
-  devise_parameter_sanitizer.permit(:user, keys: [:token])
+
+  devise_parameter_sanitizer.permit(:log_in) do |user|
+    user.permit(:email, :password)
+  end
 end
 
 end
