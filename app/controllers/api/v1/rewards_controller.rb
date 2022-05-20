@@ -1,6 +1,6 @@
 class Api::V1::RewardsController < Api::V1::BaseController
   # acts_as_token_authentication_handler_for User #, except: [ :index, :show ]
-  before_action :set_reward, only: [ :show, :update, :destroy]
+  before_action :set_reward, only: [ :show, :update, :destroy, :upload]
 
   def index
     @rewards = policy_scope(Reward)
@@ -20,28 +20,16 @@ class Api::V1::RewardsController < Api::V1::BaseController
 
   def create
     @reward = Reward.new(reward_params)
-    
+
     authorize @reward
-    # @reward.programs << Program.where(id: @reward.program_id)
+  
     if @reward.save!
-      render :show, status: :created
+      render :index, status: :created
     else
       puts "Didn't save"
       render_error
     end
   end
-
-  # Below create method can create a stand alone reward
-  # def create
-  #   @reward = Reward.new(reward_params)
-  #   authorize @reward
-  #   byebug
-  #   if @reward.save
-  #     render :show, status: :created
-  #   else
-  #     render_error
-  #   end
-  # end
 
   def destroy
     @reward.destroy
