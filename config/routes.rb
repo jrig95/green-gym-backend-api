@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   get 'private/test'
   get '/current_user', to: 'current_user#index'
+  get '/users', to: 'users#index'
 
   devise_for :users, path: '', path_names: {
         sign_in: 'login',
@@ -31,7 +32,7 @@ Rails.application.routes.draw do
 
         end
       end
-      post '/users', to: 'registrations#signup'
+
 
 
       end
