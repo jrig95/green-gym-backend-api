@@ -1,6 +1,6 @@
 class Api::V1::RewardsController < Api::V1::BaseController
   # acts_as_token_authentication_handler_for User #, except: [ :index, :show ]
-  before_action :set_reward, only: [ :show, :update, :destroy]
+  before_action :set_reward, only: [ :show, :update, :destroy, :upload]
 
   def index
     @rewards = policy_scope(Reward)
@@ -46,6 +46,14 @@ class Api::V1::RewardsController < Api::V1::BaseController
   def destroy
     @reward.destroy
     head :no_content
+  end
+
+  def upload
+    if @reward.photo.attach(params.require(:photo))
+      render json:  {msg: "Photo uploaded" }
+    else
+      render json: { msg: "Failed to upload"}
+    end
   end
 
   private
