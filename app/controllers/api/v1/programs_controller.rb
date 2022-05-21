@@ -34,6 +34,12 @@ class Api::V1::ProgramsController < Api::V1::BaseController
     head :no_content
   end
 
+  def last_program
+    @program = Program.last
+    authorize @program
+
+  end
+
   private
 
   def set_program
