@@ -1,14 +1,13 @@
 class Api::V1::DailyWorkoutsController < Api::V1::BaseController
 
   # acts_as_token_authentication_handler_for User  #, except: [ :index, :show ]
-  before_action :set_daily_workout, only: [ :show,:update, :destroy ]
+  before_action :set_daily_workout, only: [ :show,:update, :destroy, :exercises ]
 
   def index
     @daily_workouts = policy_scope(DailyWorkout.where(program_id: params[:program_id]))
   end
 
   def show
-    byebug
     # curent day = @daily_workout.day_number
     #
     # @daily_workout.program_id == params[:program_id].to_i
@@ -18,6 +17,7 @@ class Api::V1::DailyWorkoutsController < Api::V1::BaseController
     # if there are no daily workouts before, find current dw, and next 4
     #
   end
+
 
   def update
     if @daily_workout.update(daily_workout_params)
