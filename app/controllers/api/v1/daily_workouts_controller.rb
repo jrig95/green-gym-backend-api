@@ -1,7 +1,7 @@
 class Api::V1::DailyWorkoutsController < Api::V1::BaseController
 
   # acts_as_token_authentication_handler_for User  #, except: [ :index, :show ]
-  before_action :set_daily_workout, only: [ :show,:update, :destroy ]
+  before_action :set_daily_workout, only: [ :show,:update, :destroy, :exercises ]
 
   def index
     @daily_workouts = policy_scope(DailyWorkout.where(program_id: params[:program_id]))
@@ -9,6 +9,17 @@ class Api::V1::DailyWorkoutsController < Api::V1::BaseController
 
   def show
     # curent day = @daily_workout.day_number
+
+    @exercises = Exercise.where(daily_workout_id: @daily_workout.id)
+    puts "Here is the exercises array"
+
+    @library_items = []
+
+    @exercises.each do |exercise|
+      @library_items << exercise.library_item
+    end
+
+    @daily_workout
     #
     # @daily_workout.program_id == params[:program_id].to_i
     # [] = array daily workouts
@@ -16,6 +27,10 @@ class Api::V1::DailyWorkoutsController < Api::V1::BaseController
 
     # if there are no daily workouts before, find current dw, and next 4
     #
+  end
+
+  def exercises
+    @exercises = Exercise.where(daily_workout_id: @daily_workout.id)
   end
 
   def update
