@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_21_090326) do
+ActiveRecord::Schema.define(version: 2022_05_21_171222) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -126,6 +126,15 @@ ActiveRecord::Schema.define(version: 2022_05_21_090326) do
     t.integer "price"
   end
 
+  create_table "reward_trackers", force: :cascade do |t|
+    t.bigint "reward_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["reward_id"], name: "index_reward_trackers_on_reward_id"
+    t.index ["user_id"], name: "index_reward_trackers_on_user_id"
+  end
+
   create_table "rewards", force: :cascade do |t|
     t.string "reward_name"
     t.integer "reward_points"
@@ -178,4 +187,6 @@ ActiveRecord::Schema.define(version: 2022_05_21_090326) do
   add_foreign_key "exercises", "library_items"
   add_foreign_key "program_trackers", "programs"
   add_foreign_key "program_trackers", "users"
+  add_foreign_key "reward_trackers", "rewards"
+  add_foreign_key "reward_trackers", "users"
 end

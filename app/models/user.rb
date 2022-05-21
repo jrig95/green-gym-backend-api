@@ -13,5 +13,8 @@ class User < ApplicationRecord
 
   has_many :program_trackers, dependent: :destroy
   has_many :programs, through: :program_trackers, dependent: :destroy
+  has_many :reward_trackers, dependent: :destroy
+  has_many :rewards, through: :reward_trackers, dependent: :destroy
+
   # validates :first_name, presence: true
 end
