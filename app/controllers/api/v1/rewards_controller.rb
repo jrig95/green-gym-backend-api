@@ -22,7 +22,7 @@ class Api::V1::RewardsController < Api::V1::BaseController
     @reward = Reward.new(reward_params)
 
     authorize @reward
-  
+
     if @reward.save!
       render :index, status: :created
     else
