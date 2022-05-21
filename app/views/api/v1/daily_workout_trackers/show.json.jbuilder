@@ -20,14 +20,3 @@ json.five_dwts @five_dwts,  :dwt_check_in, :dwt_daily_challenge, :id, :daily_wor
 # json.five_dwts @five_dwts do
 #   json.merge! hash
 # end
-
-# json.array! @five_dwts do |dwt|
-#   json.extract! dwt, :dwt_check_in, :dwt_daily_challenge, :id
-# end
-
-
-
-# json.five_dwts do
-#   json.program_tracker_id @five_dwts.program_tracker_id
-#   json.daily_workout_id @five_dwts.daily_workout_id
-# end
