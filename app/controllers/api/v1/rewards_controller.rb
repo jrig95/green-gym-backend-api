@@ -47,10 +47,6 @@ class Api::V1::RewardsController < Api::V1::BaseController
     params.require(:reward).permit(:reward_name, :reward_points, :program_id, :visible, :photo)
   end
 
-  # def set_program
-  #   @program = Program.where(id: @reward.program_id)
-  # end
-
   def render_error
     render json: { errors: @reward.errors.full_messages },
     status: :unprocessable_entity
