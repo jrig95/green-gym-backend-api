@@ -82,7 +82,7 @@ ActiveRecord::Schema.define(version: 2022_05_21_090326) do
     t.bigint "exercise_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.boolean "sumbited", default: false
+    t.boolean "submitted", default: false
     t.index ["daily_workout_tracker_id"], name: "index_exercise_trackers_on_daily_workout_tracker_id"
     t.index ["exercise_id"], name: "index_exercise_trackers_on_exercise_id"
   end

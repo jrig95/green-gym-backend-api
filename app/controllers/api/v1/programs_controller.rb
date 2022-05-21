@@ -4,6 +4,7 @@ class Api::V1::ProgramsController < Api::V1::BaseController
 
   def index
     @programs = policy_scope(Program)
+    @programs = @programs.reverse
   end
 
   def show
