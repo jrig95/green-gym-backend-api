@@ -22,6 +22,10 @@ class ProgramPolicy < ApplicationPolicy
     true
   end
 
+  def last_program?
+    true
+  end
+
   # def show?
   #   true
   # end
