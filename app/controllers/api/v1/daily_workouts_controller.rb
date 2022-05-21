@@ -9,17 +9,6 @@ class Api::V1::DailyWorkoutsController < Api::V1::BaseController
 
   def show
     # curent day = @daily_workout.day_number
-
-    @exercises = Exercise.where(daily_workout_id: @daily_workout.id)
-    puts "Here is the exercises array"
-
-    @library_items = []
-
-    @exercises.each do |exercise|
-      @library_items << exercise.library_item
-    end
-
-    @daily_workout
     #
     # @daily_workout.program_id == params[:program_id].to_i
     # [] = array daily workouts
@@ -29,9 +18,6 @@ class Api::V1::DailyWorkoutsController < Api::V1::BaseController
     #
   end
 
-  def exercises
-    @exercises = Exercise.where(daily_workout_id: @daily_workout.id)
-  end
 
   def update
     if @daily_workout.update(daily_workout_params)

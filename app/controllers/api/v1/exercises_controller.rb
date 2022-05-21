@@ -4,6 +4,12 @@ class Api::V1::ExercisesController < Api::V1::BaseController
 
   def index
     @exercises = policy_scope(Exercise.where(daily_workout_id: params[:daily_workout_id]))
+
+    @library_items = []
+
+    @exercises.each do |exercise|
+      @library_items << exercise.library_item
+    end
   end
 
   def show
