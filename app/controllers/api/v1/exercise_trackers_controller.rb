@@ -47,8 +47,9 @@ class Api::V1::ExerciseTrackersController < Api::V1::BaseController
     user = @exercise_tracker.daily_workout_tracker.program_tracker.user
     exercise_calories = @exercise_tracker.exercise.calories_per_exercise
     if @exercise_tracker.submitted?
+      updated_points = user.user_points + exercise_calories
       updated_calories = user.user_total_calories + exercise_calories
-      user.update(user_total_calories: updated_calories)
+      user.update(user_total_calories: updated_calories, user_points: updated_points)
     end
   end
 
