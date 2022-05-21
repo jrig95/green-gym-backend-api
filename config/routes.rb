@@ -1,7 +1,6 @@
 Rails.application.routes.draw do
   get 'private/test'
   get '/current_user', to: 'current_user#index'
-  get '/users', to: 'users#index'
 
   devise_for :users, path: '', path_names: {
         sign_in: 'login',
@@ -16,6 +15,10 @@ Rails.application.routes.draw do
 
   namespace :api, defaults: { format: :json } do
     namespace :v1 do
+      get '/users', to: 'users#index'
+      get '/users/:id', to: 'users#show'
+      patch '/users/:id', to: 'users#update'
+
       resources :programs, only: [ :index, :show, :update, :create, :destroy ] do
         resources :daily_workouts, only: [ :index, :show, :update, :create, :destroy] do
           resources :exercises, only: [ :index, :show, :update, :create, :destroy ]

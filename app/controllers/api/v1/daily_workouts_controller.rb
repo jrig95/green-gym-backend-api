@@ -8,15 +8,6 @@ class Api::V1::DailyWorkoutsController < Api::V1::BaseController
   end
 
   def show
-    byebug
-    # curent day = @daily_workout.day_number
-    #
-    # @daily_workout.program_id == params[:program_id].to_i
-    # [] = array daily workouts
-    # find dw after current program.daily_workout(where: daynumber == daily_workout.daynumber + 1)
-
-    # if there are no daily workouts before, find current dw, and next 4
-    #
   end
 
   def update
