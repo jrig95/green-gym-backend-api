@@ -1,4 +1,4 @@
-json.(@daily_workout, :id, :program_id, :day_number,:daily_challenge_title, :daily_challenge_description, :number_of_exercises)
+json.(@daily_workout, :id, :program_id, :day_number,:description, :daily_challenge_title, :daily_challenge_description, :number_of_exercises)
 
 # json.extract! @daily_workout, :id, :program_id, :day_number, :daily_challenge_title, :daily_challenge_description, :number_of_exercises
 
