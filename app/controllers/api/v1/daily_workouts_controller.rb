@@ -43,7 +43,7 @@ class Api::V1::DailyWorkoutsController < Api::V1::BaseController
   end
 
   def daily_workout_params
-    params.require(:daily_workout).permit(:program_id, :day_number, :daily_challenge_description, :daily_challenge_title, :number_of_exercises)
+    params.require(:daily_workout).permit(:program_id, :day_number, :daily_challenge_description, :daily_challenge_title, :number_of_exercises, :description)
   end
 
   def render_error
