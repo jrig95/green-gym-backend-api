@@ -12,6 +12,7 @@
 
 ActiveRecord::Schema.define(version: 2022_05_22_010151) do
 
+
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -83,7 +84,7 @@ ActiveRecord::Schema.define(version: 2022_05_22_010151) do
     t.bigint "exercise_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.boolean "sumbited", default: false
+    t.boolean "submitted", default: false
     t.index ["daily_workout_tracker_id"], name: "index_exercise_trackers_on_daily_workout_tracker_id"
     t.index ["exercise_id"], name: "index_exercise_trackers_on_exercise_id"
   end
@@ -125,6 +126,15 @@ ActiveRecord::Schema.define(version: 2022_05_22_010151) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "price"
+  end
+
+  create_table "reward_trackers", force: :cascade do |t|
+    t.bigint "reward_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["reward_id"], name: "index_reward_trackers_on_reward_id"
+    t.index ["user_id"], name: "index_reward_trackers_on_user_id"
   end
 
   create_table "rewards", force: :cascade do |t|
@@ -180,4 +190,6 @@ ActiveRecord::Schema.define(version: 2022_05_22_010151) do
   add_foreign_key "exercises", "library_items"
   add_foreign_key "program_trackers", "programs"
   add_foreign_key "program_trackers", "users"
+  add_foreign_key "reward_trackers", "rewards"
+  add_foreign_key "reward_trackers", "users"
 end

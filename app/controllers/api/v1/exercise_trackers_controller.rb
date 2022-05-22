@@ -13,9 +13,7 @@ class Api::V1::ExerciseTrackersController < Api::V1::BaseController
 
   def update
     if @exercise_tracker.update(exercise_tracker_params)
-      byebug
-      add_exercsie_calories_to_user
-      byebug
+      add_exercise_calories_to_user
       render :show
     else
       render_error
@@ -45,12 +43,13 @@ class Api::V1::ExerciseTrackersController < Api::V1::BaseController
 
   private
 
-  def add_exercsie_calories_to_user
+  def add_exercise_calories_to_user
     user = @exercise_tracker.daily_workout_tracker.program_tracker.user
     exercise_calories = @exercise_tracker.exercise.calories_per_exercise
-    # user_calories = @exercise_tracker.daily_workout_tracker.program_tracker.user.user_points
-    if @exercise_tracker.sumbited == true
-      user.user_calories += exercise_calories
+    if @exercise_tracker.submitted?
+      updated_points = user.user_points + exercise_calories
+      updated_calories = user.user_total_calories + exercise_calories
+      user.update(user_total_calories: updated_calories, user_points: updated_points)
     end
   end
 
@@ -60,7 +59,7 @@ class Api::V1::ExerciseTrackersController < Api::V1::BaseController
   end
 
   def exercise_tracker_params
-    params.require(:exercise_tracker).permit(:number_of_reps, :exercise_id, :daily_workout_tracker_id)
+    params.require(:exercise_tracker).permit(:number_of_reps, :submitted)
   end
 
   def render_error

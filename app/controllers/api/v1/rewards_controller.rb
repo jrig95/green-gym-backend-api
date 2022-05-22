@@ -22,7 +22,7 @@ class Api::V1::RewardsController < Api::V1::BaseController
     @reward = Reward.new(reward_params)
 
     authorize @reward
-  
+
     if @reward.save!
       render :index, status: :created
     else
@@ -46,10 +46,6 @@ class Api::V1::RewardsController < Api::V1::BaseController
   def reward_params
     params.require(:reward).permit(:reward_name, :reward_points, :program_id, :visible, :photo)
   end
-
-  # def set_program
-  #   @program = Program.where(id: @reward.program_id)
-  # end
 
   def render_error
     render json: { errors: @reward.errors.full_messages },
