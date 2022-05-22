@@ -10,7 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_21_171222) do
+ActiveRecord::Schema.define(version: 2022_05_22_010151) do
+
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -63,6 +64,7 @@ ActiveRecord::Schema.define(version: 2022_05_21_171222) do
     t.integer "number_of_exercises"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.text "description"
     t.index ["program_id", "day_number"], name: "dw_day_num_and_program_id_index", unique: true
     t.index ["program_id"], name: "index_daily_workouts_on_program_id"
   end
@@ -142,6 +144,7 @@ ActiveRecord::Schema.define(version: 2022_05_21_171222) do
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "program_id"
     t.boolean "visible"
+    t.string "image_url"
     t.index ["program_id"], name: "index_rewards_on_program_id"
   end
 

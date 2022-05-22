@@ -8,6 +8,7 @@ class DailyWorkout < ApplicationRecord
   validates :day_number, presence: true
   validates :daily_challenge_title, presence: true
   validates :daily_challenge_description, presence: true
+  validates :description, presence: true
   validates :number_of_exercises, presence: true
   validates :day_number, uniqueness: { scope: :program_id }
 

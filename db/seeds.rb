@@ -9,6 +9,10 @@ require 'faker'
 
 require 'open-uri'
 
+puts "************** CHECK THAT YOUR VPN IS OFF!!!! **************"
+
+puts "\n"
+
 puts 'Cleaning database...'
 puts 'Destroying LibraryItems'
 LibraryItem.destroy_all
@@ -94,6 +98,7 @@ puts 'creating Programs'
   number_of_days.times do
     daily_workout = DailyWorkout.create!(
       day_number: day_number,
+      description: Faker::Lorem.paragraph,
       daily_challenge_title: Faker::Company.buzzword,
       daily_challenge_description: Faker::Movie.quote,
       number_of_exercises: number_of_exercises,
