@@ -9,6 +9,10 @@ require 'faker'
 
 require 'open-uri'
 
+puts "************** CHECK THAT YOUR VPN IS OFF!!!! **************"
+
+puts "\n"
+
 puts 'Cleaning database...'
 puts 'Destroying LibraryItems'
 LibraryItem.destroy_all
