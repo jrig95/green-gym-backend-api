@@ -34,6 +34,11 @@ class Api::V1::DailyWorkoutsController < Api::V1::BaseController
     head :no_content
   end
 
+  def last_workout
+    @daily_workout = DailyWorkout.last
+    authorize @daily_workout
+  end
+
   private
 
   def set_daily_workout
