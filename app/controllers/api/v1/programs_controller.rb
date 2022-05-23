@@ -38,7 +38,6 @@ class Api::V1::ProgramsController < Api::V1::BaseController
   def last_program
     @program = Program.last
     authorize @program
-
   end
 
   private

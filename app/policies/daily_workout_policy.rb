@@ -30,10 +30,15 @@ class DailyWorkoutPolicy < ApplicationPolicy
   end
 
   def create?
+    
     true
   end
 
   def destroy?
+    true
+  end
+
+  def last_workout?
     true
   end
 

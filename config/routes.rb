@@ -20,6 +20,7 @@ Rails.application.routes.draw do
       patch '/users/:id', to: 'users#update'
 
       get '/last_program', to: 'programs#last_program'
+      get '/last_workout', to: 'daily_workouts#last_workout'
       post '/reward_trackers', to: 'reward_trackers#create'
       get 'reward_trackers/:id', to: 'reward_trackers#show'
       resources :programs, only: [ :index, :show, :update, :create, :destroy ] do
