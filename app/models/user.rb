@@ -17,4 +17,11 @@ class User < ApplicationRecord
   has_many :rewards, through: :reward_trackers, dependent: :destroy
 
   # validates :first_name, presence: true
+
+  before_create :set_default_avatar
+
+  def set_default_avatar
+    self.photo.attach(io: File.open(Rails.root.join('app', 'assets', 'images', 'default_avatar.jpg')), filename: 'default-avatar.jpg', content_type: 'image/jpg')
+  end
+
 end
