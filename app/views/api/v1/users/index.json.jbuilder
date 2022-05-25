@@ -4,4 +4,8 @@ json.array! @users do |user|
   if user.photo.attached?
     json.photo_url user.photo.service_url
   end
+
+  json.program_trackers user.program_trackers, :id
+  json.programs user.programs, :id, :program_title, :program_title, :program_description, :number_of_days
+
 end
