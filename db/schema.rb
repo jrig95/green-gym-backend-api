@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_22_010151) do
+ActiveRecord::Schema.define(version: 2022_05_25_023606) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -166,8 +166,8 @@ ActiveRecord::Schema.define(version: 2022_05_22_010151) do
     t.string "first_name"
     t.string "last_name"
     t.string "user_company"
-    t.integer "user_total_calories"
-    t.integer "user_points"
+    t.integer "user_total_calories", default: 0
+    t.integer "user_points", default: 0
     t.text "user_passions"
     t.string "user_gender"
     t.string "user_fitness_level"
