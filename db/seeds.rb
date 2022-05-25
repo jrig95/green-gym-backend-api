@@ -170,6 +170,9 @@ fitness_level = %w[beginner intermediate advanced]
 profile_image = URI.open('https://tse2-mm.cn.bing.net/th/id/OIP-C.XSZAFm-5JI7nriDLwZqRQQHaE7?w=278&h=184&c=7&r=0&o=5&dpr=1.25&pid=1.7')
 
 
+# t.integer "age"
+# t.string "phone_number"
+
 20.times do
   user = User.new(
     email: Faker::Internet.email,
@@ -182,6 +185,8 @@ profile_image = URI.open('https://tse2-mm.cn.bing.net/th/id/OIP-C.XSZAFm-5JI7nri
     user_passions: Faker::Movies::Lebowski.quote,
     user_gender: gender.sample,
     user_fitness_level: fitness_level.sample,
+    age: rand(18..70),
+    phone_number: Faker::PhoneNumber.cell_phone,
     admin: false
   )
 
