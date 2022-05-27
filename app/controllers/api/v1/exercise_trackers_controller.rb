@@ -20,14 +20,9 @@ class Api::V1::ExerciseTrackersController < Api::V1::BaseController
     end
   end
 
-  # adding calories to a user's calories
-  # 1) add a submit boolean to excercise tracker default false
-  # 2) define a private method that finds e_tracker.exercise.calories_per_exercise, and finds a user's total points, then adds them together.
-  # 3) when that e_tracker is updated with sumbited:true run method
-
-
   def create
     @exercise_tracker = ExerciseTracker.new(exercise_tracker_params)
+    @exercise_tracker.update(et_exercise_title: @exercise_tracker.exercise.exercise_title)
     authorize @exercise_tracker
     if @exercise_tracker.save
       render :show, status: :created
@@ -59,7 +54,7 @@ class Api::V1::ExerciseTrackersController < Api::V1::BaseController
   end
 
   def exercise_tracker_params
-    params.require(:exercise_tracker).permit(:number_of_reps, :submitted)
+    params.require(:exercise_tracker).permit(:number_of_reps, :daily_workout_tracker_id, :exercise_id, :submitted)
   end
 
   def render_error

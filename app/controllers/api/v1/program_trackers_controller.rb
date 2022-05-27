@@ -26,11 +26,11 @@ class Api::V1::ProgramTrackersController < Api::V1::BaseController
     if @program_tracker.save
 
       @daily_workouts.each do |dw|
-        @daily_workout_tracker = DailyWorkoutTracker.new(program_tracker_id: @program_tracker.id, daily_workout_id: dw.id)
+        @daily_workout_tracker = DailyWorkoutTracker.new(program_tracker_id: @program_tracker.id, daily_workout_id: dw.id, dwt_day_number: dw.day_number)
         @daily_workout_tracker.save
 
         dw.exercises.each do |exercise|
-          @exercise_tracker = ExerciseTracker.new(exercise_id: exercise.id, daily_workout_tracker_id: @daily_workout_tracker.id)
+          @exercise_tracker = ExerciseTracker.new(exercise_id: exercise.id, daily_workout_tracker_id: @daily_workout_tracker.id, et_exercise_title: exercise.exercise_title)
           @exercise_tracker.save
         end
       end

@@ -200,11 +200,11 @@ profile_image = URI.open('https://tse2-mm.cn.bing.net/th/id/OIP-C.XSZAFm-5JI7nri
   program.daily_workouts.each do |daily_workout|
     daily_workout_tracker = DailyWorkoutTracker.create!(
       program_tracker_id: program_tracker.id,
-      daily_workout_id: daily_workout.id
+      daily_workout_id: daily_workout.id, dwt_day_number: daily_workout.day_number
     )
     daily_workout.exercises.each do |exercise|
       exercise_tracker = ExerciseTracker.create!(number_of_reps: 0, daily_workout_tracker_id: daily_workout_tracker.id,
-                                                 exercise_id: exercise.id)
+                                                 exercise_id: exercise.id, et_exercise_title: exercise.exercise_title)
     end
   end
 end
