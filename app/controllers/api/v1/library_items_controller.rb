@@ -3,9 +3,15 @@ class Api::V1::LibraryItemsController < Api::V1::BaseController
   before_action :set_library_item, only: [ :show,:update, :destroy ]
 
   def index
-    @library_items = policy_scope(LibraryItem)
-    
-    @library_items = @library_items.reverse
+    if params[:query].present?
+      sql_query = " \
+        title ILIKE :query \
+      "
+      @library_items = policy_scope(LibraryItem.where(sql_query, query: "%#{params[:query]}%"))
+    else
+      @library_items = policy_scope(LibraryItem)
+      @library_items = @library_items.reverse
+    end
   end
 
   def show
