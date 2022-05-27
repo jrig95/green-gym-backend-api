@@ -9,7 +9,7 @@ require 'faker'
 
 require 'open-uri'
 
-puts "************** CHECK THAT YOUR VPN IS OFF!!!! **************"
+puts '************** CHECK THAT YOUR VPN IS OFF!!!! **************'
 
 puts "\n"
 
@@ -75,7 +75,7 @@ puts 'creating Programs'
   file = URI.open(program_images.sample)
 
   number_of_days = rand(7..30)
-  
+
   program = Program.create!(
     program_title: Faker::Company.name,
     program_description: Faker::Lorem.paragraph(sentence_count: 2, supplemental: false, random_sentences_to_add: 4),
@@ -127,11 +127,6 @@ puts 'creating Programs'
     day_number += 1
   end
 
-
-
-
-  
-
   rand(4).times do
     file = URI.open(reward_images.sample)
 
@@ -141,7 +136,7 @@ puts 'creating Programs'
       program_id: program.id,
       visible: Faker::Boolean.boolean(true_ratio: 0.5)
     )
-  
+
     reward.photo.attach(io: file, filename: 'nes.png', content_type: 'image/png')
     reward.save!
 
@@ -152,15 +147,13 @@ end
 
 puts "\n"
 
-puts 'Creating users'
-admin_user = { email: 'admin@admin.com', password: '123456', admin: true }
-normal_user = { email: 'user@user.com', password: '123456', admin: false }
-no_program_user = { email: 'nooprogram@noprogram.com', password: '123456', admin: false }
-[admin_user, normal_user, no_program_user].each do |attributes|
-  user = User.create!(attributes)
-  puts "Created user #{user.email}, admin: #{user.admin}"
-end
+puts 'Creating Admin'
 
+admin_user =
+  User.create!({ email: 'admin@admin.com', password: '123456', admin: true, first_name: 'Admin', last_name: 'Admin',
+                 user_company: 'Green Gym' })
+
+puts "Created user #{admin_user.email}, admin: #{admin_user.admin}"
 # create users
 puts 'Creating users'
 
@@ -169,9 +162,6 @@ fitness_level = %w[beginner intermediate advanced]
 
 profile_image = URI.open('https://tse2-mm.cn.bing.net/th/id/OIP-C.XSZAFm-5JI7nriDLwZqRQQHaE7?w=278&h=184&c=7&r=0&o=5&dpr=1.25&pid=1.7')
 
-
-# t.integer "age"
-# t.string "phone_number"
 
 20.times do
   user = User.new(
@@ -192,7 +182,7 @@ profile_image = URI.open('https://tse2-mm.cn.bing.net/th/id/OIP-C.XSZAFm-5JI7nri
 
   user.photo.attach(io: profile_image, filename: "#{user.first_name}.png", content_type: 'image/png')
   user.save!
-  
+
   puts "Say hello to #{user.first_name} #{user.last_name} who works for #{user.user_company}"
 
   # save a random program id so it can be reused.
@@ -223,8 +213,6 @@ puts "\n"
 
 puts 'Creating rewards....'
 puts "\n"
-
-
 
 20.times do
   file = URI.open(reward_images.sample)
