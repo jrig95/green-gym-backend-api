@@ -15,6 +15,8 @@ class User < ApplicationRecord
   has_many :programs, through: :program_trackers, dependent: :destroy
   has_many :reward_trackers, dependent: :destroy
   has_many :rewards, through: :reward_trackers, dependent: :destroy
+  has_many :daily_workout_trackers, through: :program_trackers, dependent: :destroy
+  has_many :exercise_trackers, through: :daily_workout_trackers, dependent: :destroy
 
   # validates :first_name, presence: true
 

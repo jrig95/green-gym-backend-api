@@ -3,11 +3,6 @@ json.extract! @user, :id, :email, :created_at, :updated_at, :sign_in_count, :cur
 if @user.photo.attached?
   json.photo_url @user.photo.service_url
 end
-
-json.program_trackers @user.program_trackers, :id
-
 json.programs @user.programs, :id, :program_title, :program_title, :program_description, :number_of_days
 
-# json.array! @user.program_trackers do |program_tracker|
-#   json.extract! program_tracker, :id
-# end
+json.program_trackers @user.program_trackers, :id, :daily_workout_trackers, :exercise_trackers
