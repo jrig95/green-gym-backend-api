@@ -64,4 +64,9 @@ class Api::V1::DailyWorkoutTrackersController < Api::V1::BaseController
     render json: { errors: @daily_workout_tracker.errors.full_messages },
       status: :unprocessable_entity
   end
+
+  # current day method
+  # all we are given is the user
+  # we want to see the first dwt that has not been completed
+  # dwt can have a submitted boolean?
 end
