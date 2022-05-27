@@ -9,7 +9,7 @@ require 'faker'
 
 require 'open-uri'
 
-puts "************** CHECK THAT YOUR VPN IS OFF!!!! **************"
+puts '************** CHECK THAT YOUR VPN IS OFF!!!! **************'
 
 puts "\n"
 
@@ -127,11 +127,6 @@ puts 'creating Programs'
     day_number += 1
   end
 
-
-
-
-
-
   rand(4).times do
     file = URI.open(reward_images.sample)
 
@@ -152,15 +147,13 @@ end
 
 puts "\n"
 
-puts 'Creating users'
-admin_user = { email: 'admin@admin.com', password: '123456', admin: true }
-normal_user = { email: 'user@user.com', password: '123456', admin: false }
-no_program_user = { email: 'nooprogram@noprogram.com', password: '123456', admin: false }
-[admin_user, normal_user, no_program_user].each do |attributes|
-  user = User.create!(attributes)
-  puts "Created user #{user.email}, admin: #{user.admin}"
-end
+puts 'Creating Admin'
 
+admin_user =
+  User.create!({ email: 'admin@admin.com', password: '123456', admin: true, first_name: 'Admin', last_name: 'Admin',
+                 user_company: 'Green Gym' })
+
+puts "Created user #{admin_user.email}, admin: #{admin_user.admin}"
 # create users
 puts 'Creating users'
 
@@ -182,6 +175,8 @@ profile_image = URI.open('https://tse2-mm.cn.bing.net/th/id/OIP-C.XSZAFm-5JI7nri
     user_passions: Faker::Movies::Lebowski.quote,
     user_gender: gender.sample,
     user_fitness_level: fitness_level.sample,
+    age: rand(18..70),
+    phone_number: Faker::PhoneNumber.cell_phone,
     admin: false
   )
 
@@ -218,8 +213,6 @@ puts "\n"
 
 puts 'Creating rewards....'
 puts "\n"
-
-
 
 20.times do
   file = URI.open(reward_images.sample)
