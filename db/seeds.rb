@@ -75,7 +75,7 @@ puts 'creating Programs'
   file = URI.open(program_images.sample)
 
   number_of_days = rand(7..30)
-  
+
   program = Program.create!(
     program_title: Faker::Company.name,
     program_description: Faker::Lorem.paragraph(sentence_count: 2, supplemental: false, random_sentences_to_add: 4),
@@ -130,7 +130,7 @@ puts 'creating Programs'
 
 
 
-  
+
 
   rand(4).times do
     file = URI.open(reward_images.sample)
@@ -141,7 +141,7 @@ puts 'creating Programs'
       program_id: program.id,
       visible: Faker::Boolean.boolean(true_ratio: 0.5)
     )
-  
+
     reward.photo.attach(io: file, filename: 'nes.png', content_type: 'image/png')
     reward.save!
 
@@ -187,7 +187,7 @@ profile_image = URI.open('https://tse2-mm.cn.bing.net/th/id/OIP-C.XSZAFm-5JI7nri
 
   user.photo.attach(io: profile_image, filename: "#{user.first_name}.png", content_type: 'image/png')
   user.save!
-  
+
   puts "Say hello to #{user.first_name} #{user.last_name} who works for #{user.user_company}"
 
   # save a random program id so it can be reused.
@@ -205,11 +205,11 @@ profile_image = URI.open('https://tse2-mm.cn.bing.net/th/id/OIP-C.XSZAFm-5JI7nri
   program.daily_workouts.each do |daily_workout|
     daily_workout_tracker = DailyWorkoutTracker.create!(
       program_tracker_id: program_tracker.id,
-      daily_workout_id: daily_workout.id
+      daily_workout_id: daily_workout.id, dwt_day_number: daily_workout.day_number
     )
     daily_workout.exercises.each do |exercise|
       exercise_tracker = ExerciseTracker.create!(number_of_reps: 0, daily_workout_tracker_id: daily_workout_tracker.id,
-                                                 exercise_id: exercise.id)
+                                                 exercise_id: exercise.id, et_exercise_title: exercise.exercise_title)
     end
   end
 end
