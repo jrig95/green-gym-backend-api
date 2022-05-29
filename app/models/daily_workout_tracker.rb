@@ -9,17 +9,17 @@ class DailyWorkoutTracker < ApplicationRecord
   #   @width, @length = width, length
   # end
 
-  def completed
-    dwt_check_in? || dwt_daily_challenge? || completed_exercise_trackers
-  end
+  # def completed
+  #   dwt_check_in? || dwt_daily_challenge? || completed_exercise_trackers
+  # end
 
-  def completed_exercise_trackers
-    submitted_exercise_trackers = []
-    exercise_trackers.each  do |exercise_tracker|
-      submitted_exercise_trackers << exercise_tracker.submitted
-    end
-    submitted_exercise_trackers.any?
-  end
+  # def completed_exercise_trackers
+  #   submitted_exercise_trackers = []
+  #   exercise_trackers.each  do |exercise_tracker|
+  #     submitted_exercise_trackers << exercise_tracker.submitted
+  #   end
+  #   submitted_exercise_trackers.any?
+  # end
 end
 
   # column in dwt boolean completed

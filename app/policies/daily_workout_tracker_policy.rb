@@ -35,6 +35,10 @@ class DailyWorkoutTrackerPolicy < ApplicationPolicy
     true
   end
 
+  def current_dwt?
+    true
+  end
+
   # def show?
   #   record.program_tracker.user == user || user.admin?
   # end

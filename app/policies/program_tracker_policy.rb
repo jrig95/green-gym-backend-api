@@ -31,6 +31,14 @@ class ProgramTrackerPolicy < ApplicationPolicy
     true
   end
 
+  def current_dwt?
+    true
+  end
+
+  def five_day_array?
+    true
+  end
+
   # def show?
   #   record.user == user || user.admin?
   # end
