@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_05_29_033528) do
+ActiveRecord::Schema.define(version: 2022_05_29_084658) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -52,6 +52,7 @@ ActiveRecord::Schema.define(version: 2022_05_29_033528) do
     t.boolean "dwt_daily_challenge", default: false
     t.integer "dwt_day_number"
     t.boolean "completed", default: false
+    t.float "percentage_complete", default: 0.0
     t.index ["daily_workout_id"], name: "index_daily_workout_trackers_on_daily_workout_id"
     t.index ["program_tracker_id", "daily_workout_id"], name: "dwt_id_pt_id_index", unique: true
     t.index ["program_tracker_id"], name: "index_daily_workout_trackers_on_program_tracker_id"
