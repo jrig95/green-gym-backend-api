@@ -33,6 +33,7 @@ class Api::V1::DailyWorkoutTrackersController < Api::V1::BaseController
   def update
     if @daily_workout_tracker.update(daily_workout_tracker_params)
       add_one_to_program_tracker_current_day
+      set_percentage_complete
       render :show
     else
       render_error
@@ -77,4 +78,55 @@ class Api::V1::DailyWorkoutTrackersController < Api::V1::BaseController
       program_tracker.update(current_day: current_day)
     end
   end
+
+  def set_percentage_complete
+    updated_percent = (dwt_check_in_submitted_percent + dwt_daily_challenge_submitted_percent + dwt_submitted_exercise_percent).rationalize
+    @daily_workout_tracker.update(percentage_complete: updated_percent.rationalize)
+  end
+
+  def dwt_check_in_submitted_percent
+    if @daily_workout_tracker.dwt_check_in?
+      dwt_check_in_percent = Rational( dwt_number_of_exercises, (dwt_number_of_exercises * 3))
+    else
+      dwt_check_in_percent = 0
+    end
+    return dwt_check_in_percent
+  end
+
+  def dwt_daily_challenge_submitted_percent
+    if @daily_workout_tracker.dwt_daily_challenge?
+      dwt_daily_challenge_percent = Rational( dwt_number_of_exercises, (dwt_number_of_exercises * 3))
+    else
+      dwt_daily_challenge_percent = 0
+    end
+    return dwt_daily_challenge_percent
+  end
+
+  # def dwt_submitted_exercise_percent
+  #   submitted_exercise_trackers = []
+  #   @daily_workout_tracker.exercise_trackers.each  do |exercise_tracker|
+  #     submitted_exercise_trackers << exercise_tracker if exercise_tracker.submitted?
+  #   end
+  #   dwt_exercise_percent = Rational(submitted_exercise_trackers.length, (dwt_number_of_exercises))
+  #   return ((dwt_exercise_percent)/(3)).rationalize
+  # end
+
+  def dwt_submitted_exercise_percent
+    submitted_exercise_trackers = []
+    @daily_workout_tracker.exercise_trackers.each do |exercise_tracker|
+      submitted_exercise_trackers << exercise_tracker.submitted
+    end
+    if submitted_exercise_trackers.any?
+      dwt_exercise_percent = Rational(dwt_number_of_exercises, (dwt_number_of_exercises * 3))
+    else
+      dwt_exercise_percent = 0
+    end
+    return dwt_exercise_percent
+  end
+
+
+  def dwt_number_of_exercises
+    @daily_workout_tracker.daily_workout.number_of_exercises
+  end
+
 end

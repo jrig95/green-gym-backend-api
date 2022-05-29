@@ -50,15 +50,11 @@ class Api::V1::ProgramTrackersController < Api::V1::BaseController
   end
 
   def five_day_array
-    # @five_dwts = []
     if set_current_dwt.dwt_day_number == last_day
-      # dwts.sort { |a,b| a.id <=> b.id}
       @five_dwts = dwts[(last_day-5)..(last_day-1)]
     elsif set_current_dwt.dwt_day_number > 3
-      # dwts.sort { |a,b| a.id <=> b.id}
       @five_dwts = dwts[(current_day_number-4)..(current_day_number)]
     elsif set_current_dwt.dwt_day_number == 1 || 2 || 3
-      # dwts.sort { |a,b| a.id <=> b.id}
       @five_dwts = dwts[0..4]
     end
   end
@@ -80,8 +76,8 @@ class Api::V1::ProgramTrackersController < Api::V1::BaseController
   end
 
   def set_current_dwt
-    if dwts.all? { |dwt| dwt.completed?}
-      @current_dwt = dwts.where(id: dwts.id.max)
+    if dwts.all? { |dwts| dwts.completed?}
+      @current_dwt = dwts.max
     else
       @current_dwt = dwts.detect { |dwt| dwt.completed == false}
       authorize @current_dwt
