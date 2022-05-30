@@ -1,6 +1,6 @@
 class Api::V1::ProgramTrackersController < Api::V1::BaseController
   # acts_as_token_authentication_handler_for User #, except: [ :index, :show ]
-  before_action :set_program_tracker, only: [ :show, :update, :destroy ]
+  before_action :set_program_tracker, only: [ :show, :update, :destroy, :current_dwt, :five_day_array ]
 
   def index
     @program_trackers = policy_scope(ProgramTracker)
@@ -45,6 +45,20 @@ class Api::V1::ProgramTrackersController < Api::V1::BaseController
     head :no_content
   end
 
+  def current_dwt
+    set_current_dwt
+  end
+
+  def five_day_array
+    if set_current_dwt.dwt_day_number == last_day
+      @five_dwts = dwts[(last_day-5)..(last_day-1)]
+    elsif set_current_dwt.dwt_day_number > 3
+      @five_dwts = dwts[(current_day_number-4)..(current_day_number)]
+    elsif set_current_dwt.dwt_day_number == 1 || 2 || 3
+      @five_dwts = dwts[0..4]
+    end
+  end
+
   private
 
   def set_program_tracker
@@ -61,5 +75,25 @@ class Api::V1::ProgramTrackersController < Api::V1::BaseController
       status: :unprocessable_entity
   end
 
+  def set_current_dwt
+    if dwts.all? { |dwts| dwts.completed?}
+      @current_dwt = dwts.max
+    else
+      @current_dwt = dwts.detect { |dwt| dwt.completed == false}
+      authorize @current_dwt
+    end
+  end
 
+  def dwts
+    dwts = @program_tracker.daily_workout_trackers
+    dwts.sort { |a,b| a.id <=> b.id}
+  end
+
+  def current_day_number
+    set_current_dwt.dwt_day_number
+  end
+
+  def last_day
+    @program_tracker.program.number_of_days
+  end
 end
