@@ -22,6 +22,14 @@ class Api::V1::UsersController < Api::V1::BaseController
   end
 
   def show
+    @program_trackers = @user.program_trackers
+    @program_trackers.each do |program_tracker|
+      @daily_workout_trackers = program_tracker.daily_workout_trackers.sort { |a, b| a.id <=> b.id }
+      @daily_workout_trackers.each do |dwt|
+        @exercise_trackers = dwt.exercise_trackers.sort { |a, b| a.id <=> b.id }
+        dwt.exercise_trackers << @exercise_trackers
+      end
+    end
   end
 
   def update

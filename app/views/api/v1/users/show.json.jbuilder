@@ -3,6 +3,12 @@ json.extract! @user, :id, :email, :created_at, :updated_at, :sign_in_count, :cur
 if @user.photo.attached?
   json.photo_url @user.photo.service_url
 end
-json.programs @user.programs, :id, :program_title, :program_title, :program_description, :number_of_days
+# json.programs @user.programs, :id, :program_title, :program_title, :program_description, :number_of_days
 
-json.program_trackers @user.program_trackers, :id, :daily_workout_trackers, :exercise_trackers
+# json.program_trackers @user.program_trackers, :id, :daily_workout_trackers, :exercise_trackers
+
+
+json.daily_workout_trackers @daily_workout_trackers, :id, :daily_workout_id, :dwt_check_in, :dwt_daily_challenge, :completed, :dwt_day_number, :percentage_complete, :exercise_trackers
+
+
+# json.exercise_trackers @exercise_trackers, :id, :number_of_reps, :submitted
