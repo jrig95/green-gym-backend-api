@@ -4,8 +4,7 @@ class Api::V1::ExerciseTrackersController < Api::V1::BaseController
 
   def index
     @exercise_trackers = policy_scope(ExerciseTracker.where(daily_workout_tracker_id: params[:daily_workout_tracker_id]))
-    # @daily_workouts = policy_scope(DailyWorkout.where(program_id: params[:program_id]))
-
+    @exercise_trackers = @exercise_trackers.sort { |a, b| a.id <=> b.id }
   end
 
   def show
@@ -14,7 +13,7 @@ class Api::V1::ExerciseTrackersController < Api::V1::BaseController
   def update
     if @exercise_tracker.update(exercise_tracker_params)
       add_exercise_calories_to_user
-      # add_submited_to_dwt_percent
+      # add_submitted_to_dwt_percent
       render :show
     else
       render_error
@@ -49,12 +48,22 @@ class Api::V1::ExerciseTrackersController < Api::V1::BaseController
     end
   end
 
-  # def add_submited_to_dwt_percent
+  # def add_submitted_to_dwt_percent
   #   @daily_workout_tracker = @exercise_tracker.daily_workout_tracker
-  #   number_of_total_exercises = @daily_workout_tracker.daily_workout.number_of_exercises
-  #   current_dwt_percent_completed = @exercise_tracker.daily_workout_tracker.percentage_complete
-  #   updated_dwt_percent_completed = ((1.0/number_of_total_exercises.to_f)/3) + current_dwt_percent_completed
-  #   @daily_workout_tracker.update(percentage_complete: updated_dwt_percent_completed.round(2))
+  #   original_dwt_percent = @daily_workout_tracker.percentage_complete
+  #   submitted_exercise_trackers = []
+  #   @daily_workout_tracker.exercise_trackers.each do |e_t|
+  #     submitted_exercise_trackers << e_t.submitted
+  #   end
+  #   if submitted_exercise_trackers.any? && submitted_exercise_trackers.count(true == 1)
+  #     submitted_exercise_percent = Rational(1, 3)
+  #     updated_percent = original_dwt_percent + submitted_exercise_percent
+  #     @daily_workout_tracker.update(percentage_complete: updated_percent)
+  #   else
+  #     submitted_exercise_percent = 0
+  #     updated_percent = original_dwt_percent + submitted_exercise_percent
+  #     @daily_workout_tracker.update(percentage_complete: updated_percent)
+  #   end
   # end
 
   def set_exercise_tracker
