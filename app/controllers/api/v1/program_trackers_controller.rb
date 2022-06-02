@@ -78,7 +78,7 @@ class Api::V1::ProgramTrackersController < Api::V1::BaseController
   end
 
   def program_tracker_params
-    params.require(:program_tracker).permit(:program_id, :user_id)
+    params.require(:program_tracker).permit(:program_id, :user_id, :current_day)
   end
 
   def render_error
