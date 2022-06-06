@@ -66,3 +66,6 @@ gem 'image_processing'
 
 # for saving images/videos
 gem 'open-uri'
+
+# to test if action mailer works in development
+gem 'letter_opener', group: :development

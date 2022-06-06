@@ -10,10 +10,12 @@ class Api::V1::RewardTrackersController < Api::V1::BaseController
     authorize @reward_tracker
     if @reward_tracker.user.user_points >= @reward_tracker.reward.reward_points && @reward_tracker.save!
       deduct_user_points
+      mail = RewardTrackerMailer.with(reward_tracker: @reward_tracker).redeem_reward
+      mail.deliver_now
       render :show, status: :created
     else
-      puts "Didn't save"
-      render error
+      render_error
+      # puts "reward points greater than your current points"
     end
   end
 

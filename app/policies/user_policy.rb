@@ -22,6 +22,10 @@ class UserPolicy < ApplicationPolicy
     true
   end
 
+  def update_password?
+    true
+  end
+
   # def show?
     # matches_user || user.admin?
   # end

@@ -4,7 +4,7 @@ class Api::V1::UsersController < Api::V1::BaseController
   # before_action :authenticate_user!
 
   # acts_as_token_authentication_handler_for User
-  before_action :set_user, only: [ :show,:update ]
+  before_action :set_user, only: [ :show, :update, :update_password ]
 
   def index
     if params[:query].present?
@@ -22,6 +22,31 @@ class Api::V1::UsersController < Api::V1::BaseController
   end
 
   def show
+    # @program_trackers = @user.program_trackers
+    # @program_trackers.each do |program_tracker|
+    #   @daily_workout_trackers = program_tracker.daily_workout_trackers.sort { |a, b| a.id <=> b.id }
+      # @daily_workout_trackers.each do |dwt|
+      #   @exercise_trackers = dwt.exercise_trackers.sort { |a, b| a.id <=> b.id }
+      #   dwt.exercise_trackers << @exercise_trackers
+      # end
+    # end
+  end
+
+
+
+
+  # def edit
+  #   @user = current_user
+  # end
+
+  def update_password
+    if @user.update(user_params)
+      # Sign in the user by passing validation in case their password changed
+      bypass_sign_in(@user)
+      render :show
+    else
+      render "edit"
+    end
   end
 
   def update
@@ -36,11 +61,12 @@ class Api::V1::UsersController < Api::V1::BaseController
 
   def set_user
     @user = User.find(params[:id])
+    # @user = current_user
     authorize @user
   end
 
   def user_params
-    params.require(:user).permit(:first_name, :last_name, :user_company, :user_total_calories, :user_points, :user_gender, :user_fitness_level, :photo, :email, :age, :phone_number, :user_passions)
+    params.require(:user).permit(:first_name, :last_name, :user_company, :user_total_calories, :user_points, :user_gender, :user_fitness_level, :photo, :email, :age, :phone_number, :user_passions, :password, :password_confirmation)
   end
 
   def render_error

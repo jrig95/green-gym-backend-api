@@ -7,6 +7,17 @@ class Api::V1::ProgramTrackersController < Api::V1::BaseController
   end
 
   def show
+    @daily_workout_trackers = @program_tracker.daily_workout_trackers
+    @daily_workout_trackers = @daily_workout_trackers.sort { |a, b| a.id <=> b.id }
+    @daily_workout_trackers.each do |dwt|
+      @exercise_trackers = dwt.exercise_trackers.sort { |a, b| a.id <=> b.id }
+    end
+
+    # @daily_workout_trackers = @program_tracker.sort_dwts
+    # @daily_workout_trackers.each do |dwt|
+    #   dwt.sort_ets
+    # end
+
   end
 
   def update
@@ -53,7 +64,7 @@ class Api::V1::ProgramTrackersController < Api::V1::BaseController
     if set_current_dwt.dwt_day_number == last_day
       @five_dwts = dwts[(last_day-5)..(last_day-1)]
     elsif set_current_dwt.dwt_day_number > 3
-      @five_dwts = dwts[(current_day_number-4)..(current_day_number)]
+      @five_dwts = dwts[(set_current_dwt.dwt_day_number-4)..(set_current_dwt.dwt_day_number)]
     elsif set_current_dwt.dwt_day_number == 1 || 2 || 3
       @five_dwts = dwts[0..4]
     end
@@ -67,7 +78,7 @@ class Api::V1::ProgramTrackersController < Api::V1::BaseController
   end
 
   def program_tracker_params
-    params.require(:program_tracker).permit(:program_id, :user_id)
+    params.require(:program_tracker).permit(:program_id, :user_id, :current_day)
   end
 
   def render_error
@@ -87,10 +98,6 @@ class Api::V1::ProgramTrackersController < Api::V1::BaseController
   def dwts
     dwts = @program_tracker.daily_workout_trackers
     dwts.sort { |a,b| a.id <=> b.id}
-  end
-
-  def current_day_number
-    set_current_dwt.dwt_day_number
   end
 
   def last_day
