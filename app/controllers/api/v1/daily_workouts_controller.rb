@@ -8,6 +8,8 @@ class Api::V1::DailyWorkoutsController < Api::V1::BaseController
   end
 
   def show
+    @exercise_overviews = @daily_workout.exercise_overviews.sort { |a, b| a.id <=> b.id }
+    @exercises = @daily_workout.exercises.sort { |a, b| a.id <=> b.id }
   end
 
   def update

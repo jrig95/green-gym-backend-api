@@ -1,25 +1,24 @@
 class Api::V1::ProgramTrackersController < Api::V1::BaseController
-  # acts_as_token_authentication_handler_for User #, except: [ :index, :show ]
+  # before_action :authenticate_user!
+  # acts_as_token_authentication_handler_for User , except: [ :index, :show ]
+
   before_action :set_program_tracker, only: [ :show, :update, :destroy, :current_dwt, :five_day_array ]
 
   def index
     @program_trackers = policy_scope(ProgramTracker)
   end
 
+  # program tracker show endpoint should return program_tracker, program, user, dwt data in order
+  # Maybe does not need to return et data. Currently returns et data but no in the right order after an et is updated
   def show
     @daily_workout_trackers = @program_tracker.daily_workout_trackers
     @daily_workout_trackers = @daily_workout_trackers.sort { |a, b| a.id <=> b.id }
     @daily_workout_trackers.each do |dwt|
       @exercise_trackers = dwt.exercise_trackers.sort { |a, b| a.id <=> b.id }
     end
-
-    # @daily_workout_trackers = @program_tracker.sort_dwts
-    # @daily_workout_trackers.each do |dwt|
-    #   dwt.sort_ets
-    # end
-
   end
 
+  # should not need to use a update for Program_Trackers
   def update
     if @program_tracker.update(program_tracker_params)
       render :show
@@ -28,6 +27,7 @@ class Api::V1::ProgramTrackersController < Api::V1::BaseController
     end
   end
 
+  # When a program tracker is created, the nested dwts and ets are also created
   def create
     @program_tracker = ProgramTracker.new(program_tracker_params)
     @daily_workouts = @program_tracker.program.daily_workouts
@@ -35,11 +35,13 @@ class Api::V1::ProgramTrackersController < Api::V1::BaseController
     authorize @program_tracker
     authorize @daily_workouts
     if @program_tracker.save
-
+      # iterate over the daily_workouts in the program_tracker.program
+      # creates a dwt using the program_tracker.id, dw.id, and dw.day_number
       @daily_workouts.each do |dw|
         @daily_workout_tracker = DailyWorkoutTracker.new(program_tracker_id: @program_tracker.id, daily_workout_id: dw.id, dwt_day_number: dw.day_number)
         @daily_workout_tracker.save
-
+        # iterates over each exercise in a daily_workout
+        # creates an et using the dwt.id and exercise id
         dw.exercises.each do |exercise|
           @exercise_tracker = ExerciseTracker.new(exercise_id: exercise.id, daily_workout_tracker_id: @daily_workout_tracker.id, et_exercise_title: exercise.exercise_title)
           @exercise_tracker.save
@@ -56,8 +58,27 @@ class Api::V1::ProgramTrackersController < Api::V1::BaseController
     head :no_content
   end
 
+
+  def dwts
+    dwts = @program_tracker.daily_workout_trackers
+    dwts.sort { |a,b| a.id <=> b.id}
+  end
+
+  def last_day
+    @program_tracker.program.number_of_days
+  end
+
   def current_dwt
     set_current_dwt
+  end
+
+  def set_current_dwt
+    if dwts.all? { |dwts| dwts.completed?}
+      @current_dwt = dwts.max
+    else
+      @current_dwt = dwts.detect { |dwt| dwt.completed == false}
+    end
+    authorize @current_dwt
   end
 
   def five_day_array
@@ -84,23 +105,5 @@ class Api::V1::ProgramTrackersController < Api::V1::BaseController
   def render_error
     render json: { errors: @program_tracker.errors.full_messages },
       status: :unprocessable_entity
-  end
-
-  def set_current_dwt
-    if dwts.all? { |dwts| dwts.completed?}
-      @current_dwt = dwts.max
-    else
-      @current_dwt = dwts.detect { |dwt| dwt.completed == false}
-      authorize @current_dwt
-    end
-  end
-
-  def dwts
-    dwts = @program_tracker.daily_workout_trackers
-    dwts.sort { |a,b| a.id <=> b.id}
-  end
-
-  def last_day
-    @program_tracker.program.number_of_days
   end
 end
