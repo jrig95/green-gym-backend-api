@@ -3,36 +3,21 @@ class Api::V1::DailyWorkoutTrackersController < Api::V1::BaseController
   before_action :set_daily_workout_tracker, only: [ :show, :update, :destroy ]
 
   def index
+    # this policy_scope limits the daily_workout_trackers to only the ones that belong to the program_tracker_id in the params
     @daily_workout_trackers = policy_scope(DailyWorkoutTracker.where(program_tracker_id: params[:program_tracker_id]))
-    # puts @daily_workout_trackers.class
-    @daily_workout_trackers = @daily_workout_trackers.sort { |a, b| a.id <=> b.id }
 
     # need to sort dwts by id lowest to greatest
+    @daily_workout_trackers = @daily_workout_trackers.sort { |a, b| a.id <=> b.id }
   end
 
   def show
-    # daily_workout_trackers = @daily_workout_tracker.program_tracker.daily_workout_trackers
-    # daily_workout_trackers.each do |dwt|
-    #   dwt.daily_workout.day_number
-    # end
-
-    # current_day = @daily_workout_tracker
-    # current_day_number = @daily_workout_tracker.daily_workout.day_number
-    # last_day = current_day.daily_workout.program.number_of_days
-
-    # @five_dwts = []
-    # if current_day.daily_workout.day_number == last_day
-    #   @five_dwts = daily_workout_trackers[(last_day - 5)..(last_day - 1)]
-    # elsif current_day.daily_workout.day_number > 3
-    #   @five_dwts = daily_workout_trackers[(current_day_number - 4)..current_day_number]
-    # elsif current_day.daily_workout.day_number == 1 || 2 || 3
-    #  @five_dwts = daily_workout_trackers[0..4]
-    # end
   end
 
   def update
     if @daily_workout_tracker.update(daily_workout_tracker_params)
+      # updates current day index
       add_one_to_program_tracker_current_day
+      # updates the current dwt percent completed based on check_in, challenge, and exercises completed
       set_percentage_complete
       render :show
     else
@@ -40,6 +25,7 @@ class Api::V1::DailyWorkoutTrackersController < Api::V1::BaseController
     end
   end
 
+  # dwt create should not be used
   def create
     @daily_workout_tracker = DailyWorkoutTracker.new(daily_workout_tracker_params)
     authorize @daily_workout_tracker
@@ -50,6 +36,7 @@ class Api::V1::DailyWorkoutTrackersController < Api::V1::BaseController
     end
   end
 
+  # dwt destroy should not be used
   def destroy
     @daily_workout_tracker.destroy
     head :no_content
@@ -62,6 +49,7 @@ class Api::V1::DailyWorkoutTrackersController < Api::V1::BaseController
     authorize @daily_workout_tracker
   end
 
+  # We probably do not need program_tracker_id and daily_workout_id
   def daily_workout_tracker_params
     params.require(:daily_workout_tracker).permit(:dwt_check_in, :dwt_daily_challenge, :completed, :exercises_completed, :program_tracker_id, :daily_workout_id)
   end
@@ -71,6 +59,7 @@ class Api::V1::DailyWorkoutTrackersController < Api::V1::BaseController
       status: :unprocessable_entity
   end
 
+  # adds one to the program_tracker.current_day when a dwt is completed.true
   def add_one_to_program_tracker_current_day
     program_tracker = @daily_workout_tracker.program_tracker
     if @daily_workout_tracker.completed?
@@ -79,11 +68,13 @@ class Api::V1::DailyWorkoutTrackersController < Api::V1::BaseController
     end
   end
 
+  # updates the dwt.percentage complete based on check_in, daily_challenge, and exercises
   def set_percentage_complete
     updated_percent = (dwt_check_in_submitted_percent + dwt_daily_challenge_submitted_percent + dwt_submitted_exercise_percent).rationalize
     @daily_workout_tracker.update(percentage_complete: updated_percent.rationalize)
   end
 
+  # Checks if dwt.check_in true? If true sets dwt_check_in percent to 1/3...else sets it as 0
   def dwt_check_in_submitted_percent
     if @daily_workout_tracker.dwt_check_in?
       dwt_check_in_percent = Rational( dwt_number_of_exercises, (dwt_number_of_exercises * 3))
@@ -93,6 +84,7 @@ class Api::V1::DailyWorkoutTrackersController < Api::V1::BaseController
     return dwt_check_in_percent
   end
 
+  # Checks if dwt.daliy_challenge true? If true sets dwt_check_in percent to 1/3...else sets it as 0
   def dwt_daily_challenge_submitted_percent
     if @daily_workout_tracker.dwt_daily_challenge?
       dwt_daily_challenge_percent = Rational( dwt_number_of_exercises, (dwt_number_of_exercises * 3))
@@ -102,6 +94,7 @@ class Api::V1::DailyWorkoutTrackersController < Api::V1::BaseController
     return dwt_daily_challenge_percent
   end
 
+  # Checks if dwt.exercises_completed true? If true sets dwt_check_in percent to 1/3...else sets it as 0
   def dwt_submitted_exercise_percent
     if @daily_workout_tracker.exercises_completed?
       dwt_exercises_percent = Rational( dwt_number_of_exercises, (dwt_number_of_exercises * 3))
@@ -111,31 +104,10 @@ class Api::V1::DailyWorkoutTrackersController < Api::V1::BaseController
     return dwt_exercises_percent
   end
 
-  # def dwt_submitted_exercise_percent
-  #   submitted_exercise_trackers = []
-  #   @daily_workout_tracker.exercise_trackers.each  do |exercise_tracker|
-  #     submitted_exercise_trackers << exercise_tracker if exercise_tracker.submitted?
-  #   end
-  #   dwt_exercise_percent = Rational(submitted_exercise_trackers.length, (dwt_number_of_exercises))
-  #   return ((dwt_exercise_percent)/(3)).rationalize
-  # end
-
-  # def dwt_submitted_exercise_percent
-  #   submitted_exercise_trackers = []
-  #   @daily_workout_tracker.exercise_trackers.each do |exercise_tracker|
-  #     submitted_exercise_trackers << exercise_tracker.submitted
-  #   end
-  #   if submitted_exercise_trackers.any?
-  #     dwt_exercise_percent = Rational(dwt_number_of_exercises, (dwt_number_of_exercises * 3))
-  #   else
-  #     dwt_exercise_percent = 0
-  #   end
-  #   return dwt_exercise_percent
-  # end
-
-
+  # finds the number of exercises in a daily workout tracker.
+  # This method is used in case we want to get a more accurate percentage completed.
+  # For example completing the first exercise in a dwt will add 6%, completing the second exercise will addd another 6%...and so on
   def dwt_number_of_exercises
     @daily_workout_tracker.daily_workout.number_of_exercises
   end
-
 end
