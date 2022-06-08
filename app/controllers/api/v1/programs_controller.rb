@@ -13,7 +13,7 @@ class Api::V1::ProgramsController < Api::V1::BaseController
 
   def update
     if @program.update(program_params)
-      render :show
+      # render :show
     else
       render_error
     end
@@ -21,8 +21,6 @@ class Api::V1::ProgramsController < Api::V1::BaseController
 
   def create
     @program = Program.new(program_params)
-    # Creates a ProgramTracker between the admin and the newly created program
-    # @program.users << User.where(admin: true)
     authorize @program
     if @program.save
       render :show, status: :created
