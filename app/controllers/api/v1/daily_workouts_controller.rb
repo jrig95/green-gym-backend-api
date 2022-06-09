@@ -14,7 +14,7 @@ class Api::V1::DailyWorkoutsController < Api::V1::BaseController
 
   def update
     if @daily_workout.update(daily_workout_params)
-      render :show
+      # render :show
     else
       render_error
     end

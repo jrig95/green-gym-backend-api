@@ -8,7 +8,7 @@ class Api::V1::ProgramsController < Api::V1::BaseController
   end
 
   def show
-    @daily_workouts = @program.daily_workouts.sort { |a, b| a.id <=> b.id }
+      @daily_workouts = @program.daily_workouts.sort { |a, b| a.id <=> b.id }
   end
 
   def update
