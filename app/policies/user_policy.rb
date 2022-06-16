@@ -26,6 +26,14 @@ class UserPolicy < ApplicationPolicy
     true
   end
 
+  def forgot_password?
+    true
+  end
+
+  def reset_password?
+      true
+  end
+
   # def show?
     # matches_user || user.admin?
   # end
