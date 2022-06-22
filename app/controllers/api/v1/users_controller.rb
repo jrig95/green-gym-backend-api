@@ -57,6 +57,30 @@ class Api::V1::UsersController < Api::V1::BaseController
     end
   end
 
+  def forgot_password
+    email = params[:user][:email]
+    @user = User.find_by(email: email)
+    @user.send_reset_password_instructions
+    if @user.send_reset_password_instructions
+      reset_password_token = @user.reset_password_token
+      @user.reset_password_token = reset_password_token[0, 6]
+      @user.save!
+      authorize @user
+    else
+      render_error
+    end
+  end
+
+  def reset_password
+    token = params[:user][:reset_password_token]
+    @user = User.find_by(reset_password_token: token)
+    new_password = params[:user][:new_password]
+    new_password_confirmation = params[:user][:new_password_confirmation]
+    @user.reset_password(new_password, new_password_confirmation)
+    authorize @user
+  end
+
+
   private
 
   def set_user
@@ -66,7 +90,7 @@ class Api::V1::UsersController < Api::V1::BaseController
   end
 
   def user_params
-    params.require(:user).permit(:first_name, :last_name, :user_company, :user_total_calories, :user_points, :user_gender, :user_fitness_level, :photo, :email, :age, :phone_number, :user_passions, :password, :password_confirmation)
+    params.require(:user).permit(:first_name, :last_name, :user_company, :user_total_calories, :user_points, :user_gender, :user_fitness_level, :photo, :email, :age, :phone_number, :user_passions, :password, :password_confirmation, :reset_password_token, :new_password, :new_password_confirmation)
   end
 
   def render_error
