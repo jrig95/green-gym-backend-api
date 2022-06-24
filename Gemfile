@@ -69,3 +69,6 @@ gem 'open-uri'
 
 # to test if action mailer works in development
 gem 'letter_opener', group: :development
+
+gem 'activemodel-serializers-xml'
+gem 'active_model_serializers'
