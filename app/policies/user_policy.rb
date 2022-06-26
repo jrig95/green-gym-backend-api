@@ -2,16 +2,16 @@ class UserPolicy < ApplicationPolicy
   class Scope < Scope
     # NOTE: Be explicit about which records you allow access to!
     # uncomment below when we want to limit scope to only admin
-    # def resolve
-    #   if user.admin?
-    #     scope.all
-    #   end
-    # end
+    def resolve
+      if user.admin?
+        scope.all
+      end
+    end
 
     # comment below when we want to limit scope to only admin
-    def resolve
-      scope.all
-    end
+    # def resolve
+    #   scope.all
+    # end
   end
 
   def show?
