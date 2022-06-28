@@ -2,56 +2,44 @@ class ProgramTrackerPolicy < ApplicationPolicy
   class Scope < Scope
     # NOTE: Be explicit about which records you allow access to!
     def resolve
-      scope.all
+      if user.admin?
+        scope.all
+      else
+        scope.where(user_id: user.id)
+      end
     end
   end
 
-  #   def resolve
-  #     if user.admin?
-  #       scope.all
-  #     else
-  #       scope.where(user_id: user.id)
-  #     end
-  #   end
-  # end
+
 
   def show?
-    true
+    matches_user || user.admin?
   end
 
   def update?
-    true
+    user.admin?
   end
 
   def create?
-    true
+    user.admin?
   end
 
   def destroy?
-    true
+    user.admin?
   end
 
   def current_dwt?
-    true
+    matches_user || user.admin?
   end
 
   def five_day_array?
-    true
+    matches_user || user.admin?
   end
 
-  # def show?
-  #   record.user == user || user.admin?
-  # end
+  private
 
-  # def update?
-  #   user.admin?
-  # end
+  def matches_user
+    record.user == user
+  end
 
-  # def create?
-  #   user.admin?
-  # end
-
-  # def destroy?
-  #   user.admin?
-  # end
 end

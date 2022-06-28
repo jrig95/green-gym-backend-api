@@ -1,5 +1,6 @@
 class Api::V1::ProgramsController < Api::V1::BaseController
   # acts_as_token_authentication_handler_for User, except: [ :index, :show ]
+  before_action :authenticate_user!, except: [:index, :show, :last_program]
   before_action :set_program, only: [ :show,:update, :destroy ]
 
   def index
@@ -8,7 +9,7 @@ class Api::V1::ProgramsController < Api::V1::BaseController
   end
 
   def show
-      @daily_workouts = @program.daily_workouts.sort { |a, b| a.id <=> b.id }
+    @daily_workouts = @program.daily_workouts.sort { |a, b| a.id <=> b.id }
   end
 
   def update

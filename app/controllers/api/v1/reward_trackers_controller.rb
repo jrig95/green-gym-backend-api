@@ -1,5 +1,6 @@
 class Api::V1::RewardTrackersController < Api::V1::BaseController
   # acts_as_token_authentication_handler_for User #, except: [ :index, :show ]
+  before_action :authenticate_user!
   before_action :set_reward_tracker, only: [ :show]
 
   def show
@@ -41,5 +42,4 @@ class Api::V1::RewardTrackersController < Api::V1::BaseController
     render json: { errors: @reward_tracker.errors.full_messages },
     status: :unprocessable_entity
   end
-
 end

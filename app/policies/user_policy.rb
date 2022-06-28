@@ -7,23 +7,18 @@ class UserPolicy < ApplicationPolicy
         scope.all
       end
     end
-
-    # comment below when we want to limit scope to only admin
-    # def resolve
-    #   scope.all
-    # end
   end
 
   def show?
-    true
+    matches_user || user.admin?
   end
 
   def update?
-    true
+    matches_user || user.admin?
   end
 
   def update_password?
-    true
+    matches_user || user.admin?
   end
 
   def forgot_password?
@@ -31,20 +26,12 @@ class UserPolicy < ApplicationPolicy
   end
 
   def reset_password?
-      true
+    true
   end
 
-  # def show?
-    # matches_user || user.admin?
-  # end
+  private
 
-  # def update?
-  #   matches_user || user.admin?
-  # end
-
-  #   private
-
-  # def matches_user
-  #   record.daily_workout.program_id.in?(user.program_ids)
-  # end
+  def matches_user
+    record == user
+  end
 end
