@@ -1,6 +1,5 @@
 class Api::V1::ProgramTrackersController < Api::V1::BaseController
-  # before_action :authenticate_user!
-  # acts_as_token_authentication_handler_for User , except: [ :index, :show ]
+  before_action :authenticate_user!
 
   before_action :set_program_tracker, only: [ :show, :update, :destroy, :current_dwt, :five_day_array ]
 
@@ -21,7 +20,7 @@ class Api::V1::ProgramTrackersController < Api::V1::BaseController
   # should not need to use a update for Program_Trackers
   def update
     if @program_tracker.update(program_tracker_params)
-      render :show
+      # render :show
     else
       render_error
     end
@@ -47,7 +46,7 @@ class Api::V1::ProgramTrackersController < Api::V1::BaseController
           @exercise_tracker.save
         end
       end
-      render :show, status: :created
+      # render :show, status: :created
     else
       render_error
     end

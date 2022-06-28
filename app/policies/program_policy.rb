@@ -10,35 +10,19 @@ class ProgramPolicy < ApplicationPolicy
     true
   end
 
-  def update?
-    true
-  end
-
-  def create?
-    true
-  end
-
-  def destroy?
-    true
-  end
-
   def last_program?
     true
   end
 
-  # def show?
-  #   true
-  # end
+  def update?
+    user.admin?
+  end
 
-  # def update?
-  #   user.admin?
-  # end
+  def create?
+    user.admin?
+  end
 
-  # def create?
-  #   user.admin?
-  # end
-
-  # def destroy?
-  #   user.admin?
-  # end
+  def destroy?
+    user.admin?
+  end
 end

@@ -1,30 +1,18 @@
 class RewardTrackerPolicy < ApplicationPolicy
   class Scope < Scope
     # NOTE: Be explicit about which records you allow access to!
-    # def resolve
-    #   scope.all
-    # end
+    def resolve
+      if user.admin?
+        scope.all
+      end
+    end
   end
 
   def show?
-    true
+    user.admin?
   end
 
   def create?
-    true
+    user.admin?
   end
-
-  # def show?
-  #   user.admin? || matches_user
-  # end
-
-  # def create?
-  #   user.admin? || matches_user
-  # end
-
-  # private
-
-  # def matches_user
-  #   record.user == user
-  # end
 end

@@ -3,55 +3,33 @@ class DailyWorkoutTrackerPolicy < ApplicationPolicy
     # NOTE: Be explicit about which records you allow access to!
 
     def resolve
-      scope.all
+      if user.admin?
+        scope.all
+      else
+        scope.where(program_tracker_id: user.program_tracker_ids)
+      end
     end
   end
 
-  #   def resolve
-  #     if user.admin?
-  #       scope.all
-  #     else
-  #       scope.where(program_tracker_id: user.program_tracker_ids)
-  #     end
-  #   end
-  # end
-  def five_day_array?
-    true
-  end
-
   def show?
-    true
+    matches_user || user.admin?
   end
 
   def update?
-    true
+    matches_user || user.admin?
   end
 
   def create?
-    true
+    user.admin?
   end
 
   def destroy?
-    true
+    user.admin?
   end
 
-  def current_dwt?
-    true
+  private
+
+  def matches_user
+    record.program_tracker.user == user
   end
-
-  # def show?
-  #   record.program_tracker.user == user || user.admin?
-  # end
-
-  # def update?
-  #   record.program_tracker.user == user || user.admin?
-  # end
-
-  # def create?
-  #   record.program_tracker.user == user || user.admin?
-  # end
-
-  # def destroy?
-  #   user.admin?
-  # end
 end

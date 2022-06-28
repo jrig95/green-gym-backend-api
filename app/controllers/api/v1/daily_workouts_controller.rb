@@ -1,5 +1,5 @@
 class Api::V1::DailyWorkoutsController < Api::V1::BaseController
-
+  before_action :authenticate_user!, except: [:last_workout]
   # acts_as_token_authentication_handler_for User  #, except: [ :index, :show ]
   before_action :set_daily_workout, only: [ :show,:update, :destroy, :exercises ]
 
