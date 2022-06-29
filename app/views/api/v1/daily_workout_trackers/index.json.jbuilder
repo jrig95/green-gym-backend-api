@@ -3,3 +3,4 @@ json.array! @daily_workout_trackers do |daily_workout_tracker|
 end
 
 # this is a random comment
+#new random comment
