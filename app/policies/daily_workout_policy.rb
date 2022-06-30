@@ -22,7 +22,7 @@ class DailyWorkoutPolicy < ApplicationPolicy
   end
 
   def show?
-    matches_user || user.admin?
+    true
   end
 
   def update?
