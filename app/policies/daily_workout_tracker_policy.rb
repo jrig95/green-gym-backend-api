@@ -27,6 +27,14 @@ class DailyWorkoutTrackerPolicy < ApplicationPolicy
     user.admin?
   end
 
+  def current_dwt?
+    matches_user || user.admin?
+  end
+
+  def five_day_array?
+    matches_user || user.admin?
+  end
+
   private
 
   def matches_user
