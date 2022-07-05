@@ -9,7 +9,7 @@ class RewardTrackerMailer < ApplicationMailer
     @reward_tracker = params[:reward_tracker] # Instance variable => available in view
     @reward = @reward_tracker.reward
     @user = @reward_tracker.user
-    mail(to: 'admin@admin.com', subject: 'User has redeemed a reward')
+    mail(to: 'sean01@dtd-edu.cn', subject: 'User has redeemed a reward')
 
     # This will render a view in `app/views/user_mailer`!
   end
