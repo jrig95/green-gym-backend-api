@@ -9,10 +9,16 @@ class RewardTrackerPolicy < ApplicationPolicy
   end
 
   def show?
-    user.admin?
+    matches_user || user.admin?
   end
 
   def create?
-    user.admin?
+    matches_user || user.admin?
+  end
+
+  private
+
+  def matches_user
+    record.user == user
   end
 end

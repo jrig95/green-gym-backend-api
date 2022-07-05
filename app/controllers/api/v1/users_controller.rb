@@ -22,6 +22,10 @@ class Api::V1::UsersController < Api::V1::BaseController
   end
 
   def show
+    # if @user.last_sign_in_at.present?
+    #   @user.last_sign_in_at = @user.last_sign_in_at.strftime("%-d %B %Y, %-k:%Ma.m.")
+    #   @user.current_sign_in_at = @user.current_sign_in_at.strftime("%-d %B %Y, %-k:%Ma.m.")
+    # end
   end
 
   def update_password
@@ -46,7 +50,7 @@ class Api::V1::UsersController < Api::V1::BaseController
     email = params[:user][:email]
     @user = User.find_by(email: email)
     @user.send_reset_password_instructions
-    if @user.send_reset_password_instructions
+    if @user.reset_password_token.present?
       reset_password_token = @user.reset_password_token
       @user.reset_password_token = reset_password_token[0, 6]
       @user.save!

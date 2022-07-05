@@ -72,3 +72,9 @@ gem 'letter_opener', group: :development
 
 gem 'activemodel-serializers-xml'
 gem 'active_model_serializers'
+
+# for transactional emails in production
+gem 'postmark-rails'
+
+# to store the potmark api key
+gem 'dotenv-rails', groups: [:development, :test]
