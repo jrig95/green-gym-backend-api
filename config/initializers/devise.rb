@@ -18,7 +18,7 @@ Devise.setup do |config|
     jwt.revocation_requests = [
       ['DELETE', %r{^/logout$}]
     ]
-    jwt.expiration_time = 300.minutes.to_i
+    jwt.expiration_time = 1440.minutes.to_i
   end
   # The secret key used by Devise. Devise uses this key to generate
   # random tokens. Changing this key will render invalid all existing
@@ -35,7 +35,7 @@ Devise.setup do |config|
   # Configure the e-mail address which will be shown in Devise::Mailer,
   # note that it will be overwritten if you use your own mailer class
   # with default "from" parameter.
-  config.mailer_sender = 'admin@admin.com'
+  config.mailer_sender = 'sean01@dtd-edu.cn'
 
   # Configure the class responsible to send e-mails.
   # config.mailer = 'Devise::Mailer'
