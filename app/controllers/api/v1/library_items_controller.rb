@@ -1,5 +1,6 @@
 class Api::V1::LibraryItemsController < Api::V1::BaseController
   # acts_as_token_authentication_handler_for User
+  before_action :authenticate_user!
   before_action :set_library_item, only: [ :show,:update, :destroy ]
 
   def index
