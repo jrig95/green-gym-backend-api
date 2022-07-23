@@ -29,6 +29,14 @@ class UserPolicy < ApplicationPolicy
     true
   end
 
+  def send_code?
+    matches_user
+  end
+
+  def verify_code?
+    matches_user
+  end
+
   private
 
   def matches_user

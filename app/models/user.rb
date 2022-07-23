@@ -4,6 +4,9 @@ class User < ApplicationRecord
   has_one_attached :photo
   # attr_accessor :first_name, :last_name, :user_company, :user_gender, :user_fitness_level, :user_passions, :user_total_calories, :user_points, :admin
 
+  # This is for the active_model SMS OTP
+  # has_one_time_password interval: 120
+
   include Devise::JWT::RevocationStrategies::JTIMatcher
 
   acts_as_token_authenticatable

@@ -23,6 +23,14 @@ Rails.application.routes.draw do
       patch 'users/:id/update_password', to: 'users#update_password'
       post 'forgot_password', to: 'users#forgot_password'
       post 'reset_password', to: 'users#reset_password'
+      # For SMS generated with ActiveModel OTP
+      # post 'send_otp_code', to: 'users#send_code'
+      # post '/verify_code', to: 'users#verify_code'
+
+      # For SMS generated with custom OTP
+      post 'send_otp_code', to: 'otps#send_otp'
+      post 'verify_otp', to: 'otps#verify_otp'
+
       get '/last_program', to: 'programs#last_program'
       post '/reward_trackers', to: 'reward_trackers#create'
       get 'reward_trackers/:id', to: 'reward_trackers#show'
