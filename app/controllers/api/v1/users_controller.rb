@@ -69,39 +69,7 @@ class Api::V1::UsersController < Api::V1::BaseController
     authorize @user
   end
 
-  def send_code
-    phone_number = params[:user][:phone_number]
-    template_code = 1481704
-    otp_code = current_user.otp_code
-    params = [otp_code, 2]
-    Qcloud::Sms.single_sender(phone_number, template_code, params)
-    render json: {
-        message: "OTP sent to your mobile device"
-      }
-    @user = current_user
-    authorize @user
-  end
-
-  def verify_code
-    submitted_otp = params[:user][:otp_code]
-    if current_user.otp_code == submitted_otp
-
-      render json: {
-        message: "otp matches"
-      }
-    else
-      render json: {
-        message: "otp does NOT match"
-      }
-    end
-    @user = current_user
-    authorize @user
-  end
-
   private
-
-
-
 
   def set_user
     @user = User.find(params[:id])
