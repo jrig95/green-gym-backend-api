@@ -13,12 +13,12 @@ class Api::V1::OtpsController < Api::V1::BaseController
       otp = Otp.new(
         phone_number: params[:phone_number],
         code: "#{SecureRandom.random_number(10**6).to_s.rjust(6, '0')}",
-        expired_at: Time.now + 2.minutes
+        expired_at: Time.now + 1.minutes
       )
       if otp.save
         phone_number = otp.phone_number
         template_code = 1481704
-        params = [otp.code, "2"]
+        params = [otp.code, "1"]
         Qcloud::Sms.single_sender(phone_number, template_code, params)
         render json: {message: 'SMS with otp successfully sent', otp: otp}
       else
