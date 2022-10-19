@@ -43,6 +43,7 @@ Rails.application.routes.draw do
         end
 
       resources :library_items, only: [ :index, :show, :update, :create, :destroy]
+        get '/tagged', to: "library_items#tagged"
       resources :rewards, only: [ :index, :show, :update, :create, :destroy ]
       resources :program_trackers, only: [ :index, :show, :update, :create, :destroy ] do
 

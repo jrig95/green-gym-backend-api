@@ -41,6 +41,15 @@ class Api::V1::LibraryItemsController < Api::V1::BaseController
     head :no_content
   end
 
+  def tagged
+    if params[:tag].present?
+      @library_items = LibraryItem.tagged_with(params[:tag])
+    else
+      @library_items = LibraryItem.all
+    end
+    authorize @library_items
+  end
+
   private
 
   def set_library_item
@@ -49,7 +58,7 @@ class Api::V1::LibraryItemsController < Api::V1::BaseController
   end
 
   def library_item_params
-    params.require(:library_item).permit(:title, :video)
+    params.require(:library_item).permit(:title, :video, tag_list: [])
   end
 
   def render_error

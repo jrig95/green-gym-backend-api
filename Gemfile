@@ -84,3 +84,5 @@ gem 'qcloud-sms'   # Ruby Gems 安装源
 
 # To generate the OTP for a user after user is created
 # gem 'active_model_otp'
+
+gem 'acts-as-taggable-on'

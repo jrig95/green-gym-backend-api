@@ -46,12 +46,14 @@ reward_images = [
 ]
 
 # library_items first
+tags = ['forest', 'lake', 'indoors', 'outdoors']
 file = URI.open('https://vd2.bdstatic.com/mda-ji09d1rc02h0njw2/sc/mda-ji09d1rc02h0njw2.mp4?v_from_s=hkapp-haokan-nanjing&auth_key=1652777270-0-0-d1d3013a011ca5c9f03e2a005d03d730&bcevod_channel=searchbox_feed&cd=0&pd=1&pt=3&logid=1070074697&vid=5816411584377358713&abtest=101830_1-102148_2-17451_1-3000225_3&klogid=1070074697')
 
 puts 'Creating Library Items'
 30.times do
   item = LibraryItem.new(
-    title: Faker::Music.band
+    title: Faker::Music.band,
+    tag_list: tags[rand(0..3)]
   )
 
   item.video.attach(io: file, filename: 'workout.mp4', content_type: 'video/mp4')
