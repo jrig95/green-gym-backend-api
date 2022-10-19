@@ -43,4 +43,8 @@ class LibraryItemPolicy < ApplicationPolicy
   def destroy?
     user.admin?
   end
+
+  def tagged?
+    user.admin?
+  end
 end
