@@ -36,6 +36,11 @@ Reward.destroy_all
 # create empty array
 libray_item_ids = []
 
+# creates a list of images to be used as a thumbnail for video library
+library_thumbnail_images = [
+  'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg95.699pic.com%2Fxsj%2F03%2Fkt%2Fq4.jpg%21%2Ffw%2F700%2Fwatermark%2Furl%2FL3hzai93YXRlcl9kZXRhaWwyLnBuZw%2Falign%2Fsoutheast&refer=http%3A%2F%2Fimg95.699pic.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1668844889&t=d2df1f7c56c74d3f13924ddfeaaec38d','https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fstatic.zuixingzuo.net%2Fimage%2F201209%2F19180334671.jpg&refer=http%3A%2F%2Fstatic.zuixingzuo.net&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1668844918&t=db92ebe3dcef3db61ab8484e6be66c16'
+]
+
 # create a list of images to be used in rewards and programs
 program_images = [
   'https://tse2-mm.cn.bing.net/th/id/OIP-C.QZxypTqcfm_3djPGXESRgwHaE7?w=260&h=180&c=7&r=0&o=5&dpr=1.25&pid=1.7', 'https://tse3-mm.cn.bing.net/th/id/OIP-C.mbrWkT3bGhylpd_aVZydfAHaE8?w=259&h=180&c=7&r=0&o=5&dpr=1.25&pid=1.7', 'https://tse1-mm.cn.bing.net/th/id/OIP-C.K3_sVSyKJHYcbK5t1ILH7gHaFj?w=231&h=180&c=7&r=0&o=5&dpr=1.25&pid=1.7', 'https://tse3-mm.cn.bing.net/th/id/OIP-C.PAAiCFTeq4-Vv8yBzbReAwHaE7?w=281&h=188&c=7&r=0&o=5&dpr=1.25&pid=1.7', 'https://tse1-mm.cn.bing.net/th/id/OIP-C.55slZc5z4gPnl1CDTnTRcQHaE8?w=223&h=180&c=7&r=0&o=5&dpr=1.25&pid=1.7'
@@ -51,12 +56,16 @@ file = URI.open('https://vd2.bdstatic.com/mda-ji09d1rc02h0njw2/sc/mda-ji09d1rc02
 
 puts 'Creating Library Items'
 30.times do
+
+  photo_file = URI.open(library_thumbnail_images.sample)
+
   item = LibraryItem.new(
     title: Faker::Music.band,
     tag_list: tags[rand(0..3)]
   )
 
   item.video.attach(io: file, filename: 'workout.mp4', content_type: 'video/mp4')
+  item.photo.attach(io: photo_file, filename: 'image.png', content_type: 'image/png')
   item.save!
 
   puts "Created Library Item #{item.title} with ID: #{item.id}"

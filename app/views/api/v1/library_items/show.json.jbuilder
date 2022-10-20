@@ -7,3 +7,7 @@ end
 if @library_item.tag_list.present?
   json.tag_list @library_item.tag_list
 end
+
+if @library_item.photo.attached?
+  json.photo_url @library_item.photo.service_url
+end
