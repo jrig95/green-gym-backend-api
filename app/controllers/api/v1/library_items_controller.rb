@@ -58,7 +58,7 @@ class Api::V1::LibraryItemsController < Api::V1::BaseController
   end
 
   def library_item_params
-    params.require(:library_item).permit(:title, :video, tag_list: [])
+    params.require(:library_item).permit(:title, :video, :photo, tag_list: [])
   end
 
   def render_error
