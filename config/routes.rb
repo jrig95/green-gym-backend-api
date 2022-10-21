@@ -17,9 +17,10 @@ Rails.application.routes.draw do
     namespace :v1 do
       get 'program_trackers/:id/current_day', to: 'program_trackers#current_dwt'
       get 'program_trackers/:id/five_day_array', to: 'program_trackers#five_day_array'
-      get '/users', to: 'users#index'
-      get '/users/:id', to: 'users#show'
-      patch '/users/:id', to: 'users#update'
+      resources :users, only: [ :index, :show, :update, :destroy]
+      # get '/users', to: 'users#index'
+      # get '/users/:id', to: 'users#show'
+      # patch '/users/:id', to: 'users#update'
       patch 'users/:id/update_password', to: 'users#update_password'
       post 'forgot_password', to: 'users#forgot_password'
       post 'reset_password', to: 'users#reset_password'

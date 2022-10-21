@@ -4,7 +4,7 @@ class Api::V1::UsersController < Api::V1::BaseController
   before_action :authenticate_user!, except: [:forgot_password, :reset_password, :verify_code]
 
   # acts_as_token_authentication_handler_for User
-  before_action :set_user, only: [ :show, :update, :update_password ]
+  before_action :set_user, only: [ :show, :update, :update_password, :destroy ]
 
   def index
     if params[:query].present?
@@ -44,6 +44,11 @@ class Api::V1::UsersController < Api::V1::BaseController
     else
       render_error
     end
+  end
+
+  def destroy
+    @user.destroy
+    head :no_content
   end
 
   def forgot_password
