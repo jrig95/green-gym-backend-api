@@ -17,6 +17,10 @@ class UserPolicy < ApplicationPolicy
     matches_user || user.admin?
   end
 
+  def destroy?
+    user.admin?
+  end
+
   def update_password?
     matches_user || user.admin?
   end
