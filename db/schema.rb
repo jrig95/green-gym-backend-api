@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_10_19_052161) do
+ActiveRecord::Schema.define(version: 2022_11_21_074751) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -54,6 +54,7 @@ ActiveRecord::Schema.define(version: 2022_10_19_052161) do
     t.boolean "completed", default: false
     t.float "percentage_complete", default: 0.0
     t.boolean "exercises_completed", default: false
+    t.boolean "dwt_available", default: false
     t.index ["daily_workout_id"], name: "index_daily_workout_trackers_on_daily_workout_id"
     t.index ["program_tracker_id", "daily_workout_id"], name: "dwt_id_pt_id_index", unique: true
     t.index ["program_tracker_id"], name: "index_daily_workout_trackers_on_program_tracker_id"
@@ -68,6 +69,8 @@ ActiveRecord::Schema.define(version: 2022_10_19_052161) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.text "description"
+    t.datetime "date_available"
+    t.boolean "available", default: false
     t.index ["program_id", "day_number"], name: "dw_day_num_and_program_id_index", unique: true
     t.index ["program_id"], name: "index_daily_workouts_on_program_id"
   end
@@ -142,6 +145,7 @@ ActiveRecord::Schema.define(version: 2022_10_19_052161) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "price"
+    t.datetime "start_date"
   end
 
   create_table "reward_trackers", force: :cascade do |t|

@@ -91,7 +91,8 @@ puts 'creating Programs'
     program_title: Faker::Company.name,
     program_description: Faker::Lorem.paragraph(sentence_count: 2, supplemental: false, random_sentences_to_add: 4),
     number_of_days: number_of_days,
-    price: Faker::Commerce.price
+    price: Faker::Commerce.price,
+    start_date: DateTime.now + rand(-15..15).day
   )
 
   program.photo.attach(io: file, filename: 'image.png', content_type: 'image/png')
@@ -113,6 +114,7 @@ puts 'creating Programs'
       daily_challenge_title: Faker::Company.buzzword,
       daily_challenge_description: Faker::Movie.quote,
       number_of_exercises: number_of_exercises,
+      date_available: program.start_date + day_number.day,
       program_id: program.id
     )
 

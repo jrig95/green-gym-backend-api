@@ -1,4 +1,4 @@
-json.call(@daily_workout, :id, :program_id, :day_number,:description, :daily_challenge_title, :daily_challenge_description, :number_of_exercises)
+json.call(@daily_workout, :id, :program_id, :day_number,:description, :daily_challenge_title, :daily_challenge_description, :number_of_exercises, :date_available, :available)
 
 if @daily_workout.exercise_overviews.exists?
   json.exercise_overviews @exercise_overviews, :id, :daily_workout_id, :overview_exercise_title, :number_of_sets
