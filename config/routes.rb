@@ -21,6 +21,11 @@ Rails.application.routes.draw do
       # get '/users', to: 'users#index'
       # get '/users/:id', to: 'users#show'
       # patch '/users/:id', to: 'users#update'
+      get '/sort_by_first_name', to: 'users#sort_by_first_name'
+      get '/sort_by_last_name', to: 'users#sort_by_last_name'
+      get '/sort_by_user_company', to: 'users#sort_by_user_company'
+      get '/sort_by_last_sign_in_at', to: 'users#sort_by_last_sign_in_at'
+
       patch 'users/:id/update_password', to: 'users#update_password'
       post 'forgot_password', to: 'users#forgot_password'
       post 'reset_password', to: 'users#reset_password'

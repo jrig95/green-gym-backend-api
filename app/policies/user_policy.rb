@@ -9,6 +9,22 @@ class UserPolicy < ApplicationPolicy
     end
   end
 
+  def sort_by_first_name?
+    user.admin?
+  end
+
+  def sort_by_last_name?
+    user.admin?
+  end
+
+  def sort_by_user_company?
+    user.admin?
+  end
+
+  def sort_by_last_sign_in_at?
+    user.admin?
+  end
+
   def show?
     matches_user || user.admin?
   end
