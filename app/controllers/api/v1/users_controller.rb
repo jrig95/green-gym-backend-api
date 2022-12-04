@@ -15,10 +15,30 @@ class Api::V1::UsersController < Api::V1::BaseController
         OR user_company ILIKE :query \
         OR user_fitness_level ILIKE :query \
       "
-      @users = policy_scope(User.where(sql_query, query: "%#{params[:query]}%"))
+      @users = policy_scope(User.where(sql_query, query: "%#{params[:query]}%").order(created_at: :desc))
     else
-      @users = policy_scope(User)
+      @users = policy_scope(User.order(created_at: :desc))
     end
+  end
+
+  def sort_by_first_name
+    @users = (User.order(first_name: :asc))
+    authorize @users
+  end
+
+  def sort_by_last_name
+    @users = (User.order(last_name: :asc))
+    authorize @users
+  end
+
+  def sort_by_user_company
+    @users = (User.order(user_company: :asc))
+    authorize @users
+  end
+
+  def sort_by_last_sign_in_at
+    @users = (User.order(last_sign_in_at: :desc))
+    authorize @users
   end
 
   def show
@@ -90,4 +110,8 @@ class Api::V1::UsersController < Api::V1::BaseController
     render json: { errors: @user.errors.full_messages },
       status: :unprocessable_entity
   end
+
+  # def order_users(field_name)
+  #   @users = User.order(field_name: :asc)
+  # end
 end
