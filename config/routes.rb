@@ -42,6 +42,7 @@ Rails.application.routes.draw do
       get 'reward_trackers/:id', to: 'reward_trackers#show'
       get 'last_workout', to: 'daily_workouts#last_workout'
       resources :programs, only: [ :index, :show, :update, :create, :destroy ] do
+        resources :program_library_items, only: [  :index, :show, :update, :create, :destroy]
         resources :daily_workouts, only: [ :index, :show, :update, :create, :destroy] do
           resources :exercises, only: [ :index, :show, :update, :create, :destroy ]
           resources :exercise_overviews, only: [ :index, :show, :update, :create, :destroy ]
