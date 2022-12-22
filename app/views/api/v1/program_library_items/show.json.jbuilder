@@ -1,4 +1,4 @@
-json.extract! @program_library_item, :id, :title
+json.extract! @program_library_item, :id, :pli_title
 
 if @program_library_item.video.attached?
   json.video_url @program_library_item.video.service_url

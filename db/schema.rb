@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_12_16_080840) do
+ActiveRecord::Schema.define(version: 2022_12_22_103447) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -71,8 +71,10 @@ ActiveRecord::Schema.define(version: 2022_12_16_080840) do
     t.text "description"
     t.datetime "date_available"
     t.boolean "available", default: false
+    t.bigint "program_library_item_id"
     t.index ["program_id", "day_number"], name: "dw_day_num_and_program_id_index", unique: true
     t.index ["program_id"], name: "index_daily_workouts_on_program_id"
+    t.index ["program_library_item_id"], name: "index_daily_workouts_on_program_library_item_id"
   end
 
   create_table "exercise_overviews", force: :cascade do |t|
@@ -243,6 +245,7 @@ ActiveRecord::Schema.define(version: 2022_12_16_080840) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "daily_workout_trackers", "daily_workouts"
   add_foreign_key "daily_workout_trackers", "program_trackers"
+  add_foreign_key "daily_workouts", "program_library_items"
   add_foreign_key "daily_workouts", "programs"
   add_foreign_key "exercise_overviews", "daily_workouts"
   add_foreign_key "exercise_trackers", "daily_workout_trackers"

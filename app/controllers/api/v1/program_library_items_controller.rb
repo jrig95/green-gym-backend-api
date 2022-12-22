@@ -27,13 +27,22 @@ class Api::V1::ProgramLibraryItemsController < Api::V1::BaseController
   end
 
   def create
-    @program_library_item = ProgramProgramLibraryItem.new(program_library_item_params)
+    @program_library_item = ProgramLibraryItem.new(program_library_item_params)
     authorize @program_library_item
     if @program_library_item.save
       render :show, status: :created
     else
       render_error
     end
+  end
+
+  def pli_tagged
+    if params[:tag].present?
+      @program_library_items = ProgramLibraryItem.tagged_with(params[:tag])
+    else
+      @program_library_items = ProgramLibraryItem.all
+    end
+    authorize @program_library_items
   end
 
   def destroy
@@ -43,13 +52,13 @@ class Api::V1::ProgramLibraryItemsController < Api::V1::BaseController
 
   private
 
-  def set_library_item
-    @program_library_item = ProgramProgramLibraryItem.find(params[:id])
+  def set_program_library_item
+    @program_library_item = ProgramLibraryItem.find(params[:id])
     authorize @program_library_item
   end
 
   def program_library_item_params
-    params.require(:program_library_item).permit(:title, :video, :photo, tag_list: [])
+    params.require(:program_library_item).permit(:pli_title, :video, :photo, tag_list: [])
   end
 
   def render_error

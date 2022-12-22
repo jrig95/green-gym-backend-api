@@ -43,4 +43,8 @@ class ProgramLibraryItemPolicy < ApplicationPolicy
   def destroy?
     user.admin?
   end
+
+  def pli_tagged?
+    user.admin?
+  end
 end

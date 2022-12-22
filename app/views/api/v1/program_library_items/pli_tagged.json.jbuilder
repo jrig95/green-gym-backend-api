@@ -8,7 +8,7 @@ json.array! @program_library_items do |program_library_item|
     json.tag_list program_library_item.tag_list
   end
 
-    if program_library_item.photo.attached?
-      json.photo_url program_library_item.photo.service_url
-    end
+  if program_library_item.photo.attached?
+    json.photo_url program_library_item.photo.service_url
+  end
 end

@@ -14,6 +14,8 @@ puts '************** CHECK THAT YOUR VPN IS OFF!!!! **************'
 puts "\n"
 
 puts 'Cleaning database...'
+puts 'Destroying ProgramLibraryItems'
+ProgramLibraryItem.destroy_all
 puts 'Destroying LibraryItems'
 LibraryItem.destroy_all
 puts 'Destroying Users'
@@ -34,7 +36,13 @@ Reward.destroy_all
 # you need to destory everything before you seed. do it all here. before making anything.
 
 # create empty array
+program_libray_item_ids = []
 libray_item_ids = []
+
+# creates a list of images to be used as a thumbnail for program video library
+program_library_thumbnail_images = [
+  'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fimg95.699pic.com%2Fxsj%2F03%2Fkt%2Fq4.jpg%21%2Ffw%2F700%2Fwatermark%2Furl%2FL3hzai93YXRlcl9kZXRhaWwyLnBuZw%2Falign%2Fsoutheast&refer=http%3A%2F%2Fimg95.699pic.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1668844889&t=d2df1f7c56c74d3f13924ddfeaaec38d','https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fstatic.zuixingzuo.net%2Fimage%2F201209%2F19180334671.jpg&refer=http%3A%2F%2Fstatic.zuixingzuo.net&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1668844918&t=db92ebe3dcef3db61ab8484e6be66c16'
+]
 
 # creates a list of images to be used as a thumbnail for video library
 library_thumbnail_images = [
@@ -50,7 +58,29 @@ reward_images = [
   'https://tse4-mm.cn.bing.net/th/id/OIP-C.xXXHVUAJyZgz3zLPSXxv2wHaHa?w=158&h=180&c=7&r=0&o=5&dpr=1.25&pid=1.7', 'https://tse2-mm.cn.bing.net/th/id/OIP-C.Ne1XPbs6M2RHP_bdA9Pa8wHaHa?w=157&h=180&c=7&r=0&o=5&dpr=1.25&pid=1.7', 'https://tse4-mm.cn.bing.net/th/id/OIP-C.TZKCYtZOzvhQqQTXqmXr3AHaEd?w=301&h=180&c=7&r=0&o=5&dpr=1.25&pid=1.7', 'https://tse3-mm.cn.bing.net/th/id/OIP-C.Zj6-DTx0uiLhQhKy9uBy5AHaJ4?w=132&h=180&c=7&r=0&o=5&dpr=1.25&pid=1.7', 'https://tse4-mm.cn.bing.net/th/id/OIP-C.wE9oQ4ccsUFUBlVpWVGhggHaFj?w=238&h=180&c=7&r=0&o=5&dpr=1.25&pid=1.7'
 ]
 
-# library_items first
+#program_library_items first
+program_library_tags = ['explainer', 'instructional', 'beginner', 'trial']
+file = URI.open('https://vd2.bdstatic.com/mda-ji09d1rc02h0njw2/sc/mda-ji09d1rc02h0njw2.mp4?v_from_s=hkapp-haokan-nanjing&auth_key=1652777270-0-0-d1d3013a011ca5c9f03e2a005d03d730&bcevod_channel=searchbox_feed&cd=0&pd=1&pt=3&logid=1070074697&vid=5816411584377358713&abtest=101830_1-102148_2-17451_1-3000225_3&klogid=1070074697')
+puts 'Creating Program Library Items'
+8.times do
+
+  photo_file = URI.open(program_library_thumbnail_images.sample)
+
+    item = ProgramLibraryItem.new(
+    pli_title: Faker::Music.band,
+    tag_list: program_library_tags[rand(0..3)]
+  )
+
+  item.video.attach(io: file, filename: 'workout.mp4', content_type: 'video/mp4')
+  item.photo.attach(io: photo_file, filename: 'image.png', content_type: 'image/png')
+  item.save!
+
+  puts "Created Program Library Item #{item.pli_title} with ID: #{item.id}"
+  program_libray_item_ids << item.id
+  puts "added Program Library Item #{item.pli_title} with ID: #{item.id} to array"
+end
+
+# library_items second
 tags = ['forest', 'lake', 'indoors', 'outdoors']
 file = URI.open('https://vd2.bdstatic.com/mda-ji09d1rc02h0njw2/sc/mda-ji09d1rc02h0njw2.mp4?v_from_s=hkapp-haokan-nanjing&auth_key=1652777270-0-0-d1d3013a011ca5c9f03e2a005d03d730&bcevod_channel=searchbox_feed&cd=0&pd=1&pt=3&logid=1070074697&vid=5816411584377358713&abtest=101830_1-102148_2-17451_1-3000225_3&klogid=1070074697')
 
@@ -92,7 +122,8 @@ puts 'creating Programs'
     program_description: Faker::Lorem.paragraph(sentence_count: 2, supplemental: false, random_sentences_to_add: 4),
     number_of_days: number_of_days,
     price: Faker::Commerce.price,
-    start_date: DateTime.now + rand(-15..15).day
+    start_date: DateTime.now + rand(-15..15).day,
+    program_library_item_id: program_libray_item_ids.sample
   )
 
   program.photo.attach(io: file, filename: 'image.png', content_type: 'image/png')
@@ -101,7 +132,7 @@ puts 'creating Programs'
   puts "Created Program #{program.program_title} with ID: #{program.id}"
 
   program_ids << program.id
-  puts "Added Programd #{program.id} to Program_ids array"
+  puts "Added Program #{program.id} to Program_ids array"
 
   # Create some daily_workouts
   puts "Creating Daily Workouts for #{program.program_title} with ID: #{program.id}"
@@ -115,7 +146,8 @@ puts 'creating Programs'
       daily_challenge_description: Faker::Movie.quote,
       number_of_exercises: number_of_exercises,
       date_available: program.start_date + day_number.day,
-      program_id: program.id
+      program_id: program.id,
+      program_library_item_id: program_libray_item_ids.sample
     )
 
     number_of_exercises.times do

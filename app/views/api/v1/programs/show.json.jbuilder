@@ -1,4 +1,5 @@
-json.(@program, :id, :program_title, :program_description, :price, :start_date)
+json.(@program, :id, :program_title, :program_description, :price, :start_date, :program_library_item_id
+)
 
 if @program.photo.attached?
   json.photo_url @program.photo.service_url
