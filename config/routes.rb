@@ -21,6 +21,7 @@ Rails.application.routes.draw do
       # get '/users', to: 'users#index'
       # get '/users/:id', to: 'users#show'
       # patch '/users/:id', to: 'users#update'
+      get 'users/:id/overall_impact', to: 'users#overall_impact'
       get '/sort_by_first_name', to: 'users#sort_by_first_name'
       get '/sort_by_last_name', to: 'users#sort_by_last_name'
       get '/sort_by_user_company', to: 'users#sort_by_user_company'
@@ -37,6 +38,7 @@ Rails.application.routes.draw do
       post 'send_otp_code', to: 'otps#send_otp'
       post 'verify_otp', to: 'otps#verify_otp'
 
+      get 'programs/:id/program_leaderboard', to: 'programs#current_program_impact'
       get '/last_program', to: 'programs#last_program'
       post '/reward_trackers', to: 'reward_trackers#create'
       get 'reward_trackers/:id', to: 'reward_trackers#show'
