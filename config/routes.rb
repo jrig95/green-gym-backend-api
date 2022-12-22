@@ -45,9 +45,11 @@ Rails.application.routes.draw do
         resources :daily_workouts, only: [ :index, :show, :update, :create, :destroy] do
           resources :exercises, only: [ :index, :show, :update, :create, :destroy ]
           resources :exercise_overviews, only: [ :index, :show, :update, :create, :destroy ]
-          end
         end
+      end
 
+      resources :program_library_items, only: [  :index, :show, :update, :create, :destroy]
+        get '/pli_tagged', to: "program_library_items#pli_tagged"
       resources :library_items, only: [ :index, :show, :update, :create, :destroy]
         get '/tagged', to: "library_items#tagged"
       resources :rewards, only: [ :index, :show, :update, :create, :destroy ]

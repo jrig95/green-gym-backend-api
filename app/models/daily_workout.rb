@@ -3,6 +3,8 @@ class DailyWorkout < ApplicationRecord
   has_many :exercises, dependent: :destroy
   has_many :exercise_overviews, dependent: :destroy
   has_many :daily_workout_trackers, dependent: :destroy
+  belongs_to :program_library_item, required: false
+
 
   validates :program_id, presence: true
   validates :day_number, presence: true

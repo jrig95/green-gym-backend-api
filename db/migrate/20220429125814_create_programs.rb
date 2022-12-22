@@ -5,7 +5,6 @@ class CreatePrograms < ActiveRecord::Migration[6.1]
       t.text :program_description
       t.integer :number_of_days
       t.string :program_cover_image
-
       t.timestamps
     end
   end
