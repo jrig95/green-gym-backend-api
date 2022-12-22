@@ -25,4 +25,8 @@ class ProgramPolicy < ApplicationPolicy
   def destroy?
     user.admin?
   end
+
+  def current_program_impact?
+    true
+  end
 end

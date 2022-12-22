@@ -4,7 +4,7 @@ class Api::V1::UsersController < Api::V1::BaseController
   before_action :authenticate_user!, except: [:forgot_password, :reset_password, :verify_code]
 
   # acts_as_token_authentication_handler_for User
-  before_action :set_user, only: [ :show, :update, :update_password, :destroy ]
+  before_action :set_user, only: [ :show, :update, :update_password, :destroy, :overall_impact ]
 
   def index
     if params[:query].present?
@@ -91,6 +91,11 @@ class Api::V1::UsersController < Api::V1::BaseController
     new_password = params[:user][:new_password]
     new_password_confirmation = params[:user][:new_password_confirmation]
     @user.reset_password(new_password, new_password_confirmation)
+    authorize @user
+  end
+
+  def overall_impact
+    @users = (User.order(user_total_calories: :desc))
     authorize @user
   end
 

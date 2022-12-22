@@ -57,6 +57,10 @@ class UserPolicy < ApplicationPolicy
     matches_user
   end
 
+  def overall_impact?
+    matches_user
+  end
+
   private
 
   def matches_user
