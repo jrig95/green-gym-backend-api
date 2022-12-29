@@ -90,6 +90,20 @@ class Api::V1::ProgramTrackersController < Api::V1::BaseController
     end
   end
 
+  def current_program_impact
+    @program_trackers = current_user.program_trackers
+    @programs = current_user.programs
+    authorize @program_trackers
+    @programs.each do |program|
+      @users = program.users.order(user_total_calories: :desc)
+      # program_total_calories = 0
+      @users.each do |user|
+        # program_total_calories += user.user_total_calories
+      end
+      # @program_total_calories = program_total_calories
+    end
+  end
+
   private
 
   def set_program_tracker

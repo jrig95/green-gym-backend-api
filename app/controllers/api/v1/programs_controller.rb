@@ -41,7 +41,14 @@ class Api::V1::ProgramsController < Api::V1::BaseController
   end
 
   def current_program_impact
-    byebug
+    @users = @program.users
+    @users = (@users.order(user_total_calories: :desc))
+    program_total_calories = 0
+    @users.each do |user|
+      program_total_calories += user.user_total_calories
+    end
+      @program_total_calories = program_total_calories
+      # authorize @user
   end
 
   private

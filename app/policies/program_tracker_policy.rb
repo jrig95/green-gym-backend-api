@@ -36,10 +36,14 @@ class ProgramTrackerPolicy < ApplicationPolicy
     matches_user || user.admin?
   end
 
+  def current_program_impact?
+    true
+    # matches_user || user.admin?
+  end
+
   private
 
   def matches_user
     record.user == user
   end
-
 end
