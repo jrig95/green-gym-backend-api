@@ -27,6 +27,12 @@ class ProgramPolicy < ApplicationPolicy
   end
 
   def current_program_impact?
-    true
+    matches_user || user.admin?
+  end
+
+  private
+
+  def matches_user
+    user.in? record.users
   end
 end

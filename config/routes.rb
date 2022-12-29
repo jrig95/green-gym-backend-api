@@ -15,6 +15,7 @@ Rails.application.routes.draw do
 
   namespace :api, defaults: { format: :json } do
     namespace :v1 do
+      get 'program_leaderboard', to: 'program_trackers#current_program_impact'
       get 'program_trackers/:id/current_day', to: 'program_trackers#current_dwt'
       get 'program_trackers/:id/five_day_array', to: 'program_trackers#five_day_array'
       resources :users, only: [ :index, :show, :update, :destroy]
@@ -38,7 +39,7 @@ Rails.application.routes.draw do
       post 'send_otp_code', to: 'otps#send_otp'
       post 'verify_otp', to: 'otps#verify_otp'
 
-      get 'programs/:id/program_leaderboard', to: 'programs#current_program_impact'
+      # get 'programs/:id/program_leaderboard', to: 'programs#current_program_impact'
       get '/last_program', to: 'programs#last_program'
       post '/reward_trackers', to: 'reward_trackers#create'
       get 'reward_trackers/:id', to: 'reward_trackers#show'
