@@ -1,3 +1,4 @@
+json.(@program, :id, :program_title)
 json.program_total_calories @program_total_calories
 json.users do
   json.array! @users do |user|
