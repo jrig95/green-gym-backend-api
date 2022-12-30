@@ -39,7 +39,7 @@ Rails.application.routes.draw do
       post 'send_otp_code', to: 'otps#send_otp'
       post 'verify_otp', to: 'otps#verify_otp'
 
-      # get 'programs/:id/program_leaderboard', to: 'programs#current_program_impact'
+      get 'programs/:id/program_leaderboard', to: 'programs#current_program_impact'
       get '/last_program', to: 'programs#last_program'
       post '/reward_trackers', to: 'reward_trackers#create'
       get 'reward_trackers/:id', to: 'reward_trackers#show'
