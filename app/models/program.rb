@@ -11,8 +11,10 @@ class Program < ApplicationRecord
   validates :program_description, presence: true
   validates :number_of_days, presence: true
   validates :price, presence: true
+  validates :calories_burned, presence: true
+  validates :trees_planted, presence: true
+  validates :calorie_credits, presence: true
 
   belongs_to :program_library_item, required: false
 
-  # validates :start_date, presence: true
 end

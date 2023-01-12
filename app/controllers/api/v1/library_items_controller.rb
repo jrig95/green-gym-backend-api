@@ -11,7 +11,8 @@ class Api::V1::LibraryItemsController < Api::V1::BaseController
       @library_items = policy_scope(LibraryItem.where(sql_query, query: "%#{params[:query]}%"))
     else
       @library_items = policy_scope(LibraryItem)
-      @library_items = @library_items.reverse
+      @library_items = @library_items.order(title: :asc)
+
     end
   end
 

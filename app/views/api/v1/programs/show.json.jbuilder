@@ -1,4 +1,4 @@
-json.(@program, :id, :program_title, :program_description, :price, :start_date, :program_library_item_id
+json.(@program, :id, :program_title, :program_description, :price, :program_library_item_id, :calories_burned, :trees_planted, :calorie_credits
 )
 
 if @program.photo.attached?

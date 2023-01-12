@@ -57,10 +57,9 @@ class Api::V1::ProgramTrackersController < Api::V1::BaseController
     head :no_content
   end
 
-
   def dwts
     dwts = @program_tracker.daily_workout_trackers
-    dwts.sort { |a,b| a.id <=> b.id}
+    dwts.sort { |a, b| a.id <=> b.id}
   end
 
   def last_day

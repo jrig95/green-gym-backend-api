@@ -22,7 +22,6 @@ class Api::V1::DailyWorkoutsController < Api::V1::BaseController
 
   def create
     @daily_workout = DailyWorkout.new(daily_workout_params)
-    @daily_workout.date_available = @daily_workout.program.start_date + (@daily_workout.day_number).day
     authorize @daily_workout
     if @daily_workout.save
       render :show, status: :created
