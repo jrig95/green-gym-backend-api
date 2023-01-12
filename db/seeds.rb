@@ -62,7 +62,7 @@ reward_images = [
 program_library_tags = ['explainer', 'instructional', 'beginner', 'trial']
 file = URI.open('https://vd2.bdstatic.com/mda-ji09d1rc02h0njw2/sc/mda-ji09d1rc02h0njw2.mp4?v_from_s=hkapp-haokan-nanjing&auth_key=1652777270-0-0-d1d3013a011ca5c9f03e2a005d03d730&bcevod_channel=searchbox_feed&cd=0&pd=1&pt=3&logid=1070074697&vid=5816411584377358713&abtest=101830_1-102148_2-17451_1-3000225_3&klogid=1070074697')
 puts 'Creating Program Library Items'
-8.times do
+3.times do
 
   photo_file = URI.open(program_library_thumbnail_images.sample)
 
@@ -85,7 +85,7 @@ tags = ['forest', 'lake', 'indoors', 'outdoors']
 file = URI.open('https://vd2.bdstatic.com/mda-ji09d1rc02h0njw2/sc/mda-ji09d1rc02h0njw2.mp4?v_from_s=hkapp-haokan-nanjing&auth_key=1652777270-0-0-d1d3013a011ca5c9f03e2a005d03d730&bcevod_channel=searchbox_feed&cd=0&pd=1&pt=3&logid=1070074697&vid=5816411584377358713&abtest=101830_1-102148_2-17451_1-3000225_3&klogid=1070074697')
 
 puts 'Creating Library Items'
-30.times do
+3.times do
 
   photo_file = URI.open(library_thumbnail_images.sample)
 
@@ -112,7 +112,7 @@ program_ids = []
 # Don't create an id for a program - Rails is already doing that.
 puts 'creating Programs'
 
-20.times do
+3.times do
   file = URI.open(program_images.sample)
 
   number_of_days = rand(7..30)
@@ -122,8 +122,10 @@ puts 'creating Programs'
     program_description: Faker::Lorem.paragraph(sentence_count: 2, supplemental: false, random_sentences_to_add: 4),
     number_of_days: number_of_days,
     price: Faker::Commerce.price,
-    start_date: DateTime.now + rand(-15..15).day,
-    program_library_item_id: program_libray_item_ids.sample
+    program_library_item_id: program_libray_item_ids.sample,
+    calories_burned: rand(25_000..250_000),
+    trees_planted: rand(1..5),
+    calorie_credits: rand(500..5_000)
   )
 
   program.photo.attach(io: file, filename: 'image.png', content_type: 'image/png')
@@ -145,7 +147,6 @@ puts 'creating Programs'
       daily_challenge_title: Faker::Company.buzzword,
       daily_challenge_description: Faker::Movie.quote,
       number_of_exercises: number_of_exercises,
-      date_available: program.start_date + day_number.day,
       program_id: program.id,
       program_library_item_id: program_libray_item_ids.sample
     )
@@ -259,7 +260,7 @@ puts "\n"
 puts 'Creating rewards....'
 puts "\n"
 
-20.times do
+4.times do
   file = URI.open(reward_images.sample)
 
   reward = Reward.new(

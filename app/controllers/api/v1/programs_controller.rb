@@ -59,7 +59,7 @@ class Api::V1::ProgramsController < Api::V1::BaseController
   end
 
   def program_params
-    params.require(:program).permit(:program_title, :program_description, :number_of_days, :price, :start_date, :photo, :program_library_item_id)
+    params.require(:program).permit(:program_title, :program_description, :number_of_days, :price, :calories_burned, :trees_planted, :calorie_credits, :photo, :program_library_item_id)
   end
 
   def render_error

@@ -28,7 +28,6 @@ class Api::V1::DailyWorkoutTrackersController < Api::V1::BaseController
   # dwt create should not be used
   def create
     @daily_workout_tracker = DailyWorkoutTracker.new(daily_workout_tracker_params)
-    @daily_workout_tracker.dwt_available = @daily_workout_tracker.daily_workout.available
     authorize @daily_workout_tracker
     if @daily_workout_tracker.save
       render :show, status: :created
