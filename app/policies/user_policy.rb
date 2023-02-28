@@ -61,6 +61,10 @@ class UserPolicy < ApplicationPolicy
     matches_user
   end
 
+  def add_active_time?
+    matches_user || user.admin?
+  end
+
   private
 
   def matches_user

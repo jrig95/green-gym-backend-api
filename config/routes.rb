@@ -23,6 +23,7 @@ Rails.application.routes.draw do
       # get '/users/:id', to: 'users#show'
       # patch '/users/:id', to: 'users#update'
       get 'users/:id/overall_impact', to: 'users#overall_impact'
+      post 'users/:id/active_time', to: 'users#add_active_time'
       get '/sort_by_first_name', to: 'users#sort_by_first_name'
       get '/sort_by_last_name', to: 'users#sort_by_last_name'
       get '/sort_by_user_company', to: 'users#sort_by_user_company'

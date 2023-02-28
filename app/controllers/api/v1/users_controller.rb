@@ -99,6 +99,13 @@ class Api::V1::UsersController < Api::V1::BaseController
     authorize @user
   end
 
+  def add_active_time
+    set_user
+    active_time = @user.active_time + params[:user][:active_time]
+    @user.update(active_time: active_time)
+    authorize @user
+  end
+
   private
 
   def set_user
@@ -108,7 +115,7 @@ class Api::V1::UsersController < Api::V1::BaseController
   end
 
   def user_params
-    params.require(:user).permit(:first_name, :last_name, :user_company, :user_total_calories, :user_points, :user_gender, :user_fitness_level, :photo, :email, :age, :phone_number, :user_passions, :password, :password_confirmation, :reset_password_token, :new_password, :new_password_confirmation)
+    params.require(:user).permit(:first_name, :last_name, :user_company, :user_total_calories, :user_points, :user_gender, :user_fitness_level, :photo, :email, :age, :phone_number, :user_passions, :password, :password_confirmation, :reset_password_token, :new_password, :new_password_confirmation, :active_time)
   end
 
   def render_error
