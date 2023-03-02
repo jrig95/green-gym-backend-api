@@ -1,10 +1,10 @@
 # class Api::V1::UsersController < ApplicationController
 class Api::V1::UsersController < Api::V1::BaseController
   # should use the authenticate_user! for JWT
-  before_action :authenticate_user!, except: [:forgot_password, :reset_password, :verify_code]
+  before_action :authenticate_user!, except: [:forgot_password, :reset_password, :verify_code, :add_active_time]
 
   # acts_as_token_authentication_handler_for User
-  before_action :set_user, only: [ :show, :update, :update_password, :destroy, :overall_impact ]
+  before_action :set_user, only: [ :show, :update, :update_password, :destroy, :overall_impact, :add_active_time ]
 
   def index
     if params[:query].present?
@@ -100,7 +100,6 @@ class Api::V1::UsersController < Api::V1::BaseController
   end
 
   def add_active_time
-    set_user
     active_time = @user.active_time + params[:user][:active_time]
     @user.update(active_time: active_time)
     authorize @user
