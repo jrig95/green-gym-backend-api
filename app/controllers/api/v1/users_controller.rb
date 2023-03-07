@@ -1,8 +1,7 @@
 # class Api::V1::UsersController < ApplicationController
 class Api::V1::UsersController < Api::V1::BaseController
   # should use the authenticate_user! for JWT
-  before_action :authenticate_user!, except: [:forgot_password, :reset_password, :verify_code, :add_active_time]
-
+  before_action :authenticate_user!, except: [:forgot_password, :reset_password, :verify_code]
   # acts_as_token_authentication_handler_for User
   before_action :set_user, only: [ :show, :update, :update_password, :destroy, :overall_impact, :add_active_time ]
 
