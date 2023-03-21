@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_02_28_064731) do
+ActiveRecord::Schema.define(version: 2023_03_21_050432) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -234,7 +234,7 @@ ActiveRecord::Schema.define(version: 2023_02_28_064731) do
     t.string "user_fitness_level"
     t.integer "age"
     t.string "phone_number"
-    t.integer "active_time", default: 0
+    t.float "active_time", default: 0.0
     t.index ["authentication_token"], name: "index_users_on_authentication_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["jti"], name: "index_users_on_jti", unique: true
