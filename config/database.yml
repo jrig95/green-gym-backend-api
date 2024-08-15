@@ -84,3 +84,4 @@ production:
   database: green_gym_backend_api_production
   username: green_gym_backend_api
   password: <%= ENV['GREEN_GYM_BACKEND_API_DATABASE_PASSWORD'] %>
+  prepared_statements: false
